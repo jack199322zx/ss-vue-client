@@ -1,4 +1,4 @@
-import logo from '@/assets/images/logo.png';
+import logo from '@/assets/images/logo.jpg';
 import a1 from '@/assets/images/a1.jpg';
 import a2 from '@/assets/images/a2.jpg';
 import a3 from '@/assets/images/a3.jpg';
@@ -24,8 +24,6 @@ export default {
   b5,
   b6,
   ad300x100
-
-
 
 }
 

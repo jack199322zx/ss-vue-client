@@ -1,51 +1,65 @@
 <template>
-  <div class="ss-header-box">
-    <img src="./blog.png" class="blog-img">
-    <div class="ss-header">
-      <div v-for="(item,index) in headList" class="header-item">{{item}}</div>
-    </div>
-  </div>
+  <header>
+    <div class="logo f_l"><a href="/"><img :src="images.logo" style="width: 250px;"></a></div>
+    <nav id="topnav" class="f_r">
+      <ul>
+        <a href="javascript:void(0);" @click="goNext(0)" target="_self" :class="{'light-up': lightTitles[0]}">{{headList[0]}}</a>
+        <a href="javascript:void(0);" @click="goNext(1)" target="_self" :class="{'light-up': lightTitles[1]}">{{headList[1]}}</a>
+        <a href="javascript:void(0);" @click="goNext(2)" target="_self" :class="{'light-up': lightTitles[2]}">{{headList[2]}}</a>
+        <a href="javascript:void(0);" @click="goNext(3)" target="_self" :class="{'light-up': lightTitles[3]}">{{headList[3]}}</a>
+        <a href="javascript:void(0);" @click="goNext(4)" target="_self" :class="{'light-up': lightTitles[4]}">{{headList[4]}}</a>
+        <a href="javascript:void(0);" @click="goNext(5)" target="_self" :class="{'light-up': lightTitles[5]}">{{headList[5]}}</a>
+      </ul>
+    </nav>
+  </header>
 </template>
 
 <script>
 export default {
+  props: {
+    headList: {
+      required: true,
+      type: Array
+    },
+    images: {
+      required: true,
+      type: Object
+    }
+  },
   data () {
     return {
-      headList: ['首页','关于我','文章','心情','相册','留言']
+      lightTitles:[]
     }
+  },
+  methods: {
+    goNext(type) {
+      let router = this.$router;
+      this.lightTitles.fill(false);
+      this.$set(this.lightTitles, type, true);
+//      switch (type) {
+//        case 0: router.push('/');
+//          return;
+//        case 1: router.push('/');
+//          return;
+//        case 2: router.push('/');
+//          return;
+//        case 3: router.push('/');
+//          return;
+//        case 4: router.push('/');
+//          return;
+//        default:   router.push('/');
+//      }
+    }
+  },
+  created () {
+    this.lightTitles = new Array(this.headList.length);
   }
 }
 </script>
 
 <style scoped lang="less" rel="stylesheet/less">
-  .ss-header-box {
-    margin: 20px 50px;
-    height: 50px;
-    .blog-img {
-      width:30%;
-      height:150px;
-      float: left;
-      display: block;
-    }
-
-    .ss-header {
-      width:600px;
-      height:48px;
-      border-radius: 30px;
-      border:1px #808080;
-      background-color: #9dc814 ;
-      display: flex;
-      justify-content: flex-start;
-      float: right;
-      font-weight: bolder;
-      .header-item {
-        width:100px;
-        text-align: center;
-        height:48px;
-        line-height:48px;
-      }
-    }
+  .light-up {
+    background-color: #5f5f5f;
   }
-
-
 </style>
+

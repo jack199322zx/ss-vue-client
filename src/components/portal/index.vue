@@ -84,7 +84,8 @@
               return
             }
             auth.save(data)
-            this.$router.push('/blog')
+            location.href = location.href.replace(/(#\/).*/g, '$1blog');
+//            this.$router.push('/blog')
 
           }.bind(this),
           errorCallback: function (response) {
