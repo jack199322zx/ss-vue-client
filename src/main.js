@@ -7,9 +7,9 @@ import store from './store';
 import http from './http';
 import auth from './auth';
 
-
 import { wrapped } from './filter/formatter';
 import 'babel-polyfill';
+
 http.config(Vue);
 Vue.prototype.$http = http;
 auth.checkAuth();

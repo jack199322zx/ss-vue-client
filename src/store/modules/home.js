@@ -1,5 +1,5 @@
 /**
- * Created by wanglei on 16/11/3.
+ * Created by ss on 18/3/3.
  */
 import * as types from '../mutation-types';
 import router from '../../router';
@@ -55,6 +55,10 @@ const state = {
   saveSuccessInfo: {
     show: false,
     text: ''
+  },
+  componentInfo: {
+    componentName: 'Home',
+    data: {}
   }
 };
 
@@ -64,7 +68,8 @@ const getters = {
   tipInfo: state => state.tipInfo,
   operateInfo: state => state.operateInfo,
   miniOperateInfo: state => state.miniOperateInfo,
-  saveSuccessInfo: state => state.saveSuccessInfo
+  saveSuccessInfo: state => state.saveSuccessInfo,
+  componentInfo: state => state.componentInfo,
 };
 
 const mutations = {
@@ -79,6 +84,15 @@ const mutations = {
       router.push('/login');
     };
     state.tipInfo.type = false;
+    state.tipInfo.confirmHint = '关闭';
+    state.tipInfo.showIcon = true;
+  },
+  [types.CLOSE_PROMPTD_DIALOG_BOX] (state) {
+    state.tipInfo.isShow = false;
+    state.tipInfo.title = '温馨提示';
+    state.tipInfo.text = '';
+    state.tipInfo.type = true;
+    state.tipInfo.closeCallback && state.tipInfo.closeCallback(state.tipInfo.data);
     state.tipInfo.confirmHint = '关闭';
     state.tipInfo.showIcon = true;
   },
@@ -112,6 +126,10 @@ const mutations = {
       state.operateInfo.cancelCallback = function () {
       };
     }
+  },
+  [types.CHANGE_COMPONENT_STATE] (state, componentInfo) {
+    state.componentInfo.data = componentInfo.data;
+    state.componentInfo.componentName = componentInfo.componentName;
   }
 };
 

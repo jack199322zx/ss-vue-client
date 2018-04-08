@@ -8,23 +8,23 @@ import { POST } from '../utils/value-consts';
 const LOGIN_URL = '/broker/auth';
 const LOGIN_OUT_URL = '/broker/logout';
 
-const TOKEN_KEY = 'user_token';
-const STAFF_KEY = 'user_info';
-const MENUS_KEY = 'user_menus';
-const TOKEN_KEY_EXPIRE_TIME = 1000 * 60 * 60 * 24;
+const TOKEN_KEY = 'staff_token';
+const STAFF_KEY = 'staff_info';
+const MENUS_KEY = 'staff_menus';
+const TOKEN_KEY_EXPIRE_TIME = 100 * 60 * 60 * 5;
 
 
-const load = () => {
-  staff.token = getData(TOKEN_KEY);
-  staff.info = JSON.parse(getData(STAFF_KEY));
-  staff.menus = JSON.parse(getData(MENUS_KEY));
-};
+// const load = () => {
+//   staff.token = getData(TOKEN_KEY);
+//   staff.info = JSON.parse(getData(STAFF_KEY));
+//   staff.menus = JSON.parse(getData(MENUS_KEY));
+// };
 
 const save = (data) => {
   setData(TOKEN_KEY, data.token, TOKEN_KEY_EXPIRE_TIME);
   setData(STAFF_KEY, JSON.stringify(data.staff), TOKEN_KEY_EXPIRE_TIME);
   setData(MENUS_KEY, JSON.stringify(data.menus), TOKEN_KEY_EXPIRE_TIME);
-  load();
+  // load();
 };
 
 const clear = () => {
@@ -51,6 +51,7 @@ const login = (context, creds, redirect) => {
     },
     errorCallback: (error) => {
       context.loginError = error;
+      context.captchaCode = '';
     }
   })
   ;
@@ -86,7 +87,8 @@ const forgetPwdLogout = () => {
 const checkAuth = () => {
   let token = getData(TOKEN_KEY);
   staff.authenticated = !!token;
-  staff.authenticated && load();
+  staff.authenticated && setData(TOKEN_KEY, token, TOKEN_KEY_EXPIRE_TIME)
+  // staff.authenticated && load();
 };
 
 /**
@@ -136,5 +138,6 @@ export default {
   forgetPwdLogout,
   checkAuth,
   getAuthHeader,
-  getCookieValue
+  getCookieValue,
+  save
 };

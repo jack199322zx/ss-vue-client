@@ -42,7 +42,7 @@
         password: '',
         noticeShow: false,
         captchaShow: false,
-        loginErrorTips: '你好啊兄弟',
+        loginErrorTips: '',
         captchaParams: Object,
         successFlag: false
       }
@@ -81,13 +81,16 @@
                 'text': '验证失败！请重试'
               });
               captcha.reset(); // 调用该接口进行重置
-            }else {
-              this.$router.push('/blog')
+              return
             }
+            auth.save(data)
+            location.href = location.href.replace(/(#\/).*/g, '$1blog');
+//            this.$router.push('/blog')
+
           }.bind(this),
-          errorCallback: function (data) {
+          errorCallback: function (response) {
             this.$store.commit(OPEN_OPERATE_DIALOG_BOX, {
-              'text': data
+              'text': response.data.message
             });
           }.bind(this)
         });
@@ -149,7 +152,7 @@
 </script>
 
 <style scoped lang="less" rel="stylesheet/less">
-  @import '../../assets/styles/base';
+  @import '../../assets/less/base';
 
   .portal-bg {
     background: url(index.jpg) no-repeat 100% 100% / cover;

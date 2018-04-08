@@ -41,7 +41,7 @@
 </script>
 
 <style scoped lang="less">
-  @import '../../assets/styles/base';
+  @import '../../assets/less/base';
   .prompt-dialog-box{position: fixed;height: 300px;width: 500px;background-color: white;z-index: 10001;
     top:50%;left:50%;margin-left: -250px;margin-top: -150px}
   .prompt-dialog-box-title{height: 40px;line-height: 40px;font-size: 16px;padding-left: 20px;background-color: #f5f5f5;color: @title-color}

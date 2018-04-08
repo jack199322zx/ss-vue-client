@@ -29,11 +29,11 @@ module.exports = {
       '@': resolve('src'),
       '/components': resolve('src/components'),
       '/config': resolve('src/config'),
-      '/http': resolve('src/http'),
-      '/assets': resolve('src/assets'),
-      '/router': resolve('src/router'),
-      '/store': resolve('src/store'),
-      '/utils': resolve('src/utils')
+      '/assets': resolve('src/assets')
+      // '/http': resolve('src/http'),
+      // '/router': resolve('src/router'),
+      // '/store': resolve('src/store'),
+      // '/utils': resolve('src/utils')
     }
   },
   module: {
