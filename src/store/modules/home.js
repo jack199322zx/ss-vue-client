@@ -7,6 +7,7 @@ import router from '../../router';
 const state = {
   isFullMenu: true,
   isLoadLayer: false,
+  errorTip: {flag: false, content: ''},
   tipInfo: {
     title: '温馨提示',
     type: true,
@@ -55,7 +56,12 @@ const state = {
   saveSuccessInfo: {
     show: false,
     text: ''
-  }
+  },
+  componentInfo: {
+    componentName: 'Home'
+  },
+  blogListCache: [],
+  flagListCache: []
 };
 
 const getters = {
@@ -64,7 +70,8 @@ const getters = {
   tipInfo: state => state.tipInfo,
   operateInfo: state => state.operateInfo,
   miniOperateInfo: state => state.miniOperateInfo,
-  saveSuccessInfo: state => state.saveSuccessInfo
+  saveSuccessInfo: state => state.saveSuccessInfo,
+  componentInfo: state => state.componentInfo,
 };
 
 const mutations = {
@@ -121,7 +128,27 @@ const mutations = {
       state.operateInfo.cancelCallback = function () {
       };
     }
-  }
+  },
+  [types.CHANGE_COMPONENT_STATE] (state, componentInfo) {
+    if (componentInfo.data) {
+      state.componentInfo.data = componentInfo.data;
+    }
+    state.componentInfo.componentName = componentInfo.componentName;
+  },
+  [types.SAVE_BLOG_LIST] (state, blogList) {
+    state.blogListCache = blogList;
+  },
+  [types.SAVE_FLAG_LIST] (state, flagList) {
+    state.flagListCache = flagList;
+  },
+  [types.OPEN_ERROR_TIP]: (state, value) => {
+    state.errorTip.flag = true;
+    state.errorTip.content = value;
+  },
+  [types.CLOSE_ERROR_TIP]: (state) => {
+    state.errorTip.flag = false;
+    state.errorTip.content = '';
+  },
 };
 
 export default {

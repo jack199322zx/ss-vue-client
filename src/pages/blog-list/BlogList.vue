@@ -14,19 +14,19 @@
           </span><b>全部</b>文章
     </h2>
     <div class="blogs" v-for="(blog, index) in filterList">
-      <figure><img :src="images.a1"></figure>
+      <figure><img v-lazy="images.a1"></figure>
       <ul>
         <h3><a>{{blog.articleTitle}}</a></h3>
         <p class="article-desc">{{blog.articleDesc}}</p>
-        <p class="autor"><span class="lm f_l"><a href="/">{{blog.articleType|typeFilter}}</a></span><span
-          class="dtime f_l">{{blog.createTime|timeFilter}}</span><span
+        <p class="autor"><span class="lm f_l"><a href="/">{{blog.articleType | typeFilter}}</a></span><span
+          class="dtime f_l">{{blog.createTime | timeFilter}}</span><span
           class="viewnum f_r">浏览（<a>{{blog.viewNum}}</a>）</span><span class="pingl f_r">评论（<a>{{blog.commentsNum}}</a>）</span>
         </p>
-        <p class="cloud">
-          <ul style="float:left">
-            <li v-for="(tech,index) in blog.techniqueList"><a>{{tech.techniqueInfo}}</a></li>
-          </ul>
-        </p>
+        <div class="cloud">
+        <ul style="float:left">
+          <li v-for="(tech,index) in blog.techniqueList"><a>{{tech.techniqueInfo}}</a></li>
+        </ul>
+        </div>
       </ul>
     </div>
   </div>
@@ -34,12 +34,13 @@
 
 <script>
   import blog from '../../common/img/imgPath';
+  import {getFormatDateByLong} from '../../assets/js/date-format'
+
   export default {
     name: 'BlogList',
-    data () {
+    data() {
       return {
         filterList: [],
-        blogList: [],
         pageIndex: 0,
         flagList: [],
         titleList: ['技术杂谈', '生活驿站', '轻松时刻'],
@@ -47,14 +48,14 @@
       }
     },
     methods: {
-      chooseTitle (index) {
-        this.filterList = this.blogList.filter(blog => {
+      chooseTitle(index) {
+        this.filterList = this.receiveBlogList.filter(blog => {
           let type = blog.articleType;
           return this.titleList[index] === (type ? type === 1 ? '生活驿站' : '轻松时刻' : '技术杂谈')
         });
       },
-      chooseArticleByFlag (index) {
-        this.filterList = this.blogList.filter(blog => {
+      chooseArticleByFlag(index) {
+        this.filterList = this.receiveBlogList.filter(blog => {
           let flag = false;
           blog.techniqueList.forEach(tech => {
             if (tech.techniqueInfo === this.flagList[index].techniqueInfo)
@@ -66,30 +67,35 @@
       }
     },
     computed: {
-      receiveFlag () {
-        return JSON.parse(this.$store.state.home.componentInfo.data.flag);
+      receiveFlag() {
+        let data = this.$store.state.home.componentInfo.data;
+        if (data) {
+          return JSON.parse(data.flag);
+        }
+        return false;
+      },
+      receiveBlogList() {
+        return this.$store.state.home.blogListCache;
       }
     },
     filters: {
-      typeFilter (type) {
+      typeFilter(type) {
         return type ? type === 1 ? '生活驿站' : '轻松时刻' : '技术杂谈'
       },
-      timeFilter (time) {
-        let date = new Date(time);
-        return date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDay();
+      timeFilter(time) {
+        return getFormatDateByLong(time, 'yyyy-MM-dd');
       }
     },
     created() {
+      let params = !!this.receiveFlag ? {page: this.pageIndex, receiveFlag: this.receiveFlag}
+      : {page: this.pageIndex};
       this.$http.api({
         url: '/blog/blog-list',
         emulateJSON: false,
-        params: {
-          page: this.pageIndex,
-          receiveFlag: this.receiveFlag
-        },
+        params,
         successCallback: function (data) {
-          this.filterList = this.blogList = data.articleList;
-          this.flagList = data.flagList;
+          this.filterList = data.articleList;
+          this.flagList = this.$store.state.home.flagListCache;
         }.bind(this)
       });
     },

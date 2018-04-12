@@ -4,6 +4,7 @@
     <LoadPlayer></LoadPlayer>
     <OperateBox></OperateBox>
     <tip-box></tip-box>
+    <error-box></error-box>
   </div>
 </template>
 
@@ -11,13 +12,15 @@
   import LoadPlayer from './components/loadPlayer/loadLayer'
   import OperateBox from './components/operateBox/OperateBox.vue'
   import TipBox from '/components/tipBox/PromptDialogBox'
+  import ErrorBox from './components/errortip/ErrorTip.vue'
 
 export default {
   name: 'App',
   components: {
     LoadPlayer,
     OperateBox,
-    TipBox
+    TipBox,
+    ErrorBox
   }
 }
 </script>

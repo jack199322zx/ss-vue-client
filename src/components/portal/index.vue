@@ -15,12 +15,12 @@
           </div>
         </div>
         <p id="notice1" class="hide" v-show="noticeShow">请先完成验证</p>
+        <div class="register-button" @click="goRegister()">新用户注册</div>
         <div>
           <input type="button" value="登录" @click="submit" @keyup.enter="submit"/>
         </div>
         <div>
           <span id="login-error">
-          <label>{{loginErrorTips}}</label>
           <router-link tag="label" to="/login/forget-pwd" style="cursor: pointer;">忘记密码?</router-link>
           </span>
         </div>
@@ -42,7 +42,6 @@
         password: '',
         noticeShow: false,
         captchaShow: false,
-        loginErrorTips: '',
         captchaParams: Object,
         successFlag: false
       }
@@ -67,6 +66,9 @@
           captcha.reset();
         }
 
+      },
+      goRegister () {
+        this.$router.push('/register');
       },
       submitForm() {
         console.log('=========提交表单校验==========');
@@ -305,13 +307,9 @@
 
   #login-error label:first-child {
     color: #dd3e06;
-    float: left;
-  }
-
-  #login-error label:nth-child(2) {
-    color: @blue-color;
     float: right;
   }
+
 
   #login-input input[type=button] {
     width: 260px;
@@ -341,5 +339,20 @@
   input::-webkit-input-placeholder {
     color: @gray-color;
     opacity: 1;
+  }
+  .register-button {
+    display: block;
+    width: 260px;
+    font-size: 18px;
+    color: #fff;
+    border: none;
+    margin:0 auto;
+    margin-top: 16px;
+    cursor: pointer;
+    height: 40px;
+    text-align: center;
+    line-height: 40px;
+    border-radius: 40px;
+    background-color: @gray-color;
   }
 </style>
