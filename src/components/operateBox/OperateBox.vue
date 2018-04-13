@@ -3,7 +3,7 @@
     <div class="mask-transparent"></div>
     <div class="toast">
       <div class="title">操作提示</div>
-      <p class="content">{{operateInfo.text}}</p>
+      <p class="content-1">{{operateInfo.text}}</p>
       <div class="footer">
         <div class="cancel" @click="close">取消</div>
         <div class="sure" @click="confirm">确认</div>
@@ -29,7 +29,7 @@
   };
 </script>
 
-<style lang="less" rel="stylesheet/less">
+<style lang="less" rel="stylesheet/less" scoped>
   @import "./../../assets/less/base.less";
   .operate-box{
     .mask-transparent {
@@ -61,7 +61,7 @@
         padding-left: 10px;
         border-radius: 5px;
       }
-      .content{
+      .content-1{
         width: 220px;
         height: 100px;
         font-size: 14px;

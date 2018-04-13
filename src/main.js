@@ -13,6 +13,9 @@ import VueLazyLoad from 'vue-lazyload'
 
 Vue.use(VueLazyLoad)
 
+var infiniteScroll =  require('vue-infinite-scroll');
+Vue.use(infiniteScroll)
+
 http.config(Vue);
 Vue.prototype.$http = http;
 auth.checkAuth();

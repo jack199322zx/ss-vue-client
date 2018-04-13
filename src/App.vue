@@ -26,12 +26,14 @@ export default {
 </script>
 
 <style>
+  @import "assets/styles/Diaspora.css";
   @import "assets/icon/iconfont.css";
   @import "assets/styles/base.css";
   @import "assets/styles/index.css";
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: rgba(0,0,0,0);
   -moz-osx-font-smoothing: grayscale;
 }
 </style>

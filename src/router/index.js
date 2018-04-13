@@ -4,6 +4,7 @@ import Portal from '@/components/portal/index'
 import Blog from '@/pages/blog/Blog'
 import Register from '@/pages/register/register'
 import Active from '@/pages/active/Active'
+import Test from '@/pages/test/Test'
 import AboutMe from '@/pages/aboutMe/AboutMe'
 import BlogList from '@/pages/blog-list/BlogList'
 import Helper from '@/pages/helper/Helper'
@@ -16,7 +17,7 @@ export default new Router({
   routes: [
     {
       path: '/',
-      redirect: '/login'
+      redirect: '/test'
     }, {
       path: '/login',
       name: '登录',
@@ -33,6 +34,10 @@ export default new Router({
       path: '/active',
       name: '用户激活',
       component: Active
+    }, {
+      path: '/test',
+      name: '测试',
+      component:Test
     }
     // }, {
     //   path: '/aboutMe',

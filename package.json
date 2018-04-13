@@ -13,15 +13,16 @@
     "auth": "0.0.9",
     "axios": "^0.18.0",
     "babel-polyfill": "^6.26.0",
+    "es6-promise": "^4.1.0",
     "express": "^4.16.3",
     "url-search-params": "^0.10.0",
     "vue": "^2.5.2",
+    "vue-infinite-scroll": "^2.0.2",
+    "vue-lazyload": "^1.0.0-rc7",
     "vue-router": "^3.0.1",
     "vuex": "^3.0.1",
     "vuex-router-sync": "^5.0.0",
-    "es6-promise": "^4.1.0",
-    "wind-dom": "0.0.3",
-    "vue-lazyload": "^1.0.0-rc7"
+    "wind-dom": "0.0.3"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.2",
