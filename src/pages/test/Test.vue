@@ -1,14 +1,14 @@
 <template>
   <div>
     <div id="loader"></div>
-    <div class="nav">
+    <div class="header-nav">
       <ul id="menu-menu" class="menu">
         <li id="menu-item-2561" class="pview menu-item menu-item-type-post_type menu-item-object-page menu-item-2561"><a
-          href="http://isujin.com/about" class="pviewa">博文</a></li>
+          class="pviewa" @click="goNext(0)">博文</a></li>
         <li id="menu-item-4084" class="pview menu-item menu-item-type-post_type menu-item-object-page menu-item-4084"><a
-          href="http://isujin.com/links" class="pviewa">小助手</a></li>
+          class="pviewa">小助手</a></li>
         <li id="menu-item-4910" class="pview menu-item menu-item-type-post_type menu-item-object-page menu-item-4910"><a
-          href="http://isujin.com/archive" class="pviewa">相册</a></li>
+          class="pviewa">相册</a></li>
         <li id="menu-item-3507" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-3507"><a
           target="_blank" href="http://isujin.com/rain/">留言板</a></li>
         <li id="menu-item-3682" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-3682"><a
@@ -40,7 +40,7 @@
         <div id="header">
           <div>
             <a class="icon-logo" href="/"></a>
-            <div class="icon-menu switchmenu" style="color: rgb(192, 9, 81);"></div>
+            <div class="icon-menu switchmenu" style="color: rgb(192, 9, 81);" @click="switchMenu()"></div>
           </div>
         </div>
         <div id="post0">
@@ -53,8 +53,7 @@
         </div>
       </div>
       <div id="primary">
-
-        <div class="post" v-for="(blog, index) in blogList">
+        <div class="post" v-for="(blog, index) in blogList" :key="index">
           <a data-id="6429" href="http://isujin.com/6429" :title="blog.articleTitle">
             <img width="680" height="440"
                  :src="imgPath.px123"
@@ -76,9 +75,11 @@
         </div>
       </div>
     </div>
-    <div id="pager" v-infinite-scroll="loadMore" infinite-scroll-disabled="busy" infinite-scroll-distance="10"><a  class="more">滚动加载更多</a></div>
+    <div id="pager" v-infinite-scroll="loadMore" infinite-scroll-disabled="busy" infinite-scroll-distance="10"><a
+      class="more">滚动加载更多</a></div>
     <div id="preview" class="trans" style="min-height: 612px;"></div>
   </div>
+
 </template>
 
 <script>
@@ -90,24 +91,56 @@
         blogList: [],
         page: 0,
         imgPath: imgPath,
-        busy: false
+        busy: false,
+        pageIndex: '0'
       }
     },
     filters: {
       typeFilter (type) {
-        return type? type=== 1? '生活驿站': '轻松时刻':'技术杂谈'
+        return type ? type === 1 ? '生活驿站' : '轻松时刻' : '技术杂谈'
       },
       timeFilter (time) {
         return getFormatDateByLong(time, 'yyyy-MM-dd');
       }
     },
     methods: {
+      switchMenu () {
+        window.scrollTo(0, 0)
+        if (document.body.className) {
+          document.body.className = ''
+          document.getElementsByTagName('html')[0].className = ''
+          return
+        }
+        document.body.className = 'mu'
+        document.getElementsByTagName('html')[0].className = 'mu'
+      },
       loadMore () {
         this.busy = true;
 //          this.page++;
         setTimeout(() => {
           this.queryMoreBlog();
         }, 500);
+      },
+      goNext (index) {
+        switch (index) {
+          case 0:
+            location.href = location.href.replace(/(#\/).*/g, '$1blog-list');
+            return;
+          case 1:
+            ;
+            return;
+          case 2:
+            ;
+            return;
+          case 3:
+            ;
+            return;
+          case 4:
+            ;
+            return;
+          default:
+            ;
+        }
       },
       queryBlogListByPage () {
         this.$http.api({
@@ -131,7 +164,8 @@
     },
     created() {
       this.queryBlogListByPage()
-    }
+    },
+    components: {}
   }
 </script>
 
@@ -143,8 +177,9 @@
       transform: scale(1.1);
     }
   }
+
   .blog-desc {
-    height:75px;
+    height: 75px;
     overflow: hidden;
     display: -webkit-box;
     -webkit-box-orient: vertical;

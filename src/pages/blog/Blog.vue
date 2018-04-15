@@ -17,6 +17,7 @@
   import Header from '../../components/header/Head.vue';
   import Home from '../../pages/home/Home.vue';
   import BlogList from '../../pages/blog-list/BlogList.vue';
+  import Portal from '../../pages/test/Test.vue';
   import { mapState } from 'vuex';
   export default {
     data() {
@@ -35,7 +36,8 @@
     components: {
       Header,
       Home,
-      BlogList
+      BlogList,
+      Portal
     }
   }
 </script>

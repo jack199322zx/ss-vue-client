@@ -5,8 +5,8 @@ import router from '../router';
 import http from '../http';
 import { POST } from '../utils/value-consts';
 
-const LOGIN_URL = '/broker/auth';
-const LOGIN_OUT_URL = '/broker/logout';
+const LOGIN_URL = '/gt/auth';
+const LOGIN_OUT_URL = '/gt/logout';
 
 const TOKEN_KEY = 'staff_token';
 const STAFF_KEY = 'staff_info';

@@ -1,12 +1,12 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Portal from '@/components/portal/index'
+import Login from '@/components/portal/index'
 import Blog from '@/pages/blog/Blog'
 import Register from '@/pages/register/register'
 import Active from '@/pages/active/Active'
 import Test from '@/pages/test/Test'
 import AboutMe from '@/pages/aboutMe/AboutMe'
-import BlogList from '@/pages/blog-list/BlogList'
+import BlogList from '@/pages/blog-list/BlogList2.vue'
 import Helper from '@/pages/helper/Helper'
 import MessageBoard from '@/pages/messageBoard/MessageBoard'
 import PhotoAlbum from '@/pages/photoAlbum/PhotoAlbum'
@@ -21,7 +21,7 @@ export default new Router({
     }, {
       path: '/login',
       name: '登录',
-      component: Portal
+      component: Login
     }, {
       path: '/blog',
       name: '个人博客',
@@ -38,7 +38,11 @@ export default new Router({
       path: '/test',
       name: '测试',
       component:Test
-    }
+    }, {
+       path: '/blog-list',
+       name: '博客列表',
+       component: BlogList
+     }
     // }, {
     //   path: '/aboutMe',
     //   name: '关于我',

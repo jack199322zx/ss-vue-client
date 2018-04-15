@@ -11,7 +11,7 @@
         </div>
         <div style="margin-top:12px">
           <div id="captcha1" style="width:260px;">
-            <p id="wait1" class="show" v-show="captchaShow">正在加载验证码......</p>
+            <p id="wait1" class="show-2" v-show="captchaShow">正在加载验证码......</p>
           </div>
         </div>
         <p id="notice1" class="hide" v-show="noticeShow">请先完成验证</p>
@@ -19,6 +19,18 @@
         <div>
           <input type="button" value="登录" @click="submit" @keyup.enter="submit"/>
         </div>
+        <div class="other-login">------  其他登录方式 ------</div>
+        <ul class="login-group" node-type="dialog-third-login-list">
+          <li label="wechat" class="login-item" @click="oauthWx()">
+            <span data-platform-id="13" class="login-logo login-logo-wechat" title="微信登录"></span>
+          </li>
+          <li label="weibo" class="login-item" @click="oauthWeibo()">
+            <span data-platform-id="2" class="login-logo login-logo-weibo" title="微博登录"></span>
+          </li>
+          <li label="qq" class="login-item" @click="oauthQQ()">
+            <span data-platform-id="3" class="login-logo login-logo-qq" title="QQ登录"></span>
+          </li>
+        </ul>
         <div>
           <span id="login-error">
           <router-link tag="label" to="/login/forget-pwd" style="cursor: pointer;">忘记密码?</router-link>
@@ -47,6 +59,15 @@
       }
     },
     methods: {
+      oauthWx () {
+
+      },
+      oauthQQ () {
+
+      },
+      oauthWeibo () {
+
+      },
       submit () {
         if (!this.successFlag) {
           console.log(this.$store.state)
@@ -86,7 +107,7 @@
               return
             }
             auth.save(data)
-            location.href = location.href.replace(/(#\/).*/g, '$1blog');
+            location.href = location.href.replace(/(#\/).*/g, '$1blog-list');
 //            this.$router.push('/blog')
 
           }.bind(this),
@@ -193,7 +214,7 @@
     display: inline-block;
   }
 
-  .show {
+  .show-2 {
     display: block;
   }
 
@@ -255,7 +276,7 @@
   }
 
   #login-input input {
-    width: 170px;
+    width: 260px;
     height: 40px;
     line-height: 40px;
     border-radius: 40px;
@@ -354,5 +375,61 @@
     line-height: 40px;
     border-radius: 40px;
     background-color: @gray-color;
+  }
+  .login-group {
+    margin: 0 auto 0;
+    width: 260px;
+    text-align: center;
+    ul,li {
+      list-style: none;
+      border: 0;
+      margin: 0;
+      padding: 0;
+      font-size: 100%;
+      text-align: left;
+      vertical-align: baseline;
+      background-image: none;
+      background-position: 0 0;
+      width: auto;
+      float: none;
+      overflow: visible;
+      text-indent: 0;
+    }
+    .login-item {
+      display: inline-block;
+      cursor: pointer;
+      margin: 0 8px;
+      width: 40px;
+    }
+    li {
+      clear: none;
+    }
+
+    .login-logo {
+      width: 40px;
+      height: 40px;
+      display: block;
+      border-radius: 40px;
+      background-image: url(../../assets/images/login-group.png);
+      background-repeat: no-repeat;
+    }
+    .login-logo-qq {
+      background-position: 0 -80px;
+    }
+    .login-logo-weibo {
+      background-position: 0 -40px;
+    }
+    .login-logo-wechat {
+      background-image: url(../../assets/images/webchat.png);
+    }
+  }
+  .other-login {
+    font-size: 12px;
+    color:#999;
+    text-align: center;
+    height: 20px;
+    margin: 10px auto;
+    width: 260px;
+    line-height:20px;
   }
 </style>
