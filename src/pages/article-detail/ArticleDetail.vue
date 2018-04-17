@@ -33,35 +33,35 @@
                         </span>
             </div>
             <div class="panel-footer operate">
-              <div class="hidden-xs">
-                <div class="social-share share-component"
-                     data-sites="weibo, wechat, facebook, twitter, google, qzone, qq">
-                  <a class="social-share-icon icon-weibo"
-                     href="http://service.weibo.com/share/share.php?url=http%3A%2F%2Flocalhost%3A8080%2Fview%2F1&amp;title=%E5%95%8A%E5%95%8A%E5%95%8A%E5%95%8A%E5%95%8A%E5%95%8A%20-%20Mtons&amp;pic=http%3A%2F%2Flocalhost%3A8080%2Fstatic%2Fdefault%2Fimages%2Flogo.png&amp;appkey="
-                     target="_blank"></a><a class="social-share-icon icon-wechat" href="javascript:">
-                  <div class="wechat-qrcode"><h4>微信扫一扫：分享</h4>
-                    <div class="qrcode" title="http://localhost:8080/view/1">
-                      <canvas width="100" height="100" style="display: none;"></canvas>
-                      <img alt="Scan me!"
-                           src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAABkCAYAAABw4pVUAAAFn0lEQVR4Xu2d4ZKCMAyE9f0f2hsFZ5CS8i1JBW/2fse0zWY3SUHvfrvdHrfiv8dj3+X9ft9cdflZ1YZ8lhw18lPlv7eHZ1T2o0dOsbAxIGLAFuYGZCN2l2EIyewI+6W8EGpnDq36X+6ZyGBkT/ascmO9nw+GGJA2nCTRquL2XN2AzBhEQb0MIBG1lzlEKEwkomotIqeRjZrlBCiyFpasqiAZkBaWXg0MJcuA9Mvzv2NIlfSpskA6tNE+L8kQAzJF4DI1xIBcDJBMh0bAJDak1VX9ZGpvdw7JOCY6bUDMkEazf4ohmTsZwhAiBeoeVNaRYZC0t8QPHVpPuzoxIKJkqdlJMknt79U9/DuGqAFQA5wJGAH8LP9VcWu6rCrHZwXmrHWr4mZAFs/+MwwsBeSRaREqdzL7IoGJGgLaybztCKMGHLHr8m5A2m7nzBw1IDvMvAxDIulYbpBcr5BOjEgNyVp1z+qkPnp2ehX1SLLUw6mZVBXgKEFIsIkNSajKxDQgGxEnAVavhwiw3baXZA+xyTBHZanKum9I0HsN2j2Gby6SYBMbA9Lv4rpPDEl/r2atAREBqZpDKCX3hjJVRoiWqwMgeXUp0212X3IwIC2HDciA74oQpqk1ULUnnRV+60TVfnUeIMOgugciX0eCtCWzmfP22uqyJ4aZDWb0mDCBAEvAJAzJtN7NHEKckcORTswM2Y5A6nLxm8VPZRFJLtIZElYQGSSJ/GJIpssyIP0wk6RYezAgc0SqZhUyXPdgLPs6AqkJasYQBqo2JPCqTypHZCg2IDsMqeriqB8DcjVAlkVd7TrU5wakUyJdDbEhMkL8kPkkUzeaSd2AtNCRxKxqdQ3IIpKXZEj0WydqR6R2Weo0T+xJZhMQ1OwnXRmR0ObqJKOFBqSNwJGklh/hUqTfdpmsjZoAkuVk3iBNBknSUoaQqxNVLlTQ1EOrgKjAVgF1JA7o6sSA9EN7RJpCiTdD+sHOzFqHGEJ+UY4MR78iIyrbM+ciUolfA6J3L2+7zMZJkKp0naxVZWNAEkMfCZ5qQ+zxSw5qlhBGqdKn6jexJ0Nfxs+RuvEB3LKGVPXuxA/p3UlgCMgkSFV+yFo9G3T9TuqDGZKFYvo8mtTVTCVbUyf4KgkdsTfScFAGGpANhNRkMSDBT5mTuvRTDMlcAYzIqhEdEamHVF629qfGELe9JJPUPpsEg6w7ImAkodS9EXsDAuRuBOARON1HuCMyPsMKdZ4h9iQwBJCqtdb7kb+Fq7afBqRNgd4YYUDmeKk1ZBhDyEsOpJ0kw6M6zasSSroy4pPMFVVnaSTLgEwhGS2tFOTUpE6KH8naTF0izCTBJjYjzlJa1CPakk6GUF4NANmPWiuIT3JeCniqqKubrapFhJkkAMSPesZsjTIgG10WYWZkkwYk85IDyTByt0OYo8pCprbQAkxAedvQNhn92zzirCqoqkSMrgkEWAIMieHTjwHZiebXASEvypEMqJIUVQarGEICr8qvav9iiAGZUsmADPjBGcKuqvlHVQRij2uIKllqYDJBIk0AyX6yB1KYyVq9+KCibkCmCBiQQNbUwY1k7SUZQroCooVEsshamUtHldUEtKo99/ZW9ntZavtZdTgCGgHHgAQvG0TXFuplIQEhWkuVRHXPhxiiZoyaqar/jFQSMFUAiT1RgbUf9LI1yRgD0kbJgID/mKPKFGECSVjq56sMUQs/OSjxSbo+EjBV+oj92saAECRmGxJg9ebAgIjDphpg1f7rgJBuKnMIIlmEBEcK8Jbf7H6GS5YBmWCjcTAgO/WBsIsMhmlAqjaSGehGSFnVudS5i647/C7LgFAoZmmLvqeuufnUSFIg1eJHWk7yvKLqXF9hiLpZMripDCF6TPZJNJsAmPFD4rP2P/yJoQFpI3DqI1wDYkBw339FyfoDcmv3LuO0WkgAAAAASUVORK5CYII="
-                           style="display: block;"></div>
-                    <div class="help"><p>微信里点“发现”，扫一下</p>
-                      <p>二维码便可将本文分享至朋友圈。</p></div>
+              <div class="entry-footer wp">
+                <div class="tip-box">
+                  <div class="tip-button">
+                    赞赏
+                    <div class="tip-popover">
+                      <div class="tip-alipay"><img
+                        src="https://qq52o.me/wp-content/themes/c7v5/img/tip_qrcode_alipay.jpg"
+                        alt="alipay"><span>支付宝赞赏</span></div>
+                      <div class="tip-wechatpay"><img
+                        src="https://qq52o.me/wp-content/themes/c7v5/img/tip_qrcode_wechatpay.jpg" alt="wechat"><span>微信赞赏</span>
+                      </div>
+                    </div>
                   </div>
-                </a><a class="social-share-icon icon-facebook"
-                       href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A8080%2Fview%2F1"
-                       target="_blank"></a><a class="social-share-icon icon-twitter"
-                                              href="https://twitter.com/intent/tweet?text=%E5%95%8A%E5%95%8A%E5%95%8A%E5%95%8A%E5%95%8A%E5%95%8A%20-%20Mtons&amp;url=http%3A%2F%2Flocalhost%3A8080%2Fview%2F1&amp;via=http%3A%2F%2Flocalhost%3A8080"
-                                              target="_blank"></a><a class="social-share-icon icon-google"
-                                                                     href="https://plus.google.com/share?url=http%3A%2F%2Flocalhost%3A8080%2Fview%2F1"
-                                                                     target="_blank"></a><a
-                  class="social-share-icon icon-qzone"
-                  href="http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http%3A%2F%2Flocalhost%3A8080%2Fview%2F1&amp;title=%E5%95%8A%E5%95%8A%E5%95%8A%E5%95%8A%E5%95%8A%E5%95%8A%20-%20Mtons&amp;desc=Mtons%2C%20%E8%BD%BB%E6%9D%BE%E5%88%86%E4%BA%AB%E4%BD%A0%E7%9A%84%E5%85%B4%E8%B6%A3.%20%E4%BE%BF%E6%8D%B7%E7%9A%84%E6%96%87%E5%AD%97%E3%80%81%E5%9B%BE%E7%89%87%E5%8F%91%E5%B8%83%2C%E6%89%81%E5%B9%B3%E5%8C%96%E7%9A%84%E5%93%8D%E5%BA%94%E5%BC%8F%E8%AE%BE%E8%AE%A1%2C%E7%BE%8E%E8%A7%82%E3%80%81%E5%A4%A7%E6%B0%94%2C%E6%98%AF%E6%82%A8%E8%AE%B0%E5%BD%95%E7%94%9F%E6%B4%BB%E7%9A%84%E6%9C%80%E4%BD%B3%E9%80%89%E6%8B%A9&amp;summary=Mtons%2C%20%E8%BD%BB%E6%9D%BE%E5%88%86%E4%BA%AB%E4%BD%A0%E7%9A%84%E5%85%B4%E8%B6%A3.%20%E4%BE%BF%E6%8D%B7%E7%9A%84%E6%96%87%E5%AD%97%E3%80%81%E5%9B%BE%E7%89%87%E5%8F%91%E5%B8%83%2C%E6%89%81%E5%B9%B3%E5%8C%96%E7%9A%84%E5%93%8D%E5%BA%94%E5%BC%8F%E8%AE%BE%E8%AE%A1%2C%E7%BE%8E%E8%A7%82%E3%80%81%E5%A4%A7%E6%B0%94%2C%E6%98%AF%E6%82%A8%E8%AE%B0%E5%BD%95%E7%94%9F%E6%B4%BB%E7%9A%84%E6%9C%80%E4%BD%B3%E9%80%89%E6%8B%A9&amp;site=%E5%95%8A%E5%95%8A%E5%95%8A%E5%95%8A%E5%95%8A%E5%95%8A%20-%20Mtons"
-                  target="_blank"></a><a class="social-share-icon icon-qq"
-                                         href="http://connect.qq.com/widget/shareqq/index.html?url=http%3A%2F%2Flocalhost%3A8080%2Fview%2F1&amp;title=%E5%95%8A%E5%95%8A%E5%95%8A%E5%95%8A%E5%95%8A%E5%95%8A%20-%20Mtons&amp;source=%E5%95%8A%E5%95%8A%E5%95%8A%E5%95%8A%E5%95%8A%E5%95%8A%20-%20Mtons&amp;desc=Mtons%2C%20%E8%BD%BB%E6%9D%BE%E5%88%86%E4%BA%AB%E4%BD%A0%E7%9A%84%E5%85%B4%E8%B6%A3.%20%E4%BE%BF%E6%8D%B7%E7%9A%84%E6%96%87%E5%AD%97%E3%80%81%E5%9B%BE%E7%89%87%E5%8F%91%E5%B8%83%2C%E6%89%81%E5%B9%B3%E5%8C%96%E7%9A%84%E5%93%8D%E5%BA%94%E5%BC%8F%E8%AE%BE%E8%AE%A1%2C%E7%BE%8E%E8%A7%82%E3%80%81%E5%A4%A7%E6%B0%94%2C%E6%98%AF%E6%82%A8%E8%AE%B0%E5%BD%95%E7%94%9F%E6%B4%BB%E7%9A%84%E6%9C%80%E4%BD%B3%E9%80%89%E6%8B%A9&amp;pics=http%3A%2F%2Flocalhost%3A8080%2Fstatic%2Fdefault%2Fimages%2Flogo.png&amp;summary=&quot;Mtons%2C%20%E8%BD%BB%E6%9D%BE%E5%88%86%E4%BA%AB%E4%BD%A0%E7%9A%84%E5%85%B4%E8%B6%A3.%20%E4%BE%BF%E6%8D%B7%E7%9A%84%E6%96%87%E5%AD%97%E3%80%81%E5%9B%BE%E7%89%87%E5%8F%91%E5%B8%83%2C%E6%89%81%E5%B9%B3%E5%8C%96%E7%9A%84%E5%93%8D%E5%BA%94%E5%BC%8F%E8%AE%BE%E8%AE%A1%2C%E7%BE%8E%E8%A7%82%E3%80%81%E5%A4%A7%E6%B0%94%2C%E6%98%AF%E6%82%A8%E8%AE%B0%E5%BD%95%E7%94%9F%E6%B4%BB%E7%9A%84%E6%9C%80%E4%BD%B3%E9%80%89%E6%8B%A9&quot;"
-                                         target="_blank"></a></div>
+                  <p class="tip-desc">如果文章对您有帮助，欢迎给作者打赏</p>
+                </div>
+                <div class="social-sharer">
+                  <a class="socialshare icon-weibo" href="" target="_blank"></a>
+                  <a class="socialshare icon-wechat" href="javascript:;">
+                    <div class="qrcode-box"><h4>分享到微信</h4><img src="">
+                    <p>用微信「扫一扫」上方二维码即可。</p>
+                    </div>
+                  </a>
+                  <a class="socialshare icon-qzone" href="" target="_blank"></a>
+                  <a class="socialshare icon-qq" href="" target="_blank"></a>
+                  <a class="socialshare icon-douban" target="_blank"></a>
+                  <a class="socialshare icon-yingxiang" target="_blank"></a>
+                </div>
+                <div class="social-share" data-disabled="google" data-description="Share.js - 一键分享到微博，QQ空间，腾讯微博，人人，豆瓣"></div>
               </div>
-              <div class="clearfix"></div>
             </div>
           </div>
 
@@ -198,7 +198,82 @@
   .container-box {
     padding-top: 40px;
   }
+
   .panel-heading {
     background-color: #fff;
   }
+  .entry-footer {
+    margin-bottom: 40px;
+  }
+  .wp {
+    width: 700px;
+    margin-right: auto;
+    margin-left: auto;
+    clear: both;
+  }
+  .tip-box {
+    margin: 2em 0;
+    clear: both;
+    text-align: center;
+  }
+  .tip-button {
+    position: relative;
+    display: inline-block;
+    padding: 0 1.5em;
+    margin: 0 auto 10px;
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 44px;
+    color: #fff;
+    cursor: pointer;
+    background: #f36;
+    border-radius: 22px;
+  }
+  .tip-popover {
+    position: absolute;
+    bottom: 100%;
+    left: -115px;
+    width: 300px;
+    padding: 10px;
+    margin-bottom: 20px;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1em;
+    color: #333;
+    text-align: center;
+    cursor: default;
+    visibility: hidden;
+    background: #fff;
+    border-radius: 3px;
+    box-shadow: 0 10px 50px rgba(0,0,0,.5);
+    opacity: 0;
+    -webkit-transition: .3s;
+    transition: .3s;
+    -webkit-transform: scale(.5);
+    -ms-transform: scale(.5);
+    transform: scale(.5);
+    -webkit-transform-origin: 50% 100%;
+    -ms-transform-origin: 50% 100%;
+    transform-origin: 50% 100%;
+  }
+  .tip-popover div {
+    float: left;
+    width: 50%;
+  }
+  .tip-popover img {
+    width: 130px;
+    margin: 10px;
+    max-width: 100%;
+    height: auto;
+    vertical-align: middle;
+    border-style: none;
+  }
+  .tip-popover span {
+    display: block;
+    margin-bottom: 10px;
+  }
+  .tip-desc {
+    color: #777;
+  }
+
 </style>
