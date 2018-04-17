@@ -745,8 +745,11 @@
   padding-left: 2px;
 }
 
-.side-right ul.list a, .side-right ul.list a:focus, .side-right ul.list a:hover {
+.side-right,ul.list a{
   color: #737373;
+}
+.side-right ul.list a:focus, .side-right ul.list a:hover {
+  color: #03a9f4;
 }
 
 .side-right ul.list li {

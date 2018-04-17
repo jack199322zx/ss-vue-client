@@ -27,7 +27,7 @@
         <div class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
             <li>
-              <a href="/channel/1" nav="博客">博客</a>
+              <a @click="goBlogList()" nav="博客">博客</a>
             </li>
             <li>
               <a href="/channel/2" nav="分享">分享</a>
@@ -48,7 +48,7 @@
                 </div>
               </form>
             </li>
-            <li v-if="loginStatus"><a href="/post/new" class="btn btn-sm"><i class="iconfont icon-bianji" style="font-size:14px;"></i> 写文章</a></li>
+            <li v-if="loginStatus"><a @click="goArticlePublish()" class="btn btn-sm"><i class="iconfont icon-bianji" style="font-size:14px;"></i> 写文章</a></li>
             <li v-if="loginStatus" class="dropdown"  @mouseover="showUserInfo()">
               <a href="#" class="user dropdown-toggle" data-toggle="dropdown" @mouseout="closeUserInfo()">
                 <img class="img-circle" src="../../assets/images/user-touxiang.jpg">
@@ -103,6 +103,14 @@ import '../../assets/styles/bootstrap/css/bootstrap.min.css';
       },
       goRegister() {
         this.$router.push('/register')
+      },
+      goArticlePublish () {
+        this.$store.commit('CHANGE_COMPONENT_STATE', {
+          componentName: 'ArticlePublish'
+        });
+      },
+      goBlogList () {
+
       }
     }
   }

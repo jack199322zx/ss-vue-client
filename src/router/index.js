@@ -5,8 +5,9 @@ import Blog from '@/pages/blog/Blog'
 import Register from '@/pages/register/register'
 import Active from '@/pages/active/Active'
 import Test from '@/pages/test/Test'
+import ArticleDetail from '@/pages/article-detail/ArticleDetail'
 import AboutMe from '@/pages/aboutMe/AboutMe'
-import BlogList from '@/pages/blog-list/BlogList2.vue'
+import BlogList from '@/pages/blog-list/BlogList.vue'
 import Helper from '@/pages/helper/Helper'
 import MessageBoard from '@/pages/messageBoard/MessageBoard'
 import PhotoAlbum from '@/pages/photoAlbum/PhotoAlbum'
@@ -43,6 +44,8 @@ export default new Router({
        name: '博客列表',
        component: BlogList
      }
+
+
     // }, {
     //   path: '/aboutMe',
     //   name: '关于我',

@@ -52,7 +52,7 @@
             且就随缘去吧<br></p>
         </div>
       </div>
-      <div id="primary">
+      <div id="primary" v-infinite-scroll="loadMore" infinite-scroll-disabled="busy" infinite-scroll-distance="10">
         <div class="post" v-for="(blog, index) in blogList" :key="index">
           <a data-id="6429" href="http://isujin.com/6429" :title="blog.articleTitle">
             <img width="680" height="440"
@@ -60,7 +60,7 @@
                  class="cover">
           </a>
           <div class="else">
-            <p>{{blog.createTime|timeFilter}}</p>
+            <p>{{blog.createTime | timeFilter}}</p>
             <h3><a data-id="6429" class="posttitle" href="http://isujin.com/6429">{{blog.articleTitle}}</a></h3>
             <p class="blog-desc">萨达萨达撒打撒大所大撒多撒奥多撒奥奥奥奥奥奥奥奥奥奥奥奥奥奥奥奥奥奥奥奥奥奥奥奥奥奥奥奥奥奥奥奥奥奥奥奥奥奥奥
               萨达萨达撒打撒大所大撒多撒奥多撒奥奥奥奥奥奥奥奥奥奥奥奥奥奥奥奥奥奥奥奥奥奥奥奥奥奥奥奥奥奥奥奥奥奥奥奥奥奥奥
@@ -75,7 +75,7 @@
         </div>
       </div>
     </div>
-    <div id="pager" v-infinite-scroll="loadMore" infinite-scroll-disabled="busy" infinite-scroll-distance="10"><a
+    <div id="pager"><a
       class="more">滚动加载更多</a></div>
     <div id="preview" class="trans" style="min-height: 612px;"></div>
   </div>
@@ -85,43 +85,45 @@
 <script>
   import imgPath from '../../common/img/imgPath';
   import {getFormatDateByLong} from '../../assets/js/date-format'
+
   export default {
-    data () {
+    data() {
       return {
         blogList: [],
         page: 0,
         imgPath: imgPath,
         busy: false,
-        pageIndex: '0'
+        pageIndex: '0',
+        loadingShow: false
       }
     },
     filters: {
-      typeFilter (type) {
+      typeFilter(type) {
         return type ? type === 1 ? '生活驿站' : '轻松时刻' : '技术杂谈'
       },
-      timeFilter (time) {
+      timeFilter(time) {
         return getFormatDateByLong(time, 'yyyy-MM-dd');
       }
     },
     methods: {
-      switchMenu () {
+      switchMenu() {
         window.scrollTo(0, 0)
-        if (document.body.className) {
-          document.body.className = ''
-          document.getElementsByTagName('html')[0].className = ''
+        if (document.body.className !== 'touch') {
+          document.body.className = 'touch'
+          document.getElementsByTagName('html')[0].className = 'touch'
           return
         }
         document.body.className = 'mu'
         document.getElementsByTagName('html')[0].className = 'mu'
       },
-      loadMore () {
+      loadMore() {
         this.busy = true;
 //          this.page++;
         setTimeout(() => {
           this.queryMoreBlog();
         }, 500);
       },
-      goNext (index) {
+      goNext(index) {
         switch (index) {
           case 0:
             location.href = location.href.replace(/(#\/).*/g, '$1blog-list');
@@ -142,19 +144,19 @@
             ;
         }
       },
-      queryBlogListByPage () {
+      queryBlogListByPage() {
         this.$http.api({
           url: '/blog/init',
-          params: {page: this.page},
+          params: {page: this.page, dist: 0},
           successCallback: function (data) {
             this.blogList = data.articleList;
           }.bind(this)
         });
       },
-      queryMoreBlog () {
+      queryMoreBlog() {
         this.$http.api({
           url: '/blog/init',
-          params: {page: this.page},
+          params: {page: this.page, dist: 0},
           successCallback: function (data) {
             this.busy = false;
             this.blogList = this.blogList.concat(data.articleList);
@@ -165,7 +167,13 @@
     created() {
       this.queryBlogListByPage()
     },
-    components: {}
+    beforeRouteLeave (to, from, next) {
+      document.body.className = 'touch'
+      document.getElementsByTagName('html')[0].className = 'touch'
+      next()
+    },
+    components: {
+    }
   }
 </script>
 

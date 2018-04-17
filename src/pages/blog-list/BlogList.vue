@@ -1,132 +1,70 @@
 <template>
-  <div class="topnews">
-    <div class="cloud">
-      <h3 style="font-weight: bolder">所有标签</h3>
-      <div style="padding:0 0 20px 30px;height: 120px;">
-        <ul>
-          <li v-for="(flag,index) in flagList" @click="chooseArticleByFlag(index)"><a>{{flag.techniqueInfo}}</a></li>
-        </ul>
-      </div>
-    </div>
-    <h2>
-          <span style="display: flex">
-            <a class="choose-title" @click="chooseTitle(index)" v-for="(title,index) in titleList">{{title}}</a>
-          </span><b>全部</b>文章
-    </h2>
-    <div class="blogs" v-for="(blog, index) in filterList">
-      <figure><img v-lazy="images.a1"></figure>
-      <ul>
-        <h3><a>{{blog.articleTitle}}</a></h3>
-        <p class="article-desc">{{blog.articleDesc}}</p>
-        <p class="autor"><span class="lm f_l"><a href="/">{{blog.articleType | typeFilter}}</a></span><span
-          class="dtime f_l">{{blog.createTime | timeFilter}}</span><span
-          class="viewnum f_r">浏览（<a>{{blog.viewNum}}</a>）</span><span class="pingl f_r">评论（<a>{{blog.commentsNum}}</a>）</span>
-        </p>
-        <div class="cloud">
-        <ul style="float:left">
-          <li v-for="(tech,index) in blog.techniqueList"><a>{{tech.techniqueInfo}}</a></li>
-        </ul>
-        </div>
-      </ul>
-    </div>
+  <div>
+    <Head :loginStatus="loginStatus" :user="userInfo" @logout="doLogout()"></Head>
+    <keep-alive>
+      <component :is="currentView">
+        <!-- 非活动组件将被缓存！ -->
+      </component>
+    </keep-alive>
   </div>
+
 </template>
 
 <script>
-  import blog from '../../common/img/imgPath';
-  import {getFormatDateByLong} from '../../assets/js/date-format'
+  import Head from '../../components/header/Head.vue'
+  import BlogContent from '../../pages/blog-list/BlogContent.vue';
+  import ArticlePublish from '../../pages/article-pubblish/ArticlePubblish.vue';
+  import ArticleDetail from '../../pages/article-detail/ArticleDetail.vue';
+  import { mapState } from 'vuex';
+  import auth from '../../auth'
 
   export default {
-    name: 'BlogList',
-    data() {
+    data () {
       return {
-        filterList: [],
-        pageIndex: 0,
-        flagList: [],
-        titleList: ['技术杂谈', '生活驿站', '轻松时刻'],
-        images: blog
+        loginStatus: 0,
+        userInfo: {
+          userName: '',
+          id: ''
+        }
       }
     },
     methods: {
-      chooseTitle(index) {
-        this.filterList = this.receiveBlogList.filter(blog => {
-          let type = blog.articleType;
-          return this.titleList[index] === (type ? type === 1 ? '生活驿站' : '轻松时刻' : '技术杂谈')
-        });
-      },
-      chooseArticleByFlag(index) {
-        this.filterList = this.receiveBlogList.filter(blog => {
-          let flag = false;
-          blog.techniqueList.forEach(tech => {
-            if (tech.techniqueInfo === this.flagList[index].techniqueInfo)
-              flag = true
-          })
-          return flag
-        })
-
+      doLogout() {
+        this.loginStatus = 0;
+        auth.logout();
       }
     },
     computed: {
-      receiveFlag() {
-        let data = this.$store.state.home.componentInfo.data;
-        if (data) {
-          return JSON.parse(data.flag);
-        }
-        return false;
-      },
-      receiveBlogList() {
-        return this.$store.state.home.blogListCache;
-      }
+      ...mapState({
+        currentView: state => state.home.componentInfo.componentName
+      })
     },
-    filters: {
-      typeFilter(type) {
-        return type ? type === 1 ? '生活驿站' : '轻松时刻' : '技术杂谈'
-      },
-      timeFilter(time) {
-        return getFormatDateByLong(time, 'yyyy-MM-dd');
-      }
-    },
-    created() {
-      let params = !!this.receiveFlag ? {page: this.pageIndex, receiveFlag: this.receiveFlag}
-      : {page: this.pageIndex};
+    created () {
       this.$http.api({
-        url: '/blog/blog-list',
-        emulateJSON: false,
-        params,
+        url: '/blog/check-login',
         successCallback: function (data) {
-          this.filterList = data.articleList;
-          this.flagList = this.$store.state.home.flagListCache;
+          if (data === 'failed') {
+            this.loginStatus = 0;
+          } else {
+            this.loginStatus = 1;
+            this.userInfo.userName = data.userName;
+            this.userInfo.id = data.id;
+          }
         }.bind(this)
       });
+      this.$store.commit('CHANGE_COMPONENT_STATE', {
+        componentName: 'BlogContent'
+      });
     },
+    components: {
+      Head,
+      BlogContent,
+      ArticlePublish,
+      ArticleDetail
+    }
   }
 </script>
 
 <style scoped lang="less" rel="stylesheet/less">
-  .choose-title {
-    display: block;
-    width: 60px;
-    height: 36px;
-    border-radius: 3px;
-    text-align: center;
-    margin-right: 10px;
-    color: #fff;
-    &:nth-child(1) {
-      background-color: #33cccc;
-    }
-    &:nth-child(2) {
-      background-color: #FF8247;
-    }
-    &:nth-child(3) {
-      background-color: #33cc00;
-    }
-  }
 
-  .article-desc {
-    height: 66px;
-    overflow: hidden;
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 3;
-  }
 </style>

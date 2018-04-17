@@ -58,10 +58,16 @@ const state = {
     text: ''
   },
   componentInfo: {
-    componentName: 'Home'
+    componentName: 'BlogContent'
   },
-  blogListCache: [],
-  flagListCache: []
+  articleCache: {
+    articleListDist: [],
+    currentPage: '',
+    pageCount: '',
+    cacheIndex: ''
+  },
+  articleCacheList: [],
+  flagCacheList: []
 };
 
 const getters = {
@@ -139,7 +145,7 @@ const mutations = {
     state.blogListCache = blogList;
   },
   [types.SAVE_FLAG_LIST] (state, flagList) {
-    state.flagListCache = flagList;
+    state.flagCacheList = flagList;
   },
   [types.OPEN_ERROR_TIP]: (state, value) => {
     state.errorTip.flag = true;
@@ -149,6 +155,16 @@ const mutations = {
     state.errorTip.flag = false;
     state.errorTip.content = '';
   },
+  [types.SAVE_CACHE_ARTICLE_DIST] (state, articleCache) {
+    state.articleCache = articleCache;
+    let index = articleCache.cacheIndex;
+    state.articleCacheList[index] = articleCache;
+  },
+  [types.UPDATE_CACHE_ARTICLE_DIST] (state, articleCache) {
+    state.articleCache = articleCache;
+    let index = articleCache.cacheIndex;
+    state.articleCacheList.splice(index, 1, articleCache);
+  }
 };
 
 export default {

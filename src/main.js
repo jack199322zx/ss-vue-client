@@ -9,10 +9,12 @@ import auth from './auth';
 
 import { wrapped } from './filter/formatter';
 import 'babel-polyfill';
-import VueLazyLoad from 'vue-lazyload'
-
-Vue.use(VueLazyLoad)
-
+import MintUI from 'mint-ui'
+import 'mint-ui/lib/style.css'
+import mavonEditor from 'mavon-editor'
+import 'mavon-editor/dist/css/index.css'
+Vue.use(mavonEditor)
+Vue.use(MintUI)
 var infiniteScroll =  require('vue-infinite-scroll');
 Vue.use(infiniteScroll)
 
