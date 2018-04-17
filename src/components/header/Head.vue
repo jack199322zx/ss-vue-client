@@ -49,12 +49,12 @@
               </form>
             </li>
             <li v-if="loginStatus"><a @click="goArticlePublish()" class="btn btn-sm"><i class="iconfont icon-bianji" style="font-size:14px;"></i> 写文章</a></li>
-            <li v-if="loginStatus" class="dropdown"  @mouseover="showUserInfo()">
-              <a href="#" class="user dropdown-toggle" data-toggle="dropdown" @mouseout="closeUserInfo()">
+            <li v-if="loginStatus" class="dropdown"  @mouseover="showUserInfo()" @mouseout="closeUserInfo()">
+              <a href="#" class="user dropdown-toggle" data-toggle="dropdown" >
                 <img class="img-circle" src="../../assets/images/user-touxiang.jpg">
                 <span>{{user.userName}}</span>
               </a>
-              <ul v-show="mouseHover"  class="dropdown-menu" role="menu"><li><a href="/user/1280"><i class="icon icon-home"></i> 个人主页</a></li><li><a @click="logout()"><i class="icon icon-logout"></i> 退出</a>
+              <ul v-show="mouseHover"  class="dropdown-menu" role="menu" @mouseout="closeUserInfo()"><li><a href="/user/1280"><i class="icon icon-home"></i> 个人主页</a></li><li><a @click="logout()"><i class="icon icon-logout"></i> 退出</a>
               </li>
               </ul>
             </li>
@@ -215,6 +215,7 @@ import '../../assets/styles/bootstrap/css/bootstrap.min.css';
   }
   .dropdown-menu {
     display:block;
+    margin: 0;
     padding: 0;
   }
   /* HEAD
