@@ -139,5 +139,6 @@ export default {
   checkAuth,
   getAuthHeader,
   getCookieValue,
-  save
+  save,
+  getData
 };

@@ -23,10 +23,9 @@
       })
     },
     created () {
-
-//      this.$store.commit('CHANGE_COMPONENT_STATE', {
-//        componentName: 'BlogContent'
-//      });
+      this.$store.commit('CHANGE_COMPONENT_STATE', {
+        componentName: 'BlogContent'
+      });
     },
     components: {
       Head,

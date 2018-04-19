@@ -11,8 +11,8 @@
                 <div class="infos-flex">
                   <h1 class="panel-title topic-title">{{articleTitle}}</h1>
                   <div class="text-center padding-md">
-                    <a class="btn btn-default btn-sm" href="javascript:void(0);" data-id="1" rel="favor">
-                      <i class="icon icon-like"></i>喜欢 {{favoriteNum}}
+                    <a class="btn btn-default btn-sm" @click="saveFavorite()" data-id="1" rel="favor">
+                      <i :class="['icon','icon-like',{'icon-like-favorite': favoriteFlag}]"></i>喜欢 {{favoriteNum}}
                     </a>
                   </div>
                 </div>
@@ -179,6 +179,7 @@
 <script>
   import share from '../../assets/share/js/social-share-minx';
   import Head from '../../components/header/Head.vue';
+  import auth from '../../auth'
 
   export default {
     data() {
@@ -195,11 +196,13 @@
         hotList: [],
         newsList: [],
         commentsMostList: [],
-        articleSign: ''
+        articleSign: '',
+        articleId: this.$route.params.id,
+        favoriteFlag: false
       }
     },
     created() {
-      this.queryArticleDetail(this.$route.params.id);
+      this.queryArticleDetail(this.articleId);
     },
     mounted: function () {    //钩子函数，等于vue1.0中的ready
       share.alReady(function () {
@@ -212,6 +215,23 @@
       });
     },
     methods: {
+      saveFavorite() {
+        this.favoriteFlag = !this.favoriteFlag;
+        if (this.favoriteFlag) {
+          this.favoriteNum++;
+          this.$http.api({
+            url: '/blog/save-favorite',
+            params: {articleId: this.articleId}
+          });
+        } else {
+          this.favoriteNum--;
+          this.$http.api({
+            url: '/blog/cancel-favorite',
+            params: {articleId: this.articleId}
+          });
+        }
+
+      },
       showPayInfo() {
         this.payShow = true
       },
@@ -225,12 +245,13 @@
         this.queryArticleDetail(article.articleId);
       },
       queryArticleDetail (articleId) {
+        console.log(JSON.parse(auth.getData('staff_info')))
         this.$http.api({
           url: '/blog/blog-detail',
           params: {articleId},
           successCallback: function (data) {
             this.flagList = data.article.flagList;
-            this.viewNum = data.article.vieNum;
+            this.viewNum = data.article.viewNum;
             this.publishTime = data.article.createTime;
             this.userName = data.article.user.userName;
             this.articleTitle= data.article.articleTitle;
@@ -401,5 +422,8 @@
   }
   .about-user .user-datas ul .noborder {
     width:65px;
+  }
+  .icon-like-favorite {
+    color: #EF6D57;
   }
 </style>

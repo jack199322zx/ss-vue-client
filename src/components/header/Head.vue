@@ -107,7 +107,14 @@ import auth from '../../auth'
         });
       },
       goBlogList () {
-
+        let componentName = this.$store.state.home.componentInfo.componentName;
+        if (componentName === 'ArticlePublish') {
+          this.$store.commit('CHANGE_COMPONENT_STATE', {
+            componentName: 'BlogContent'
+          });
+          return
+        }
+        location.href = location.href.replace(/(#\/).*/g, '$1blog-list');
       }
     },
     created () {
@@ -120,6 +127,7 @@ import auth from '../../auth'
             this.loginStatus = 1;
             this.userInfo.userCode = data.userCode;
             this.userInfo.id = data.id;
+
           }
         }.bind(this)
       });
