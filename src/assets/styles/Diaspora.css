@@ -1157,9 +1157,7 @@ ol.children li {
     .tab {
         display: none;
     }
-    .icon-wechat {
-        display: none!important;
-    }
+
     .icon-images {
         left: 80px;
     }

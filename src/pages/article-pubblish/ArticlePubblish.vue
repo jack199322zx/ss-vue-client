@@ -36,6 +36,12 @@
               </div>
             </div>
             <div class="form-group">
+              <label class="col-sm-2 control-label no-padding-right">签名</label>
+              <div class="col-sm-8 has-error">
+                <input type="text" class="form-control" name="sign" maxlength="128" data-required="">
+              </div>
+            </div>
+            <div class="form-group">
               <label class="col-sm-2 control-label no-padding-right">标签</label>
               <div class="col-sm-8  col-flag-1">
                 <i class="iconfont icon-tianjia" @click="openChooseBox()"></i>

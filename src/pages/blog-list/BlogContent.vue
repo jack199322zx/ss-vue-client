@@ -33,25 +33,29 @@
                 <li class="list-group-item " v-for="(item, index) in articleList" @click="goArticleDetailByDist(index)">
                   <a class="reply_count_area hidden-xs pull-right">
                     <div class="count_set">
-                      <span class="count_of_votes" data-toggle="tooltip" title="" data-original-title="阅读数">3</span>
+                      <span class="count_of_votes" data-toggle="tooltip" title="" data-original-title="阅读数">{{item.viewNum}}</span>
                       <span class="count_seperator">/</span>
-                      <span class="count_of_replies" data-toggle="tooltip" title="" data-original-title="回复数">0</span>
+                      <span class="count_of_replies" data-toggle="tooltip" title="" data-original-title="回复数">{{item.commentsNum}}</span>
                       <span class="count_seperator">/</span>
-                      <span class="count_of_visits" data-toggle="tooltip" title="" data-original-title="点赞数">0</span>
+                      <span class="count_of_visits" data-toggle="tooltip" title="" data-original-title="点赞数">{{item.favoriteNum}}</span>
                       <span class="count_seperator">|</span>
-                      <abbr class="timeago">23小时前</abbr>
+                      <abbr class="timeago">{{item.updateTime| commentsTimeFilter}}前</abbr>
                     </div>
                   </a>
                   <div class="avatar pull-left">
                     <a>
-                      <img class="media-object img-thumbnail avatar avatar-middle"
-                           src="/store/ava/000/00/00/02_100.jpg">
+                      <div style="width:55px;height:57px;overflow: hidden">
+                        <img class="media-object img-thumbnail avatar avatar-middle"
+                             src="/store/ava/000/00/00/02_100.jpg">
+                      </div>
                     </a>
                   </div>
                   <div class="infos">
                     <div class="media-heading">
-                      <span class="hidden-xs label label-default  ">博客</span>
-                      <a>{{item.articleDesc}}</a>
+                      <a>{{item.articleTitle}}</a>
+                      <div>
+                        <span class="hidden-xs label label-default" v-for="flag in item.flagList" style="margin-right:10px">{{flag.flagInfo}}</span>
+                      </div>
                     </div>
                   </div>
                 </li>
@@ -74,7 +78,7 @@
             </div>
             <div class="panel-body">
               <ul class="list" id="hots">
-                <li v-for="(item, index) in clickRankList">{{index + 1}}. <a @click="goArticleDetailByHot()">{{item.articleTitle}}</a>
+                <li v-for="(item, index) in hotList">{{index + 1}}. <a @click="goArticleDetailByHot(item)">{{item.articleTitle}}</a>
                 </li>
               </ul>
             </div>
@@ -86,7 +90,18 @@
             </div>
             <div class="panel-body">
               <ul class="list" id="latests">
-                <li v-for="(item, index) in newsList">{{index + 1}}. <a @click="goArticleDetailByNew()">{{item.articleTitle}}</a></li>
+                <li v-for="(item, index) in newsList">{{index + 1}}. <a @click="goArticleDetailByNew(item)">{{item.articleTitle}}</a></li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="panel panel-default corner-radius panel-hot-topics">
+            <div class="panel-heading text-center">
+              <h3 class="panel-title"><i class="fa fa-bars"></i> 最多评论</h3>
+            </div>
+            <div class="panel-body">
+              <ul class="list">
+                <li v-for="(item, index) in commentsMostList">{{index + 1}}. <a @click="goArticleDetailByComments(item)">{{item.articleTitle}}</a></li>
               </ul>
             </div>
           </div>
@@ -115,17 +130,12 @@
   export default {
     data() {
       return {
-        loginStatus: 0,
-        userInfo: {
-          userName: '',
-          id: ''
-        },
         pageIndex: 0,
         pageCount: 0,
         flagList: [],
         articleList: [],
-        clickRankList: [],
-        hotArticleList: [],
+        hotList: [],
+        commentsMostList: [],
         newsList: [],
         images: images,
         activeFlag: [true, false, false],
@@ -137,11 +147,11 @@
         url: '/blog/blog-list',
         successCallback: function (data) {
           this.articleList = data.articleDistList;
-          this.hotArticleList = data.newCommentsSortedList;
+          this.commentsMostList = data.newCommentsSortedList;
           this.pageCount = data.pageCount;
           this.flagList = data.flagList;
           this.$store.commit('SAVE_FLAG_LIST', this.flagList);
-          this.clickRankList = data.viewNumSortedList;
+          this.hotList = data.viewNumSortedList;
           this.newsList = data.createTimeSortedList;
         }.bind(this)
       });
@@ -205,16 +215,19 @@
       goArticleDetailByDist (index) {
 //        let articleId = this.articleList[index].articleId
 //        this.$router.push('/article-detail/' + articleId);
-        this.$store.commit('CHANGE_COMPONENT_STATE', {
-          componentName: 'ArticleDetail',
-          data: this.articleList[index].articleId
-        });
+        this.chooseRouterPush( this.articleList[index]);
       },
-      goArticleDetailByHot (index) {
-
+      goArticleDetailByHot (item) {
+        this.chooseRouterPush(item);
       },
-      goArticleDetailByNew (index) {
-
+      goArticleDetailByNew (item) {
+        this.chooseRouterPush(item);
+      },
+      goArticleDetailByComments (item) {
+        this.chooseRouterPush(item);
+      },
+      chooseRouterPush (article) {
+        this.$router.push('/article-detail/' + article.articleId);
       }
     },
     computed: {
@@ -227,6 +240,18 @@
         return index === 1
       }
     },
+    filters: {
+      commentsTimeFilter (val) {
+        let time = ((new Date()).getTime() - val)/1000;
+        if (time < 60) {
+          return time + '秒';
+        }else if(time < 3600) {
+          return Math.trunc(time/60) + '分钟'
+        }else if(time < 3600 * 60){
+          return Math.trunc(time/(60*60)) + '小时';
+        }else return Math.trunc(time/(60*24*60)) + '天';
+      }
+    }
   }
 </script>
 
@@ -263,5 +288,8 @@
     a {
       cursor: pointer;
     }
+  }
+  .topic-list .list-group-item {
+    height: 77px;
   }
 </style>

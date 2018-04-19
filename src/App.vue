@@ -30,6 +30,7 @@ export default {
   @import "assets/icon/iconfont.css";
   @import "assets/styles/base.css";
   @import "assets/styles/index.css";
+  @import "assets/share/css/share.min.css";
 
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;

@@ -6,7 +6,6 @@ import Register from '@/pages/register/register'
 import Active from '@/pages/active/Active'
 import Test from '@/pages/test/Test'
 import ArticleDetail from '@/pages/article-detail/ArticleDetail'
-import AboutMe from '@/pages/aboutMe/AboutMe'
 import BlogList from '@/pages/blog-list/BlogList.vue'
 import Helper from '@/pages/helper/Helper'
 import MessageBoard from '@/pages/messageBoard/MessageBoard'
@@ -43,7 +42,11 @@ export default new Router({
        path: '/blog-list',
        name: '博客列表',
        component: BlogList
-     }
+     }, {
+      path: '/article-detail/:id(\\d+)',
+      name: '博客列表',
+      component: ArticleDetail
+    }
 
 
     // }, {

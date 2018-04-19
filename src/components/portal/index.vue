@@ -180,7 +180,7 @@
   .portal-bg {
     background: url(index.jpg) no-repeat 100% 100% / cover;
     .top-box {
-      height: 30%;
+      height: 20%;
     }
   }
 

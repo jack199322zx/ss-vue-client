@@ -52,7 +52,7 @@
             <li v-if="loginStatus" class="dropdown"  @mouseover="showUserInfo()" @mouseout="closeUserInfo()">
               <a href="#" class="user dropdown-toggle" data-toggle="dropdown" >
                 <img class="img-circle" src="../../assets/images/user-touxiang.jpg">
-                <span>{{user.userName}}</span>
+                <span>{{userInfo.userCode}}</span>
               </a>
               <ul v-show="mouseHover"  class="dropdown-menu" role="menu" @mouseout="closeUserInfo()"><li><a href="/user/1280"><i class="icon icon-home"></i> 个人主页</a></li><li><a @click="logout()"><i class="icon icon-logout"></i> 退出</a>
               </li>
@@ -72,20 +72,16 @@
 
 <script>
 import '../../assets/styles/bootstrap/css/bootstrap.min.css';
+import auth from '../../auth'
   export default {
-    props: {
-      loginStatus: {
-        type: Number,
-        required: true
-      },
-      user: {
-        type: Object,
-        required: true
-      }
-    },
     data () {
       return {
-        mouseHover: false
+        mouseHover: false,
+        userInfo: {
+          userCode: '',
+          id: ''
+        },
+        loginStatus: 0
       }
     },
     methods: {
@@ -96,7 +92,8 @@ import '../../assets/styles/bootstrap/css/bootstrap.min.css';
         this.mouseHover = false
       },
       logout() {
-        this.$emit('logout');
+        this.loginStatus = 0;
+        auth.logout();
       },
       goLogin () {
         this.$router.push('/login');
@@ -112,6 +109,20 @@ import '../../assets/styles/bootstrap/css/bootstrap.min.css';
       goBlogList () {
 
       }
+    },
+    created () {
+      this.$http.api({
+        url: '/blog/check-login',
+        successCallback: function (data) {
+          if (data === 'failed') {
+            this.loginStatus = 0;
+          } else {
+            this.loginStatus = 1;
+            this.userInfo.userCode = data.userCode;
+            this.userInfo.id = data.id;
+          }
+        }.bind(this)
+      });
     }
   }
 </script>
