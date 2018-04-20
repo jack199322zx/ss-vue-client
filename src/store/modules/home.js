@@ -67,7 +67,14 @@ const state = {
     cacheIndex: ''
   },
   articleCacheList: [],
-  flagCacheList: []
+  flagCacheList: [],
+  loginUserInfo: {
+    loginStatus: 1,
+    userInfo: {
+      id: '',
+      userCode: ''
+    }
+  }
 };
 
 const getters = {
@@ -164,8 +171,16 @@ const mutations = {
     state.articleCache = articleCache;
     let index = articleCache.cacheIndex;
     state.articleCacheList.splice(index, 1, articleCache);
+  },
+  [types.CHANGE_LOGIN_STATUS] (state, loginInfo) {
+    state.loginUserInfo.loginStatus = loginInfo.loginStatus;
+    state.loginUserInfo.userInfo = loginInfo.userInfo;
   }
 };
+
+const actions = {
+
+}
 
 export default {
   state,

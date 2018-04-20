@@ -101,11 +101,17 @@ const api = ({ url, method = POST, params = {}, emulateJSON = true, useLoadLayer
       successCallback && successCallback(response.data.data);
     } else {
       // 业务级失败
-      if (rspCode === '12' || rspCode === '10' || rspCode === '11') {
+      if (rspCode === '10') {
+        //登录信息失效
+        auth.clear()
+        store.commit('CHANGE_LOGIN_STATUS', {
+          loginStatus: 0,
+          userInfo: {}
+        });
+      } else if(rspCode === '12'){
+        //没有权限
         store.commit(OPEN_NO_AUTHORIZATION_DIALOG_BOX, response.data.message);
-      } else {
-        errorCallback && errorCallback(response);
-      }
+      } else errorCallback && errorCallback(response);
     }
   }).catch((error) => {
     if (error.response) {
@@ -132,11 +138,9 @@ const uploadApi = ({ url, method = POST, params = new FormData(), onUploadProgre
       successCallback && successCallback(response.data.data);
     } else {
       // 业务级失败
-      if (rspCode === '12' || rspCode === '10' || rspCode === '11') {
-        store.commit(OPEN_NO_AUTHORIZATION_DIALOG_BOX, response.data.message);
-      } else {
-        errorCallback && errorCallback(response);
-      }
+      // if (rspCode === '12' || rspCode === '10' || rspCode === '11') {
+      //   store.commit(OPEN_NO_AUTHORIZATION_DIALOG_BOX, response.data.message);
+      errorCallback && errorCallback(response);
     }
   }).catch((error) => {
     if (error.response) {

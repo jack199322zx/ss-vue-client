@@ -87,7 +87,8 @@ const forgetPwdLogout = () => {
 const checkAuth = () => {
   let token = getData(TOKEN_KEY);
   staff.authenticated = !!token;
-  staff.authenticated && setData(TOKEN_KEY, token, TOKEN_KEY_EXPIRE_TIME)
+  staff.authenticated && setData(TOKEN_KEY, token, TOKEN_KEY_EXPIRE_TIME);
+  return  staff.authenticated;
   // staff.authenticated && load();
 };
 
@@ -102,15 +103,15 @@ const getAuthHeader = () => {
 };
 
 const setData = (name, value, expireTime) => {
-  window.localStorage ? window.localStorage.setItem(name, value) : setCookie(name, value, expireTime);
+  setCookie(name, value, expireTime);
 };
 
 const getData = (name) => {
-  return window.localStorage ? window.localStorage.getItem(name) : getCookieValue(name);
+  return getCookieValue(name);
 };
 
 const clearData = (name) => {
-  window.localStorage ? window.localStorage.removeItem(name) : setCookie(name, null, -1);
+  delCookie(name)
 };
 
 const getCookieValue = (name) => {
@@ -124,6 +125,14 @@ const setCookie = (name, value, expireTime) => {
   document.cookie = name + '=' + value + (expiresDate ? '; expires=' + expiresDate.toGMTString() : '');
 };
 
+const delCookie = (name) => {
+  var exp = new Date();
+  exp.setTime(exp.getTime() - 1);
+  var cval = getCookieValue(name);
+  if (cval != null)
+    document.cookie = name + "=" + cval + ";expires=" + exp.toGMTString();
+};
+
 const staff = {
   authenticated: false,
   token: '',
@@ -133,12 +142,12 @@ const staff = {
 
 export default {
   staff,
-  login,
   logout,
   forgetPwdLogout,
   checkAuth,
   getAuthHeader,
-  getCookieValue,
   save,
-  getData
+  getData,
+  STAFF_KEY,
+  clear
 };

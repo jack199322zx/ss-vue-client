@@ -64,6 +64,7 @@
       .content-1{
         width: 220px;
         height: 100px;
+        margin: 0 auto;
         font-size: 14px;
         display: flex;
         align-items: center;

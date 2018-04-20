@@ -116,21 +116,6 @@ import auth from '../../auth'
         }
         location.href = location.href.replace(/(#\/).*/g, '$1blog-list');
       }
-    },
-    created () {
-      this.$http.api({
-        url: '/blog/check-login',
-        successCallback: function (data) {
-          if (data === 'failed') {
-            this.loginStatus = 0;
-          } else {
-            this.loginStatus = 1;
-            this.userInfo.userCode = data.userCode;
-            this.userInfo.id = data.id;
-
-          }
-        }.bind(this)
-      });
     }
   }
 </script>

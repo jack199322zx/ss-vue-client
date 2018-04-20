@@ -109,8 +109,9 @@
                 <div class="user-info">
                   <div class="nk mb10">{{userName}}</div>
                   <div class="mb6">
-                    <a class="btn btn-default btn-xs" href="javascript:void(0);" data-id="2" rel="follow"><i
-                      class="iconfont icon-gengduojiaru" style="font-size:12px;"></i> 关注</a>
+                    <a class="btn btn-default btn-xs" @click="saveFollow()" data-id="2" rel="follow">
+                      <i class="iconfont icon-gengduojiaru" style="font-size:12px;" v-if="!followFlag"></i>{{followFlag? '已关注': '关注'}}</a>
+
                   </div>
                 </div>
               </li>
@@ -173,14 +174,12 @@
       </div>
     </div>
   </div>
-
 </template>
 
 <script>
   import share from '../../assets/share/js/social-share-minx';
   import Head from '../../components/header/Head.vue';
   import auth from '../../auth'
-
   export default {
     data() {
       return {
@@ -198,7 +197,10 @@
         commentsMostList: [],
         articleSign: '',
         articleId: this.$route.params.id,
-        favoriteFlag: false
+        favoriteFlag: false,
+        followFlag: false,
+        authorId: '',
+        userInfo: {}
       }
     },
     created() {
@@ -216,21 +218,46 @@
     },
     methods: {
       saveFavorite() {
+        if (!this.loginStatus) {
+          this.$store.commit('OPEN_ERROR_TIP', '请先登录')
+          return
+        }
         this.favoriteFlag = !this.favoriteFlag;
+        let staff_key = auth.getData(auth.STAFF_KEY)
+        let userId = JSON.parse(staff_key).id;
         if (this.favoriteFlag) {
           this.favoriteNum++;
           this.$http.api({
             url: '/blog/save-favorite',
-            params: {articleId: this.articleId}
+            params: {articleId: this.articleId, userId: userId}
           });
         } else {
           this.favoriteNum--;
           this.$http.api({
             url: '/blog/cancel-favorite',
-            params: {articleId: this.articleId}
+            params: {articleId: this.articleId, userId: userId}
           });
         }
-
+      },
+      saveFollow () {
+        if (!this.loginStatus) {
+          this.$store.commit('OPEN_ERROR_TIP', '请先登录')
+          return
+        }
+        this.followFlag = !this.followFlag;
+        let staff_key = auth.getData(auth.STAFF_KEY)
+        let userId = JSON.parse(staff_key).id;
+        if (this.followFlag) {
+          this.$http.api({
+            url: '/user/save-follow',
+            params: {authorId: this.authorId, followerId: userId}
+          });
+        } else {
+          this.$http.api({
+            url: '/user/cancel-follow',
+            params: {authorId: this.authorId, followerId: userId}
+          });
+        }
       },
       showPayInfo() {
         this.payShow = true
@@ -245,7 +272,6 @@
         this.queryArticleDetail(article.articleId);
       },
       queryArticleDetail (articleId) {
-        console.log(JSON.parse(auth.getData('staff_info')))
         this.$http.api({
           url: '/blog/blog-detail',
           params: {articleId},
@@ -254,6 +280,7 @@
             this.viewNum = data.article.viewNum;
             this.publishTime = data.article.createTime;
             this.userName = data.article.user.userName;
+            this.authorId =  data.article.user.id;
             this.articleTitle= data.article.articleTitle;
             this.articleDesc = data.article.articleDesc;
             this.publishNum = data.publishNum;
@@ -265,7 +292,26 @@
 //          this.articleList = data.articleDistList;
 //          this.hotArticleList = data.newCommentsSortedList;
 //          this.pageCount = data.pageCount;
-            console.log(data);
+            if (this.loginStatus) {
+              let userId = JSON.parse(staff_key).id;
+              let authorId = this.authorId;
+              this.$http.api({
+                url: '/user/query-favorite-follow',
+                params: {articleId, userId, authorId},
+                successCallback: function (data) {
+                  if (data.favorite === 1) {
+                    this.favoriteFlag = true;
+                  }else {
+                    this.favoriteFlag = false;
+                  }
+                  if (data.follow === 1) {
+                    this.followFlag = true;
+                  }else {
+                    this.followFlag = false;
+                  }
+                }.bind(this)
+              });
+            }
           }.bind(this)
         });
       }
@@ -280,6 +326,12 @@
         }else if(time < 3600 * 60){
           return Math.trunc(time/(60*60)) + '小时';
         }else return Math.trunc(time/(60*24*60)) + '天';
+      }
+    },
+    computed: {
+      loginStatus() {
+        console.log(this.$store.state.home.loginUserInfo.loginStatus)
+        return this.$store.state.home.loginUserInfo.loginStatus
       }
     },
     components: {
