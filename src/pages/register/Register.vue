@@ -5,7 +5,7 @@
         <div class="registered">
           <h4 v-if="!registerCheckedFlag">注册账号</h4>
           <h4 v-else>设置密码</h4>
-          <div class="content" style="margin-top: 20px;">
+          <div class="content-1" style="margin-top: 20px;">
             <ul class="common-form">
               <li class="username border-1p">
                 <div style="margin-top: 40px;" class="input">
@@ -298,7 +298,7 @@
         font-weight: 400;
       }
     }
-    .content {
+    .content-1 {
       padding: 0 40px 22px;
       height: auto;
       .common-form {

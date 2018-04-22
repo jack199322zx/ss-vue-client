@@ -30,13 +30,19 @@
               <a @click="goBlogList()" nav="博客">博客</a>
             </li>
             <li>
-              <a href="/channel/2" nav="分享">分享</a>
+              <a href="/channel/2" nav="小助手">小助手</a>
             </li>
             <li>
-              <a href="/channel/3" nav="问答">问答</a>
+              <a href="/channel/3" nav="相册">相册</a>
             </li>
             <li>
-              <a href="/channel/4" nav="招聘">招聘</a>
+              <a href="/channel/4" nav="留言板">留言板</a>
+            </li>
+            <li>
+              <a href="/channel/5" nav="随笔">随笔</a>
+            </li>
+            <li>
+              <a href="/channel/6" nav="关于我">关于我</a>
             </li>
           </ul>
           <ul class="navbar-button list-inline" id="header_user">
@@ -72,7 +78,7 @@
 
 <script>
 import '../../assets/styles/bootstrap/css/bootstrap.min.css';
-import auth from '../../auth'
+
   export default {
     data () {
       return {
@@ -93,7 +99,7 @@ import auth from '../../auth'
       },
       logout() {
         this.loginStatus = 0;
-        auth.logout();
+        this.$emit('logout');
       },
       goLogin () {
         this.$router.push('/login');
@@ -102,20 +108,48 @@ import auth from '../../auth'
         this.$router.push('/register')
       },
       goArticlePublish () {
-        this.$store.commit('CHANGE_COMPONENT_STATE', {
-          componentName: 'ArticlePublish'
-        });
+        if (location.href.lastIndexOf('article-detail')> -1) {
+          location.href = location.href.replace(/(#\/).*/g, '$1blog-list?conview=articlepublish');
+          return
+        }
+        let componentName = this.$store.state.home.componentInfo.componentName;
+        if (componentName === 'BlogContent') {
+          this.$store.commit('CHANGE_COMPONENT_STATE', {
+            componentName: 'ArticlePublish'
+          });
+        }
+
       },
       goBlogList () {
+        if (location.href.lastIndexOf('article-detail')> -1) {
+          location.href = location.href.replace(/(#\/).*/g, '$1blog-list?conview=bloglist');
+          return
+        }
         let componentName = this.$store.state.home.componentInfo.componentName;
         if (componentName === 'ArticlePublish') {
           this.$store.commit('CHANGE_COMPONENT_STATE', {
             componentName: 'BlogContent'
           });
-          return
         }
-        location.href = location.href.replace(/(#\/).*/g, '$1blog-list');
       }
+    },
+    created () {
+      this.$http.api({
+        url: '/blog/check-login',
+        successCallback: function (data) {
+          if (data === 'failed') {
+            this.loginStatus = 0;
+          } else {
+            this.loginStatus = 1;
+            this.userInfo.userCode = data.userCode;
+            this.userInfo.id = data.id;
+            this.$store.commit('SAVE_USER_INFO', {
+              userCode: data.userCode,
+              userId: data.id
+            })
+          }
+        }.bind(this)
+      });
     }
   }
 </script>

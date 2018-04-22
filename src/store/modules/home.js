@@ -68,12 +68,9 @@ const state = {
   },
   articleCacheList: [],
   flagCacheList: [],
-  loginUserInfo: {
-    loginStatus: 1,
-    userInfo: {
-      id: '',
-      userCode: ''
-    }
+  userInfo: {
+    userCode: '',
+    userId: ''
   }
 };
 
@@ -172,15 +169,14 @@ const mutations = {
     let index = articleCache.cacheIndex;
     state.articleCacheList.splice(index, 1, articleCache);
   },
-  [types.CHANGE_LOGIN_STATUS] (state, loginInfo) {
-    state.loginUserInfo.loginStatus = loginInfo.loginStatus;
-    state.loginUserInfo.userInfo = loginInfo.userInfo;
+  [types.SAVE_USER_INFO] (state, userInfo) {
+    state.userInfo.userCode = userInfo.userCode;
+    state.userInfo.userId = userInfo.userId
   }
+
 };
 
-const actions = {
-
-}
+const actions = {}
 
 export default {
   state,

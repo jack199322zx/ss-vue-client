@@ -9,21 +9,20 @@
         </div>
         <div class="panel-body">
           <div id="message"></div>
-          <form class="form-horizontal" action="/post/submit" method="post" enctype="multipart/form-data">
+          <div class="form-horizontal">
             <div class="form-group">
               <label class="col-sm-2 control-label no-padding-right">标题</label>
               <div class="col-sm-8 has-error">
-                <input type="text" class="form-control" name="title" maxlength="128" data-required="">
+                <input type="text" class="form-control" name="title" maxlength="128" data-required="" v-model="title">
               </div>
             </div>
             <div class="form-group">
               <label class="col-sm-2 control-label no-padding-right">发布到</label>
               <div class="col-sm-3">
-                <select class="form-control" name="channelId">
-                  <option value="1">博客</option>
-                  <option value="2">分享</option>
-                  <option value="3">问答</option>
-                  <option value="4">招聘</option>
+                <select class="form-control" name="channelId" v-model="channelId">
+                  <option value="1">生活区</option>
+                  <option value="2">技术区</option>
+                  <option value="3">资源</option>
                 </select>
               </div>
             </div>
@@ -31,14 +30,14 @@
               <label class="col-sm-2 control-label no-padding-right">内容</label>
               <div class="col-sm-8 col-mavon">
                 <div class="mavon-editor-1" v-if="!openBoxFlag">
-                  <mavon-editor v-model="value"/>
+                  <mavon-editor v-model="mavonValue" @imgAdd="$imgAdd" @imgDel="$imgDel" ref="md"/>
                 </div>
               </div>
             </div>
             <div class="form-group">
               <label class="col-sm-2 control-label no-padding-right">签名</label>
               <div class="col-sm-8 has-error">
-                <input type="text" class="form-control" name="sign" maxlength="128" data-required="">
+                <input type="text" class="form-control" name="sign" maxlength="128" data-required="" v-model="sign">
               </div>
             </div>
             <div class="form-group">
@@ -59,11 +58,11 @@
             <div class="row">
               <div class="form-group">
                 <div class="text-center">
-                  <button type="submit" class="btn btn-primary">提交</button>
+                  <button type="submit" class="btn btn-primary" @click="saveForm()">提交</button>
                 </div>
               </div>
             </div>
-          </form>
+          </div>
           <!-- /form-actions -->
         </div>
       </div>
@@ -73,15 +72,37 @@
 
 <script>
   import ChooseBox from '../../components/chooseBox/ChooseBox.vue';
+  import auth from '../../auth';
 export default {
   data () {
     return {
       openBoxFlag: false,
       flagList: this.$store.state.home.flagCacheList,
-      chooseFlagList: []
+      chooseFlagList: [],
+      mavonValue: '',
+      title: '',
+      sign: '',
+      channelId: ''
+
     }
   },
   methods: {
+    $imgAdd (pos, $file) {
+      // 第一步.将图片上传到服务器.
+      var formdata = new FormData();
+      formdata.append('image', $file);
+      this.$http.uploadApi({
+        url: 'article/img-upload',
+        params: formdata,
+        successCallback: function (data) {
+          console.log(data);
+          this.$refs.md.$img2Url(pos, data);
+        }.bind(this)
+      });
+    },
+    $imgDel () {
+
+    },
     openChooseBox () {
       this.openBoxFlag = true;
     },
@@ -94,8 +115,52 @@ export default {
         if (!data[i])
           this.chooseFlagList.push(this.flagList[i]);
       }
-      console.log(this.chooseFlagList);
       this.openBoxFlag = false;
+    },
+    saveForm () {
+      if (!this.title) {
+        this.alertTip('标题不能为空！');
+        return
+      }
+      if (!this.channelId) {
+        this.alertTip('类型不能为空！');
+        return
+      }
+      if (!this.mavonValue) {
+        this.alertTip('内容不能为空！');
+        return
+      }
+      if (this.chooseFlagList.length === 0) {
+        this.alertTip('标签不能为空！');
+        return
+      }
+      console.log(this.chooseFlagList);
+      console.log(this.mavonValue);
+      console.log(this.title);
+      console.log(this.sign);
+      console.log(this.channelId);
+      let staff_key = auth.getData(auth.STAFF_KEY);
+      if (staff_key) {
+        var userId = JSON.parse(staff_key).id;
+      }
+      this.$http.api({
+        url: '/article/submit',
+        emulateJSON: false,
+        params: {
+          user: {id:userId},
+          flagList: this.chooseFlagList,
+          markdown: this.mavonValue,
+          title: this.title,
+          sign: this.sign,
+          channelId: this.channelId
+        },
+        successCallback: function (data) {
+          console.log(data);
+        }.bind(this)
+      });
+    },
+    alertTip (tip) {
+      this.$store.commit('OPEN_ERROR_TIP', tip);
     }
   },
   components: {

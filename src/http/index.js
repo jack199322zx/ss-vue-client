@@ -104,10 +104,7 @@ const api = ({ url, method = POST, params = {}, emulateJSON = true, useLoadLayer
       if (rspCode === '10') {
         //登录信息失效
         auth.clear()
-        store.commit('CHANGE_LOGIN_STATUS', {
-          loginStatus: 0,
-          userInfo: {}
-        });
+        store.commit('OPEN_ERROR_TIP', response.data.message)
       } else if(rspCode === '12'){
         //没有权限
         store.commit(OPEN_NO_AUTHORIZATION_DIALOG_BOX, response.data.message);

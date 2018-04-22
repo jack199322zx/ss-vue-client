@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Head></Head>
+    <Head @logout="logout"></Head>
     <div class="wrap">
       <div class="container container-box">
         <div class="row main">
@@ -29,8 +29,10 @@
               </div>
               <div class="content-body entry-content panel-body ">
                 <div class="markdown-body">
-                  <p>{{articleDesc}}</p><br>
-                  <div style="margin:20px auto; text-align:center; font-size:12px;font-weight: bolder;">{{articleSign}}</div>
+                  <p v-html="articleDesc"></p><br>
+                  <div style="margin:20px auto; text-align:center; font-size:12px;font-weight: bolder;">
+                    {{articleSign}}
+                  </div>
                   <span id="comments-tip">注意：本文归作者所有，未经作者允许，不得转载</span>
                 </div>
               </div>
@@ -110,7 +112,8 @@
                   <div class="nk mb10">{{userName}}</div>
                   <div class="mb6">
                     <a class="btn btn-default btn-xs" @click="saveFollow()" data-id="2" rel="follow">
-                      <i class="iconfont icon-gengduojiaru" style="font-size:12px;" v-if="!followFlag"></i>{{followFlag? '已关注': '关注'}}</a>
+                      <i class="iconfont icon-gengduojiaru" style="font-size:12px;" v-if="!followFlag"></i>{{followFlag?
+                      '已关注': '关注'}}</a>
 
                   </div>
                 </div>
@@ -131,7 +134,8 @@
               </div>
               <div class="panel-body">
                 <ul class="list" id="hots">
-                  <li v-for="(item, index) in hotList">{{index + 1}}. <a @click="chooseRouter(0, index)">{{item.articleTitle}}</a></li>
+                  <li v-for="(item, index) in hotList">{{index + 1}}. <a @click="chooseRouter(0, index)">{{item.articleTitle}}</a>
+                  </li>
                 </ul>
               </div>
             </div>
@@ -142,7 +146,8 @@
               </div>
               <div class="panel-body">
                 <ul class="list" id="latests">
-                  <li v-for="(item, index) in newsList">{{index + 1}}. <a @click="chooseRouter(1, index)">{{item.articleTitle}}</a></li>
+                  <li v-for="(item, index) in newsList">{{index + 1}}. <a @click="chooseRouter(1, index)">{{item.articleTitle}}</a>
+                  </li>
                 </ul>
               </div>
             </div>
@@ -153,7 +158,8 @@
               </div>
               <div class="panel-body">
                 <ul class="list">
-                  <li v-for="(item, index) in commentsMostList">{{index + 1}}. <a @click="chooseRouter(2, index)">{{item.articleTitle}}</a></li>
+                  <li v-for="(item, index) in commentsMostList">{{index + 1}}. <a @click="chooseRouter(2, index)">{{item.articleTitle}}</a>
+                  </li>
                 </ul>
               </div>
             </div>
@@ -179,7 +185,8 @@
 <script>
   import share from '../../assets/share/js/social-share-minx';
   import Head from '../../components/header/Head.vue';
-  import auth from '../../auth'
+  import auth from '../../auth';
+  import '../../assets/styles/huimarkdown.css'
   export default {
     data() {
       return {
@@ -199,8 +206,7 @@
         articleId: this.$route.params.id,
         favoriteFlag: false,
         followFlag: false,
-        authorId: '',
-        userInfo: {}
+        authorId: ''
       }
     },
     created() {
@@ -217,47 +223,64 @@
       });
     },
     methods: {
+      logout () {
+        auth.logout();
+        this.favoriteFlag = false;
+        this.followFlag = false;
+      },
       saveFavorite() {
-        if (!this.loginStatus) {
-          this.$store.commit('OPEN_ERROR_TIP', '请先登录')
-          return
+        let staff_key = auth.getData(auth.STAFF_KEY);
+        if (staff_key) {
+          var userId = JSON.parse(staff_key).id;
         }
-        this.favoriteFlag = !this.favoriteFlag;
-        let staff_key = auth.getData(auth.STAFF_KEY)
-        let userId = JSON.parse(staff_key).id;
-        if (this.favoriteFlag) {
-          this.favoriteNum++;
+        if (!this.favoriteFlag) {
           this.$http.api({
             url: '/blog/save-favorite',
-            params: {articleId: this.articleId, userId: userId}
+            params: {articleId: this.articleId, userId: userId},
+            successCallback: function () {
+              this.favoriteNum++;
+              this.favoriteFlag = !this.favoriteFlag;
+            }.bind(this)
           });
         } else {
-          this.favoriteNum--;
           this.$http.api({
             url: '/blog/cancel-favorite',
-            params: {articleId: this.articleId, userId: userId}
+            params: {articleId: this.articleId, userId: userId},
+            successCallback: function () {
+              this.favoriteNum--;
+              this.favoriteFlag = !this.favoriteFlag;
+            }.bind(this)
           });
         }
       },
       saveFollow () {
-        if (!this.loginStatus) {
-          this.$store.commit('OPEN_ERROR_TIP', '请先登录')
-          return
+        let staff_key = auth.getData(auth.STAFF_KEY);
+        if (staff_key) {
+          var userId = JSON.parse(staff_key).id;
         }
-        this.followFlag = !this.followFlag;
-        let staff_key = auth.getData(auth.STAFF_KEY)
-        let userId = JSON.parse(staff_key).id;
-        if (this.followFlag) {
+        if (!this.followFlag) {
           this.$http.api({
             url: '/user/save-follow',
-            params: {authorId: this.authorId, followerId: userId}
+            params: {authorId: this.authorId, followerId: userId},
+            successCallback: function () {
+              this.followFlag = !this.followFlag;
+            }.bind(this)
           });
         } else {
           this.$http.api({
             url: '/user/cancel-follow',
-            params: {authorId: this.authorId, followerId: userId}
+            params: {authorId: this.authorId, followerId: userId},
+            successCallback: function () {
+              this.followFlag = !this.followFlag;
+            }.bind(this)
           });
         }
+      },
+      postFollow (data) {
+        this.followFlag = data;
+      },
+      postFavorite (data) {
+        this.favoriteFlag = data;
       },
       showPayInfo() {
         this.payShow = true
@@ -266,9 +289,10 @@
         this.payShow = false
       },
       chooseRouter (type, index) {
-        type? type===1? this.routerView(this.newsList[index]): this.routerView(this.commentsMostList[index]): this.routerView(this.hotList[index]);
+        type ? type === 1 ? this.routerView(this.newsList[index]) : this.routerView(this.commentsMostList[index]) : this.routerView(this.hotList[index]);
       },
       routerView (article) {
+        location.href = location.href.replace(/(#\/).*/g, '$1article-detail/' + article.articleId);
         this.queryArticleDetail(article.articleId);
       },
       queryArticleDetail (articleId) {
@@ -280,8 +304,8 @@
             this.viewNum = data.article.viewNum;
             this.publishTime = data.article.createTime;
             this.userName = data.article.user.userName;
-            this.authorId =  data.article.user.id;
-            this.articleTitle= data.article.articleTitle;
+            this.authorId = data.article.user.id;
+            this.articleTitle = data.article.articleTitle;
             this.articleDesc = data.article.articleDesc;
             this.publishNum = data.publishNum;
             this.favoriteNum = data.article.favoriteNum;
@@ -292,23 +316,19 @@
 //          this.articleList = data.articleDistList;
 //          this.hotArticleList = data.newCommentsSortedList;
 //          this.pageCount = data.pageCount;
-            if (this.loginStatus) {
+            let staff_key = auth.getData(auth.STAFF_KEY);
+            if (staff_key) {
               let userId = JSON.parse(staff_key).id;
-              let authorId = this.authorId;
               this.$http.api({
                 url: '/user/query-favorite-follow',
-                params: {articleId, userId, authorId},
+                params: {
+                  articleId,
+                  userId,
+                  authorId: this.authorId
+                },
                 successCallback: function (data) {
-                  if (data.favorite === 1) {
-                    this.favoriteFlag = true;
-                  }else {
-                    this.favoriteFlag = false;
-                  }
-                  if (data.follow === 1) {
-                    this.followFlag = true;
-                  }else {
-                    this.followFlag = false;
-                  }
+                  this.favoriteFlag = data.favorite === 1;
+                  this.followFlag = data.follow === 1;
                 }.bind(this)
               });
             }
@@ -318,20 +338,21 @@
     },
     filters: {
       publishTimeFilter(val) {
-        let time = ((new Date()).getTime() - val)/1000;
+        let time = ((new Date()).getTime() - val) / 1000;
         if (time < 60) {
           return time + '秒';
-        }else if(time < 3600) {
-          return Math.trunc(time/60) + '分钟'
-        }else if(time < 3600 * 60){
-          return Math.trunc(time/(60*60)) + '小时';
-        }else return Math.trunc(time/(60*24*60)) + '天';
+        } else if (time < 3600) {
+          return Math.trunc(time / 60) + '分钟'
+        } else if (time < 3600 * 60) {
+          return Math.trunc(time / (60 * 60)) + '小时';
+        } else return Math.trunc(time / (60 * 24 * 60)) + '天';
       }
     },
     computed: {
-      loginStatus() {
-        console.log(this.$store.state.home.loginUserInfo.loginStatus)
-        return this.$store.state.home.loginUserInfo.loginStatus
+      userId () {
+        console.log("===============userId=======")
+        console.log(this.$store.state.home.userInfo.userId)
+        return this.$store.state.home.userInfo.userId;
       }
     },
     components: {
@@ -456,10 +477,12 @@
       margin-right: 20px;
     }
   }
+
   .infos-flex {
     display: flex;
     justify-content: space-between;
   }
+
   .markdown-body {
     p {
       margin-bottom: 88px;
@@ -472,9 +495,11 @@
   .text-center {
     padding: 10px 0;
   }
+
   .about-user .user-datas ul .noborder {
-    width:65px;
+    width: 65px;
   }
+
   .icon-like-favorite {
     color: #EF6D57;
   }

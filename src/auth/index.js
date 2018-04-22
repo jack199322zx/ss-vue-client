@@ -103,15 +103,15 @@ const getAuthHeader = () => {
 };
 
 const setData = (name, value, expireTime) => {
-  setCookie(name, value, expireTime);
+  window.localStorage ? window.localStorage.setItem(name, value) : setCookie(name, value, expireTime);
 };
 
 const getData = (name) => {
-  return getCookieValue(name);
+  return window.localStorage ? window.localStorage.getItem(name) : getCookieValue(name);
 };
 
 const clearData = (name) => {
-  delCookie(name)
+  window.localStorage ? window.localStorage.removeItem(name) : delCookie(name);
 };
 
 const getCookieValue = (name) => {

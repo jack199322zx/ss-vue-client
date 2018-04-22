@@ -1,8 +1,9 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import store from '../store';
 import Login from '@/components/portal/index'
 import Blog from '@/pages/blog/Blog'
-import Register from '@/pages/register/register'
+import Register from '@/pages/register/Register'
 import Active from '@/pages/active/Active'
 import Test from '@/pages/test/Test'
 import ArticleDetail from '@/pages/article-detail/ArticleDetail'
@@ -13,7 +14,7 @@ import PhotoAlbum from '@/pages/photoAlbum/PhotoAlbum'
 
 Vue.use(Router)
 
-export default new Router({
+const router = new Router({
   routes: [
     {
       path: '/',
@@ -76,3 +77,22 @@ export default new Router({
     // }
   ]
 })
+
+  //
+router.beforeEach((to, from, next) => {
+  to.meta.customTitle = from.meta.customTitle;
+  if (to.path === '/blog-list'
+    && new RegExp('/article-detail/').test(from.path)
+    && to.query.conview === 'articlepublish') {
+    store.commit('CHANGE_COMPONENT_STATE', {
+      componentName: 'ArticlePublish'
+    });
+  } else if (to.path === '/blog-list' && from.path === '/test') {
+    store.commit('CHANGE_COMPONENT_STATE', {
+      componentName: 'BlogContent'
+    });
+  }
+  next();
+});
+
+export default router
