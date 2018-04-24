@@ -85,6 +85,7 @@
 <script>
   import imgPath from '../../common/img/imgPath';
   import {getFormatDateByLong} from '../../assets/js/date-format'
+  import '../../assets/styles/Diaspora.css'
 
   export default {
     data() {

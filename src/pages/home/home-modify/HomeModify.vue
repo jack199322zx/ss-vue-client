@@ -7,9 +7,9 @@
         <div class="panel panel-default stacked">
           <div class="panel-heading">
             <ul class="nav nav-pills account-tab">
-              <li class="active"><a @click="goBaseInfo()">基本信息</a></li>
-              <li><a @click="goModifyAvatar()">修改头像</a></li>
-              <li><a @click="goModifyPwd()">修改密码</a></li>
+              <li :class="{'active': activeList[0]}"><a @click="goBaseInfo()">基本信息</a></li>
+              <li :class="{'active': activeList[1]}"><a @click="goModifyAvatar()">修改头像</a></li>
+              <li :class="{'active': activeList[2]}"><a @click="goModifyPwd()">修改密码</a></li>
             </ul>
           </div>
           <div class="panel-body" v-if="chooseRouter===0">
@@ -46,7 +46,7 @@
             </div>
           </div><!-- /panel-content -->
           <div class="panel-body" v-if="chooseRouter===1">
-            <form class="form-horizontal" action="avatar" method="post">
+            <div class="form-horizontal">
               <input type="hidden" id="x" name="x" value="">
               <input type="hidden" id="y" name="y" value="">
               <input type="hidden" id="width" name="width" value="">
@@ -56,19 +56,19 @@
               <div class="upload-btn">
                 <label>
                   <span>点击选择一张图片</span>
-                  <input id="upload_btn" type="file" name="file" accept="image/*" title="点击添加图片">
+                  <input id="upload_btn" type="file" name="file" accept="image/*" title="点击添加图片" @change="changeAvatar()" ref="avatar">
                 </label>
               </div>
               <div class="update_ava">
-                <img src="../../../assets/images/default.png" id="target" alt="[Example]">
+                <img :src="$util.imgPath(avatar)" id="target" alt="[Example]" style="width: 240px;height:240px">
               </div>
 
               <div class="form-group">
                 <div class="text-center">
-                  <button type="submit" class="btn btn-primary">提交</button>
+                  <button type="submit" class="btn btn-primary" @click="uploadImg()">提交</button>
                 </div>
               </div>
-            </form>
+            </div>
           </div>
           <div class="panel-body" v-if="chooseRouter===2">
             <div class="tab-pane active" id="passwd">
@@ -100,21 +100,6 @@
             </div>
           </div>
         </div><!-- /panel -->
-
-        <!--<script type="text/javascript">-->
-        <!--$(function () {-->
-        <!--$('#pf').validate({-->
-        <!--onKeyup : true,-->
-        <!--onChange : true,-->
-        <!--eachValidField : function() {-->
-        <!--$(this).closest('div').removeClass('has-error').addClass('has-success');-->
-        <!--},-->
-        <!--eachInvalidField : function() {-->
-        <!--$(this).closest('div').removeClass('has-success').addClass('has-error');-->
-        <!--}-->
-        <!--});-->
-        <!--});-->
-        <!--</script>-->
       </div>
     </div>
   </div>
@@ -124,10 +109,15 @@
 <script>
   import auth from '../../../auth/index';
   import Head from '../../../components/header/Head.vue';
+  import utils from '../../../utils';
+
 export default {
   data () {
     return {
-      chooseRouter: 0
+      chooseRouter: 0,
+      activeList: [true, false, false],
+      avatar: '',
+      defaultImg: ''
     }
   },
   methods: {
@@ -135,14 +125,39 @@ export default {
       auth.logout();
     },
     goBaseInfo () {
+      this.activeList.fill(false);
+      this.activeList[0] = true;
       this.chooseRouter = 0
     },
     goModifyAvatar () {
+      this.activeList.fill(false);
+      this.activeList[1] = true;
       this.chooseRouter = 1
     },
     goModifyPwd () {
+      this.activeList.fill(false);
+      this.activeList[2] = true;
       this.chooseRouter = 2
     },
+    changeAvatar () {
+      const input = this.$refs.avatar;
+      utils.resizeImgFile(input.files[0],
+        result => {
+          this.avatar = result
+          input.value = null
+        })
+    },
+    uploadImg () {
+      this.$http.api({
+        url: '/user/save-avatar',
+        params: {
+          avatar: this.avatar
+        },
+        successCallback: function (data) {
+          console.log(data)
+        }.bind(this)
+      });
+    }
   },
   components: {
     Head

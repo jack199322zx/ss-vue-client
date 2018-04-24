@@ -22,7 +22,10 @@ http.config(Vue);
 Vue.prototype.$http = http;
 
 import utils from './utils'
-Object.defineProperty(Vue.prototype, '$util', utils)
+Object.defineProperty(Vue.prototype, '$util', {
+  value: utils,
+  readable: true
+})
 auth.checkAuth();
 
 Vue.filter('wrapped', wrapped);

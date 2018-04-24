@@ -26,7 +26,6 @@ export default {
 </script>
 
 <style>
-  @import "assets/styles/Diaspora.css";
   @import "assets/icon/iconfont.css";
   @import "assets/styles/base.css";
   @import "assets/styles/index.css";

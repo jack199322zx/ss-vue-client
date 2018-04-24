@@ -1,6 +1,3 @@
-import {trueType} from './base'
-
-// import background from ''
 
 // export * from 'store/constants'
 export const DATE_FORMAT = 'YYYY-MM-DD'
@@ -30,7 +27,7 @@ export const MENUS_ID = wrap('menus')
 export const PICKER_ID = wrap('picker')
 export const TIP_ID = wrap('tip')
 
-export const IMG_PATH_PREFIX = ''
+export const IMG_PATH_PREFIX = 'http://p7mtoq4re.bkt.clouddn.com'
 export const EMPTY_IMG = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=='
 
 
@@ -53,6 +50,4 @@ export const MAX_IMG_SIZE = 3*1024*1024
 
 export const MIN_MONEY = 0.01
 export const MAX_MONEY = 1000000
-
-// export const DEFAULT_PORTRAIT = background
-export const DEFAULT_PORTRAIT = ''
+// export const DEFAULT_PORTRAIT = avatar

@@ -19,7 +19,7 @@ const router = new Router({
   routes: [
     {
       path: '/',
-      redirect: '/test'
+      redirect: '/blog'
     }, {
       path: '/login',
       name: '登录',
