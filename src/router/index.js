@@ -1,13 +1,14 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import store from '../store';
-import Login from '@/components/portal/index'
+import Login from '@/pages/login'
 import Blog from '@/pages/blog/Blog'
 import Register from '@/pages/register/Register'
 import Active from '@/pages/active/Active'
-import Test from '@/pages/test/Test'
-import ArticleDetail from '@/pages/article-detail/ArticleDetail'
-import BlogList from '@/pages/blog-list/BlogList.vue'
+import ArticleDetail from '@/pages/article/article-detail/ArticleDetail'
+import ArticlePublish from '@/pages/article/article-pubblish/ArticlePubblish'
+import BlogList from '@/pages/blog/blog-list/BlogList.vue'
+import HomePage from '@/pages/home/home-page/HomePage.vue'
+import HomeModify from '@/pages/home/home-modify/HomeModify.vue'
 import Helper from '@/pages/helper/Helper'
 import MessageBoard from '@/pages/messageBoard/MessageBoard'
 import PhotoAlbum from '@/pages/photoAlbum/PhotoAlbum'
@@ -35,11 +36,7 @@ const router = new Router({
       path: '/active',
       name: '用户激活',
       component: Active
-    }, {
-      path: '/test',
-      name: '测试',
-      component:Test
-    }, {
+    },{
        path: '/blog-list',
        name: '博客列表',
        component: BlogList
@@ -47,6 +44,18 @@ const router = new Router({
       path: '/article-detail/:id(\\d+)',
       name: '博客列表',
       component: ArticleDetail
+    }, {
+      path: '/home-page/:id(\\d+)',
+      name: '个人主页',
+      component: HomePage
+    }, {
+      path: '/article-publish',
+      name: '发布文章',
+      component: ArticlePublish
+    }, {
+      path: '/home-modify/:id(\\d+)',
+      name: '发布文章',
+      component: HomeModify
     }
 
 
@@ -81,17 +90,6 @@ const router = new Router({
   //
 router.beforeEach((to, from, next) => {
   to.meta.customTitle = from.meta.customTitle;
-  if (to.path === '/blog-list'
-    && new RegExp('/article-detail/').test(from.path)
-    && to.query.conview === 'articlepublish') {
-    store.commit('CHANGE_COMPONENT_STATE', {
-      componentName: 'ArticlePublish'
-    });
-  } else if (to.path === '/blog-list' && from.path === '/test') {
-    store.commit('CHANGE_COMPONENT_STATE', {
-      componentName: 'BlogContent'
-    });
-  }
   next();
 });
 

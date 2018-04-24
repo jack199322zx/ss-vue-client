@@ -43,7 +43,7 @@
 
 <script>
   import '@/assets/styles/animate.css'
-  import auth from '../../auth'
+  import auth from '../../auth/index'
   import {OPEN_OPERATE_DIALOG_BOX} from '../../store/mutation-types.js'
 
   var captcha;
@@ -294,19 +294,19 @@
 
   #staff-account {
     margin-top: 20px;
-    background-image: url(./icon-user.png);
+    background-image: url(icon-user.png);
   }
 
   #staff-password {
     margin-top: 12px;
-    background-image: url(./icon-passwd.png);
+    background-image: url(icon-passwd.png);
   }
 
   .captcha-box {
     margin-top: 12px;
     #captcha {
       width: 91px !important;
-      background-image: url(./icon-captcha.png);
+      background-image: url(icon-captcha.png);
     }
     .vCode {
       height: 36px;

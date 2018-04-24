@@ -2,7 +2,8 @@
   <header class="site-header headroom">
     <!--[if lt IE 9]>
     <div class="alert alert-danger alert-dismissible fade in" role="alert" style="margin-bottom:0">
-      <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+      <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">×</span><span class="sr-only">Close</span>
+      </button>
       <strong>您正在使用低版本浏览器，</strong> 在本页面的显示效果可能有差异。
       建议您升级到
       <a href="http://www.google.cn/intl/zh-CN/chrome/" target="_blank">Chrome</a>
@@ -10,7 +11,8 @@
       <a href="www.mozilla.org/en-US/firefox/&lrm;" target="_blank">Firefox</a> /
       <a href="http://www.apple.com.cn/safari/" target="_blank">Safari</a> /
       <a href="http://www.opera.com/" target="_blank">Opera</a> /
-      <a href="http://windows.microsoft.com/en-us/internet-explorer/download-ie" target="_blank">Internet Explorer 9+</a>
+      <a href="http://windows.microsoft.com/en-us/internet-explorer/download-ie"
+         target="_blank">Internet Explorer 9+</a>
     </div>
     <![endif]-->
 
@@ -50,18 +52,23 @@
               <form method="GET" action="/search" accept-charset="UTF-8" class="navbar-form navbar-left">
                 <div class="form-group search-div">
                   <input class="form-control search-input mac-style" placeholder="搜索" name="kw" type="text" value="">
-                  <button class="search-btn" type="submit"><i class="iconfont icon-kandianbo-sousuo" style="font-size:14px"></i></button>
+                  <button class="search-btn" type="submit"><i class="iconfont icon-kandianbo-sousuo"
+                                                              style="font-size:14px"></i></button>
                 </div>
               </form>
             </li>
-            <li v-if="loginStatus"><a @click="goArticlePublish()" class="btn btn-sm"><i class="iconfont icon-bianji" style="font-size:14px;"></i> 写文章</a></li>
-            <li v-if="loginStatus" class="dropdown"  @mouseover="showUserInfo()" @mouseout="closeUserInfo()">
-              <a href="#" class="user dropdown-toggle" data-toggle="dropdown" >
+            <li v-if="loginStatus"><a @click="goArticlePublish()" class="btn btn-sm"><i class="iconfont icon-bianji"
+                                                                                        style="font-size:14px;"></i> 写文章</a>
+            </li>
+            <li v-if="loginStatus" class="dropdown" @mouseover="showUserInfo()" @mouseout="closeUserInfo()">
+              <a href="#" class="user dropdown-toggle" data-toggle="dropdown">
                 <img class="img-circle" src="../../assets/images/user-touxiang.jpg">
                 <span>{{userInfo.userCode}}</span>
               </a>
-              <ul v-show="mouseHover"  class="dropdown-menu" role="menu" @mouseout="closeUserInfo()"><li><a href="/user/1280"><i class="icon icon-home"></i> 个人主页</a></li><li><a @click="logout()"><i class="icon icon-logout"></i> 退出</a>
-              </li>
+              <ul v-show="mouseHover" class="dropdown-menu" role="menu" @mouseout="closeUserInfo()">
+                <li><a @click="goHomePage()"><i class="icon icon-home"></i> 个人主页</a></li>
+                <li><a @click="logout()"><i class="icon icon-logout"></i> 退出</a>
+                </li>
               </ul>
             </li>
 
@@ -77,10 +84,10 @@
 </template>
 
 <script>
-import '../../assets/styles/bootstrap/css/bootstrap.min.css';
+  import '../../assets/styles/bootstrap/css/bootstrap.min.css';
 
   export default {
-    data () {
+    data() {
       return {
         mouseHover: false,
         userInfo: {
@@ -101,39 +108,23 @@ import '../../assets/styles/bootstrap/css/bootstrap.min.css';
         this.loginStatus = 0;
         this.$emit('logout');
       },
-      goLogin () {
+      goLogin() {
         this.$router.push('/login');
       },
       goRegister() {
         this.$router.push('/register')
       },
-      goArticlePublish () {
-        if (location.href.lastIndexOf('article-detail')> -1) {
-          location.href = location.href.replace(/(#\/).*/g, '$1blog-list?conview=articlepublish');
-          return
-        }
-        let componentName = this.$store.state.home.componentInfo.componentName;
-        if (componentName === 'BlogContent') {
-          this.$store.commit('CHANGE_COMPONENT_STATE', {
-            componentName: 'ArticlePublish'
-          });
-        }
-
+      goArticlePublish() {
+        location.href = location.href.replace(/(#\/).*/g, '$1article-publish');
       },
-      goBlogList () {
-        if (location.href.lastIndexOf('article-detail')> -1) {
-          location.href = location.href.replace(/(#\/).*/g, '$1blog-list?conview=bloglist');
-          return
-        }
-        let componentName = this.$store.state.home.componentInfo.componentName;
-        if (componentName === 'ArticlePublish') {
-          this.$store.commit('CHANGE_COMPONENT_STATE', {
-            componentName: 'BlogContent'
-          });
-        }
+      goBlogList() {
+        location.href = location.href.replace(/(#\/).*/g, '$1blog-list');
+      },
+      goHomePage () {
+        location.href = location.href.replace(/(#\/).*/g, '$1home-page/' + this.userInfo.id);
       }
     },
-    created () {
+    created() {
       this.$http.api({
         url: '/blog/check-login',
         successCallback: function (data) {
@@ -164,6 +155,7 @@ import '../../assets/styles/bootstrap/css/bootstrap.min.css';
     color: #03a9f4;
     text-decoration: none;
   }
+
   /* Override bootstrap
 -------------------------------------------------- */
   .btn-primary {
@@ -244,18 +236,21 @@ import '../../assets/styles/bootstrap/css/bootstrap.min.css';
     background-color: #fcfcfc;
   }
 
-  .nav-pills>li.active>a, .nav-pills>li.active>a:focus, .nav-pills>li.active>a:hover {
+  .nav-pills > li.active > a, .nav-pills > li.active > a:focus, .nav-pills > li.active > a:hover {
     background-color: #03a9f4;
   }
+
   .dropdown-menu > li > a {
     line-height: 2.3;
     border-bottom: 1px solid #d8d8d8;
   }
+
   .dropdown-menu {
-    display:block;
+    display: block;
     margin: 0;
     padding: 0;
   }
+
   /* HEAD
   -------------------------------------------------- */
   .site-header {
@@ -328,7 +323,7 @@ import '../../assets/styles/bootstrap/css/bootstrap.min.css';
     display: block;
   }
 
-  .site-header .navbar-button > li > a.user img{
+  .site-header .navbar-button > li > a.user img {
     width: 30px;
     height: 30px;
     border: 1px solid #eee;
@@ -432,6 +427,7 @@ import '../../assets/styles/bootstrap/css/bootstrap.min.css';
     -ms-transition: .5s;
     transition: .5s;
   }
+
   /* 滚动条
   -------------------------------------------------- */
   /*滚动条宽度*/

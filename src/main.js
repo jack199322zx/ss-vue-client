@@ -20,6 +20,9 @@ Vue.use(infiniteScroll)
 
 http.config(Vue);
 Vue.prototype.$http = http;
+
+import utils from './utils'
+Object.defineProperty(Vue.prototype, '$util', utils)
 auth.checkAuth();
 
 Vue.filter('wrapped', wrapped);

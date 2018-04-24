@@ -57,9 +57,6 @@ const state = {
     show: false,
     text: ''
   },
-  componentInfo: {
-    componentName: 'BlogContent'
-  },
   articleCache: {
     articleListDist: [],
     currentPage: '',
@@ -138,12 +135,6 @@ const mutations = {
       state.operateInfo.cancelCallback = function () {
       };
     }
-  },
-  [types.CHANGE_COMPONENT_STATE] (state, componentInfo) {
-    if (componentInfo.data) {
-      state.componentInfo.data = componentInfo.data;
-    }
-    state.componentInfo.componentName = componentInfo.componentName;
   },
   [types.SAVE_BLOG_LIST] (state, blogList) {
     state.blogListCache = blogList;

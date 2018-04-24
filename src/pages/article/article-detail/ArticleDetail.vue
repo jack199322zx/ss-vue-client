@@ -183,10 +183,10 @@
 </template>
 
 <script>
-  import share from '../../assets/share/js/social-share-minx';
-  import Head from '../../components/header/Head.vue';
-  import auth from '../../auth';
-  import '../../assets/styles/huimarkdown.css'
+  import share from '../../../assets/share/js/social-share-minx';
+  import Head from '../../../components/header/Head.vue';
+  import auth from '../../../auth/index';
+  import '../../../assets/styles/huimarkdown.css'
   export default {
     data() {
       return {
@@ -216,7 +216,7 @@
       share.alReady(function () {
         window.socialShare('.social-share, .share-component');
       });
-      require('../../assets/share/js/sohu-changyan');
+      require('../../../assets/share/js/sohu-changyan');
       window.changyan.api.config({
         appid: 'cytzsetGI',
         conf: 'prod_4bd8a388450c3ad88f1d969a10e9872a'
@@ -340,7 +340,7 @@
       publishTimeFilter(val) {
         let time = ((new Date()).getTime() - val) / 1000;
         if (time < 60) {
-          return time + '秒';
+          return Math.trunc(time) + '秒';
         } else if (time < 3600) {
           return Math.trunc(time / 60) + '分钟'
         } else if (time < 3600 * 60) {
