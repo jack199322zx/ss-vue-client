@@ -138,7 +138,8 @@
             this.userInfo.id = data.id;
             this.$store.commit('SAVE_USER_INFO', {
               userCode: data.userCode,
-              userId: data.id
+              userId: data.id,
+              userAvatar: data.avatar
             })
           }
         }.bind(this)

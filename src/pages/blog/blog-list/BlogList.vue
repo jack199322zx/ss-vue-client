@@ -48,7 +48,7 @@
                       <a>
                         <div style="width:55px;height:57px;overflow: hidden">
                           <img class="media-object img-thumbnail avatar avatar-middle"
-                               src="/store/ava/000/00/00/02_100.jpg">
+                               :src="item.articleImg">
                         </div>
                       </a>
                     </div>

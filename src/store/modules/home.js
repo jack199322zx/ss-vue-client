@@ -67,7 +67,8 @@ const state = {
   flagCacheList: [],
   userInfo: {
     userCode: '',
-    userId: ''
+    userId: '',
+    userAvatar: ''
   }
 };
 
@@ -162,7 +163,8 @@ const mutations = {
   },
   [types.SAVE_USER_INFO] (state, userInfo) {
     state.userInfo.userCode = userInfo.userCode;
-    state.userInfo.userId = userInfo.userId
+    state.userInfo.userId = userInfo.userId;
+    state.userInfo.userAvatar = userInfo.userAvatar;
   }
 
 };

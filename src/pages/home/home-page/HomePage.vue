@@ -14,7 +14,7 @@
               <li class="list-group-item user-card">
                 <div class="ava">
                   <a href="/users/2">
-                    <img class="img-circle" src="/dist/images/ava/default.png">
+                    <img class="img-circle" :src="$util.imgPath(avatar)">
                   </a>
                 </div>
                 <div class="user-info">
@@ -131,12 +131,21 @@
   import auth from '../../../auth/index';
   import Head from '../../../components/header/Head.vue';
 export default {
+  data () {
+    return {
+    }
+  },
   methods: {
     logout () {
       auth.logout();
     },
     goModifyHome () {
       this.$router.push('/home-modify/' +  this.$store.state.home.userInfo.userId);
+    }
+  },
+  computed: {
+    avatar () {
+      return this.$store.state.home.userInfo.userAvatar;
     }
   },
   components: {

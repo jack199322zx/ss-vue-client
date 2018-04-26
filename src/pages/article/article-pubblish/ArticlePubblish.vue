@@ -19,12 +19,26 @@
                 </div>
               </div>
               <div class="form-group">
+                <label class="col-sm-2 control-label no-padding-right">缩略图</label>
+                <div class="col-sm-8">
+                  <div class="upload-btn">
+                    <label style="margin:0">
+                      <span>点击选择一张图片</span>
+                      <input id="upload_btn" type="file" name="file" accept="image/*" title="点击添加图片" @change="changeArticleImg()" ref="articleImg">
+                    </label>
+                  </div>
+                  <div class="upload-article" style="margin-top: 15px;" v-if="articleImg">
+                    <img :src="articleImg" style="width:100px;height:100px;">
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
                 <label class="col-sm-2 control-label no-padding-right">发布到</label>
                 <div class="col-sm-3">
-                  <select class="form-control" name="channelId" v-model="channelId">
-                    <option value="1">生活区</option>
-                    <option value="2">技术区</option>
-                    <option value="3">资源</option>
+                  <select class="form-control" name="channelId" v-model="channelId" @change="changeArticleType()">
+                    <option value="0">生活区</option>
+                    <option value="1">技术区</option>
+                    <option value="2">资源</option>
                   </select>
                 </div>
               </div>
@@ -77,21 +91,42 @@
   import ChooseBox from '../../../components/chooseBox/ChooseBox.vue';
   import auth from '../../../auth/index';
   import Head from '../../../components/header/Head.vue';
+  import utils from '../../../utils';
 export default {
   data () {
     return {
       openBoxFlag: false,
-      flagList: this.$store.state.home.flagCacheList,
+      flagList: [],
       chooseFlagList: [],
       mavonValue: '',
       title: '',
       sign: '',
       channelId: '',
       backUrl: '',
-      imgList: []
+      imgList: [],
+      chooseArticleType: false,
+      articleImg: ''
     }
   },
   methods: {
+    changeArticleType () {
+      this.chooseArticleType = true;
+      this.$http.api({
+        url: 'article/queryFlagByDist',
+        params: {dist: this.channelId},
+        successCallback: function (data) {
+          this.flagList = data.flagList;
+        }.bind(this)
+      });
+    },
+    changeArticleImg () {
+      const input = this.$refs.articleImg;
+      utils.resizeImgFile(input.files[0],
+        result => {
+          this.articleImg = result
+          input.value = null
+        })
+    },
     logout () {
       auth.logout();
     },
@@ -130,6 +165,10 @@ export default {
       }
     },
     openChooseBox () {
+      if (!this.chooseArticleType) {
+        this.$store.commit('OPEN_ERROR_TIP', '请先选择文章类型');
+        return
+      }
       this.openBoxFlag = true;
     },
     closeModal () {
@@ -169,6 +208,7 @@ export default {
         emulateJSON: false,
         params: {
           user: {id:userId},
+          articleImg: this.articleImg,
           flagList: this.chooseFlagList,
           markdown: this.mavonValue,
           title: this.title,

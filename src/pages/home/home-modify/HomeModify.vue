@@ -116,7 +116,6 @@ export default {
     return {
       chooseRouter: 0,
       activeList: [true, false, false],
-      avatar: '',
       defaultImg: ''
     }
   },
@@ -157,6 +156,11 @@ export default {
           console.log(data)
         }.bind(this)
       });
+    }
+  },
+  computed: {
+    avatar () {
+      return this.$store.state.home.userInfo.userAvatar;
     }
   },
   components: {
