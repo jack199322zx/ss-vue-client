@@ -62,7 +62,7 @@
             </li>
             <li v-if="loginStatus" class="dropdown" @mouseover="showUserInfo()" @mouseout="closeUserInfo()">
               <a href="#" class="user dropdown-toggle" data-toggle="dropdown">
-                <img class="img-circle" src="../../assets/images/user-touxiang.jpg">
+                <img class="img-circle" :src="$util.imgPath(userInfo.avatar)">
                 <span>{{userInfo.userCode}}</span>
               </a>
               <ul v-show="mouseHover" class="dropdown-menu" role="menu" @mouseout="closeUserInfo()">
@@ -92,7 +92,8 @@
         mouseHover: false,
         userInfo: {
           userCode: '',
-          id: ''
+          id: '',
+          avatar: ''
         },
         loginStatus: 0
       }
@@ -133,6 +134,7 @@
           } else {
             this.loginStatus = 1;
             this.userInfo.userCode = data.userCode;
+            this.userInfo.avatar = data.avatar;
             this.userInfo.id = data.id;
             this.$store.commit('SAVE_USER_INFO', {
               userCode: data.userCode,
