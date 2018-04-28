@@ -166,6 +166,7 @@
       }
     },
     created() {
+      require('../../assets/js/Diaspora');
       this.queryBlogListByPage()
     },
     beforeRouteLeave (to, from, next) {

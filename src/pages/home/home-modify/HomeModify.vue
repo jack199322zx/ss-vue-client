@@ -159,8 +159,12 @@ export default {
     }
   },
   computed: {
-    avatar () {
-      return this.$store.state.home.userInfo.userAvatar;
+    avatar :{
+      get () {
+        return this.$store.state.home.userInfo.userAvatar;
+      },
+      set () {
+      }
     }
   },
   components: {

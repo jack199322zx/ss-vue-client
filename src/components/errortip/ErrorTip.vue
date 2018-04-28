@@ -41,8 +41,8 @@
     .toast {
       position: fixed;
       z-index: 50000;
-      width: 10.6em;
-      min-height: 4.6em;
+      width: 15.6em;
+      min-height: 5.6em;
       top: 180px;
       left: 50%;
       transform: translateX(-50%);

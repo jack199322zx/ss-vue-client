@@ -130,6 +130,7 @@
       window.removeEventListener('keyup', this.enterListener);
     },
     created: function () {
+      require('../../assets/js/gt');
       this.$http.api({
         url: '/gt/init?t=' + (new Date()).getTime(),// 加随机数防止缓存
         method: 'GET',

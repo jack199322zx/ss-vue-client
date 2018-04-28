@@ -38,7 +38,8 @@
               </div>
               <div class="panel-footer operate">
                     <span>
-                      <a style="margin-right:10px;" class="label label-default" v-for="flag in flagList">#{{flag.flagInfo}}</a>
+                      <a style="margin-right:10px;" class="label label-default"
+                         v-for="flag in flagList">#{{flag.flagInfo}}</a>
                     </span>
               </div>
               <div class="panel-footer operate">
@@ -62,41 +63,65 @@
                 </div>
               </div>
             </div>
-
-            <!-- Comments -->
-            <!--<div id="chat" class="chats shadow-box">-->
-            <!--<div class="chat_other">-->
-            <!--<h4>全部评论: <i id="chat_count">0</i> 条</h4>-->
-            <!--</div>-->
-            <!--<ul id="chat_container" class="its"></ul>-->
-            <!--<div id="pager" class="text-center"></div>-->
-            <!--<div class="cbox-wrap">-->
-            <!--<div class="cbox-title">我有话说: <span id="chat_reply" style="display:none;">@<i id="chat_to"></i></span>-->
-            <!--</div>-->
-            <!--<div class="cbox-post">-->
-            <!--<div class="cbox-input">-->
-            <!--<textarea id="chat_text" rows="3" placeholder="请输入评论内容"></textarea>-->
-            <!--<input type="hidden" value="0" name="chat_pid" id="chat_pid">-->
-            <!--</div>-->
-            <!--<div class="cbox-ats clearfix">-->
-            <!--<div class="ats-func">-->
-            <!--<ul class="func-list">-->
-            <!--<li class="list-b">-->
-            <!--<a href="javascript:void(0);" class="join" id="c-btn"><i class="fa fa-smile-o fa-2"></i></a>-->
-            <!--</li>-->
-            <!--</ul>-->
-            <!--</div>-->
-            <!--<div class="ats-issue">-->
-            <!--<button id="btn-chat" class="btn btn-success btn-sm bt">发送</button>-->
-            <!--</div>-->
-            <!--</div>-->
-            <!--</div>-->
-            <!--<div class="phiz-box" id="c-phiz" style="display:none">-->
-            <!--<div class="phiz-list" view="c-phizs"></div>-->
-            <!--</div>-->
-            <!--</div>-->
-            <!--</div>-->
-            <div id="SOHUCS" sid="请将此处替换为配置SourceID的语句"></div>
+            <div id="chat" class="chats shadow-box">
+              <div class="chat_other">
+                <h4>全部评论: <i id="chat_count">{{comments.length}}</i> 条</h4>
+              </div>
+              <ul id="chat_container" class="its">
+                <li v-for="comm in comments">
+                  <a class="avt fl" target="_blank" href="">
+                    <img :src="comm.user.avatar">
+                  </a>
+                  <div class="chat_body">
+                    <h5 style="display: flex;justify-content: space-between">
+                      <div class="fl"><a class="chat_name"
+                                         href="/users/2">{{comm.user.userCode}}</a>
+                      </div>
+                      <div class="fr reply_this">
+                        <span style="padding-right:20px;">{{comm.createTime | timeFilter}}</span>
+                        <a href="javascript:void(0);" @click="goto(comm.commentId, comm.user.userCode)">[回复]</a>
+                      </div>
+                    </h5>
+                    <div class="chat_p">
+                      <div class="chat_pct">{{comm.commentContent}}</div>
+                      <div class="quote" v-if="comm.receiveCommentId"><a
+                        href="/users/2">@{{comm.receiveComment.user.userCode}}</a>: {{comm.receiveComment.commentContent}}
+                      </div>
+                    </div>
+                  </div>
+                  <div class="clear"></div>
+                  <div class="chat_reply"></div>
+                </li>
+              </ul>
+              <div class="text-center-1" style="text-align:center"></div>
+              <div class="cbox-wrap">
+                <div class="cbox-title">我有话说: <span id="chat_reply" style="display:none;">@<i id="chat_to"></i></span>
+                </div>
+                <div class="cbox-post">
+                  <div class="cbox-input">
+                    <textarea id="chat_text" rows="3" placeholder="请输入评论内容" v-model="chatText"></textarea>
+                    <input type="hidden" value="0" name="chat_pid" id="chat_pid">
+                  </div>
+                  <div class="cbox-ats clearfix">
+                    <div class="ats-func">
+                      <ul class="func-list">
+                        <li class="list-b">
+                          <a href="javascript:void(0);" class="join" id="c-btn" style="text-decoration: none"><i
+                            class="iconfont icon-emotion" style="font-size:20px"></i></a>
+                        </li>
+                      </ul>
+                    </div>
+                    <div class="ats-issue">
+                      <button id="btn-chat" class="btn btn-success btn-sm bt" @click="submitComment()">发送</button>
+                    </div>
+                  </div>
+                </div>
+                <div class="phiz-box" id="c-phiz" style="display:none">
+                  <div class="phiz-list" view="c-phizs"></div>
+                </div>
+              </div>
+            </div>
+            <!--<div id="SOHUCS" sid="请将此处替换为配置SourceID的语句"></div>-->
 
             <!-- /view show -->
           </div>
@@ -112,8 +137,9 @@
                   <div class="nk mb10">{{userName}}</div>
                   <div class="mb6">
                     <a class="btn btn-default btn-xs" @click="saveFollow()" data-id="2" rel="follow">
-                      <i class="iconfont icon-gengduojiaru" style="font-size:12px;" v-if="!followFlag"></i>{{followFlag?
-                      '已关注': '关注'}}</a>
+                      <i class="iconfont icon-gengduojiaru" style="font-size:12px;"
+                         v-if="!followFlag"></i>{{followFlag ?
+                      '已关注' : '关注'}}</a>
 
                   </div>
                 </div>
@@ -134,7 +160,8 @@
               </div>
               <div class="panel-body">
                 <ul class="list" id="hots">
-                  <li v-for="(item, index) in hotList">{{index + 1}}. <a @click="chooseRouter(0, index)">{{item.articleTitle}}</a>
+                  <li v-for="(item, index) in hotList">{{index + 1}}. <a
+                    @click="chooseRouter(0, index)">{{item.articleTitle}}</a>
                   </li>
                 </ul>
               </div>
@@ -146,7 +173,8 @@
               </div>
               <div class="panel-body">
                 <ul class="list" id="latests">
-                  <li v-for="(item, index) in newsList">{{index + 1}}. <a @click="chooseRouter(1, index)">{{item.articleTitle}}</a>
+                  <li v-for="(item, index) in newsList">{{index + 1}}. <a
+                    @click="chooseRouter(1, index)">{{item.articleTitle}}</a>
                   </li>
                 </ul>
               </div>
@@ -158,7 +186,8 @@
               </div>
               <div class="panel-body">
                 <ul class="list">
-                  <li v-for="(item, index) in commentsMostList">{{index + 1}}. <a @click="chooseRouter(2, index)">{{item.articleTitle}}</a>
+                  <li v-for="(item, index) in commentsMostList">{{index + 1}}. <a
+                    @click="chooseRouter(2, index)">{{item.articleTitle}}</a>
                   </li>
                 </ul>
               </div>
@@ -179,14 +208,18 @@
         </div>
       </div>
     </div>
+    <Footer></Footer>
   </div>
 </template>
 
 <script>
   import share from '../../../assets/share/js/social-share-minx';
   import Head from '../../../components/header/Head.vue';
+  import Footer from '../../../components/foot/Footer.vue';
   import auth from '../../../auth/index';
   import '../../../assets/styles/huimarkdown.css'
+  import {getFormatDateByLong} from '../../../assets/js/date-format'
+
   export default {
     data() {
       return {
@@ -206,7 +239,10 @@
         articleId: this.$route.params.id,
         favoriteFlag: false,
         followFlag: false,
-        authorId: ''
+        authorId: '',
+        comments: [],
+        commentId: '',
+        chatText: ''
       }
     },
     created() {
@@ -216,14 +252,40 @@
       share.alReady(function () {
         window.socialShare('.social-share, .share-component');
       });
-      require('../../../assets/share/js/sohu-changyan');
-      window.changyan.api.config({
-        appid: 'cytzsetGI',
-        conf: 'prod_4bd8a388450c3ad88f1d969a10e9872a'
-      });
+//      require('../../../assets/share/js/sohu-changyan');
+//      window.changyan.api.config({
+//        appid: 'cytzsetGI',
+//        conf: 'prod_4bd8a388450c3ad88f1d969a10e9872a'
+//      });
     },
     methods: {
-      logout () {
+      submitComment () {
+        this.comments.push({
+
+        });
+        this.$http.api({
+          url: '/comment/save-comment',
+          params: {
+            commentId: this.commentId,
+            comment: {
+              articleId: this.articleId,
+              commentContent: this.chatText
+            }
+          },
+          successCallback: function () {
+            console.log(this)
+          }.bind(this)
+        });
+      },
+      goto(commentId, user) {
+        document.getElementById('chat_text').scrollIntoView();
+        $('#chat_text').focus();
+        this.chatText = '';
+        $('#chat_to').text(user);
+        this.commentId = commentId;
+        $('#chat_reply').show();
+      },
+      logout() {
         auth.logout();
         this.favoriteFlag = false;
         this.followFlag = false;
@@ -253,7 +315,7 @@
           });
         }
       },
-      saveFollow () {
+      saveFollow() {
         let staff_key = auth.getData(auth.STAFF_KEY);
         if (staff_key) {
           var userId = JSON.parse(staff_key).id;
@@ -276,26 +338,20 @@
           });
         }
       },
-      postFollow (data) {
-        this.followFlag = data;
-      },
-      postFavorite (data) {
-        this.favoriteFlag = data;
-      },
       showPayInfo() {
         this.payShow = true
       },
       closePayInfo() {
         this.payShow = false
       },
-      chooseRouter (type, index) {
+      chooseRouter(type, index) {
         type ? type === 1 ? this.routerView(this.newsList[index]) : this.routerView(this.commentsMostList[index]) : this.routerView(this.hotList[index]);
       },
-      routerView (article) {
+      routerView(article) {
         location.href = location.href.replace(/(#\/).*/g, '$1article-detail/' + article.articleId);
         this.queryArticleDetail(article.articleId);
       },
-      queryArticleDetail (articleId) {
+      queryArticleDetail(articleId) {
         this.$http.api({
           url: '/blog/blog-detail',
           params: {articleId},
@@ -313,6 +369,7 @@
             this.newsList = data.createTimeSortedList;
             this.commentsMostList = data.newCommentsSortedList;
             this.articleSign = data.article.articleSign;
+            this.comments = data.commentList;
 //          this.articleList = data.articleDistList;
 //          this.hotArticleList = data.newCommentsSortedList;
 //          this.pageCount = data.pageCount;
@@ -346,17 +403,19 @@
         } else if (time < 3600 * 60) {
           return Math.trunc(time / (60 * 60)) + '小时';
         } else return Math.trunc(time / (60 * 24 * 60)) + '天';
+      },
+      timeFilter(time) {
+        return getFormatDateByLong(time, 'yyyy-MM-dd');
       }
     },
     computed: {
-      userId () {
-        console.log("===============userId=======")
-        console.log(this.$store.state.home.userInfo.userId)
+      userId() {
         return this.$store.state.home.userInfo.userId;
       }
     },
     components: {
-      Head
+      Head,
+      Footer
     }
   }
 </script>
@@ -366,7 +425,8 @@
     position: relative;
     background-color: #f1f1f1;
     margin-top: 51px;
-    margin-bottom: 30px;
+    margin-bottom: 0;
+    padding-bottom: 30px;
     min-height: 600px;
   }
 
@@ -503,4 +563,47 @@
   .icon-like-favorite {
     color: #EF6D57;
   }
+
+  .chats {
+    background: #fff;
+    .chat_other {
+      border-bottom: 1px solid #e5e5e5;
+    }
+    h4 {
+      margin: 5px;
+      display: block;
+      height: 40px;
+      line-height: 40px;
+      font-weight: 500;
+      font-size: 14px;
+      text-indent: 10px;
+    }
+    .its {
+      padding-left: 15px;
+      padding-right: 15px;
+    }
+  }
+
+  .cbox-wrap {
+    padding: 15px;
+    .cbox-title {
+      margin-bottom: 10px;
+      font-weight: 500;
+    }
+    .cbox-post {
+      border: 1px solid #ccc;
+    }
+  }
+
+  .phiz-box {
+    padding-top: 10px;
+    text-align: center;
+  }
+
+  .shadow-box {
+    margin-bottom: 15px;
+    border: 1px solid #ebebeb;
+    border-radius: 0;
+  }
+
 </style>
