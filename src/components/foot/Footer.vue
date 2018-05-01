@@ -19,7 +19,7 @@
         </div>
       </div>
     </div>
-    <div  class="site-scroll-div animated fadeIn" @click="smoothToTop()">
+    <div v-show="showTop" class="site-scroll-div animated fadeIn" @click="smoothToTop()">
       <a  class="site-scroll-top site-scroll-top-1" style="display: inline;text-decoration: none;">
         <i class="iconfont icon-czr_jiantoushang" style="font-size:24px;"></i>
       </a>
@@ -35,6 +35,7 @@
 
 <script>
   export default {
+    props:['showTop'],
     methods: {
       smoothToTop () {
         $( 'html, body' ).animate({scrollTop:0}, 400);

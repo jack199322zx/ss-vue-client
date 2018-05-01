@@ -166,8 +166,10 @@
       }
     },
     created() {
-      require('../../assets/js/Diaspora');
       this.queryBlogListByPage()
+    },
+    mounted () {
+      require('../../assets/js/Diaspora');
     },
     beforeRouteLeave (to, from, next) {
       document.body.className = 'touch'

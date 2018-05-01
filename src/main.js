@@ -13,6 +13,16 @@ import MintUI from 'mint-ui'
 import 'mint-ui/lib/style.css'
 import mavonEditor from 'mavon-editor'
 import 'mavon-editor/dist/css/index.css'
+import { emoji } from './assets/js/emoji.js'
+import 'highlight.js/styles/hybrid.css'
+import hljs from 'highlight.js';
+
+Vue.directive('highlight',function (el) {
+  let blocks = el.querySelectorAll('pre code');
+  blocks.forEach((block)=>{
+    hljs.highlightBlock(block)
+  })
+})
 Vue.use(mavonEditor)
 Vue.use(MintUI)
 var infiniteScroll =  require('vue-infinite-scroll');
@@ -20,7 +30,7 @@ Vue.use(infiniteScroll)
 
 http.config(Vue);
 Vue.prototype.$http = http;
-
+Vue.prototype.$emoji = emoji;
 import utils from './utils'
 Object.defineProperty(Vue.prototype, '$util', {
   value: utils,

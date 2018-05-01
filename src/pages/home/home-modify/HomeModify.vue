@@ -18,7 +18,8 @@
                 <div class="form-group">
                   <label class="control-label col-lg-3">昵称</label>
                   <div class="col-lg-4">
-                    <input type="text" class="form-control" name="name" value="sweeettttt" maxlength="7" data-required="">
+                    <input type="text" class="form-control" name="name" value="sweeettttt" maxlength="7"
+                           data-required="">
                   </div>
                 </div>
                 <div class="form-group">
@@ -56,7 +57,8 @@
               <div class="upload-btn">
                 <label>
                   <span>点击选择一张图片</span>
-                  <input id="upload_btn" type="file" name="file" accept="image/*" title="点击添加图片" @change="changeAvatar()" ref="avatar">
+                  <input id="upload_btn" type="file" name="file" accept="image/*" title="点击添加图片"
+                         @change="changeAvatar()" ref="avatar">
                 </label>
               </div>
               <div class="update_ava">
@@ -76,19 +78,23 @@
                 <div class="form-group">
                   <label class="control-label col-lg-3" for="password">当前密码</label>
                   <div class="col-lg-4">
-                    <input type="password" class="form-control" name="oldPassword" maxlength="18" placeholder="请输入当前密码" data-required="">
+                    <input type="password" class="form-control" name="oldPassword" maxlength="18" placeholder="请输入当前密码"
+                           data-required="">
                   </div>
                 </div>
                 <div class="form-group">
                   <label class="control-label col-lg-3" for="password">新密码</label>
                   <div class="col-lg-4">
-                    <input type="password" class="form-control" id="password" name="password" placeholder="请输入新密码" maxlength="18" data-required="">
+                    <input type="password" class="form-control" id="password" name="password" placeholder="请输入新密码"
+                           maxlength="18" data-required="">
                   </div>
                 </div>
                 <div class="form-group">
                   <label class="control-label col-lg-3">确认密码</label>
                   <div class="col-lg-4">
-                    <input type="password" class="form-control" name="password2" data-required="" placeholder="请再输入一遍新密码" maxlength="18" data-conditional="confirm" data-describedby="message" data-description="passwd">
+                    <input type="password" class="form-control" name="password2" data-required=""
+                           placeholder="请再输入一遍新密码" maxlength="18" data-conditional="confirm" data-describedby="message"
+                           data-description="passwd">
                   </div>
                 </div>
                 <div class="form-group">
@@ -102,6 +108,7 @@
         </div><!-- /panel -->
       </div>
     </div>
+    <Footer @showTop="showTop"></Footer>
   </div>
 
 </template>
@@ -109,68 +116,74 @@
 <script>
   import auth from '../../../auth/index';
   import Head from '../../../components/header/Head.vue';
+  import Footer from '../../../components/foot/Footer.vue';
   import utils from '../../../utils';
 
-export default {
-  data () {
-    return {
-      chooseRouter: 0,
-      activeList: [true, false, false],
-      defaultImg: ''
-    }
-  },
-  methods: {
-    logout () {
-      auth.logout();
-    },
-    goBaseInfo () {
-      this.activeList.fill(false);
-      this.activeList[0] = true;
-      this.chooseRouter = 0
-    },
-    goModifyAvatar () {
-      this.activeList.fill(false);
-      this.activeList[1] = true;
-      this.chooseRouter = 1
-    },
-    goModifyPwd () {
-      this.activeList.fill(false);
-      this.activeList[2] = true;
-      this.chooseRouter = 2
-    },
-    changeAvatar () {
-      const input = this.$refs.avatar;
-      utils.resizeImgFile(input.files[0],
-        result => {
-          this.avatar = result
-          input.value = null
-        })
-    },
-    uploadImg () {
-      this.$http.api({
-        url: '/user/save-avatar',
-        params: {
-          avatar: this.avatar
-        },
-        successCallback: function (data) {
-          console.log(data)
-        }.bind(this)
-      });
-    }
-  },
-  computed: {
-    avatar :{
-      get () {
-        return this.$store.state.home.userInfo.userAvatar;
-      },
-      set () {
+  export default {
+    data () {
+      return {
+        chooseRouter: 0,
+        activeList: [true, false, false],
+        defaultImg: '',
+        showTop: false
       }
+    },
+    methods: {
+      logout () {
+        auth.logout();
+      },
+      goBaseInfo () {
+        this.activeList.fill(false);
+        this.activeList[0] = true;
+        this.chooseRouter = 0
+      },
+      goModifyAvatar () {
+        this.activeList.fill(false);
+        this.activeList[1] = true;
+        this.chooseRouter = 1
+      },
+      goModifyPwd () {
+        this.activeList.fill(false);
+        this.activeList[2] = true;
+        this.chooseRouter = 2
+      },
+      changeAvatar () {
+        const input = this.$refs.avatar;
+        utils.resizeImgFile(input.files[0],
+          result => {
+            this.avatar = result
+            input.value = null
+          })
+      },
+      uploadImg () {
+        this.$http.api({
+          url: '/user/save-avatar',
+          params: {
+            avatar: this.avatar
+          },
+          successCallback: function (data) {
+            console.log(data)
+          }.bind(this)
+        });
+      }
+    },
+    computed: {
+      avatar: {
+        get () {
+          return this.$store.state.home.userInfo.userAvatar;
+        },
+        set (val) {
+          this.$store.commit('SAVE_USER_INFO', {
+            userAvatar: val
+          })
+        }
+      }
+    },
+    components: {
+      Head,
+      Footer
     }
-  },
-  components: {
-    Head
   }
-}
 </script>
 
 <style scoped lang="less" rel="stylesheet/less">
@@ -185,6 +198,7 @@ export default {
   .container-box {
     padding-top: 40px;
   }
+
   .update_ava {
     width: 240px;
     min-height: 240px;

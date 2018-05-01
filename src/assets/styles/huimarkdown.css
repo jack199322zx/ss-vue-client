@@ -137,39 +137,25 @@
   overflow: auto;
   font-size: 85%;
   line-height: 1.45;
-  background-color: #f7f7f7;
   -webkit-border-radius: 3px;
   border-radius: 3px;
+  background: #1d1f21;
 }
 .markdown-body-1 pre code {
-  display: inline;
   max-width: initial;
-  padding: 0;
   margin: 0;
-  overflow: initial;
-  font-size: 100%;
   line-height: inherit;
   word-wrap: normal;
   white-space: pre;
   border: 0;
   -webkit-border-radius: 3px;
   border-radius: 3px;
-  background-color: transparent;
+  font: normal 10pt Consolas, Monaco, monospace;
+  font-size: 16px;
 }
 .markdown-body-1 pre code:before,
 .markdown-body-1 pre code:after {
   content: normal;
-}
-.markdown-body-1 code {
-  font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
-  padding: 0;
-  padding-top: 0.2em;
-  padding-bottom: 0.2em;
-  margin: 0;
-  font-size: 85%;
-  background-color: rgba(0,0,0,0.04);
-  -webkit-border-radius: 3px;
-  border-radius: 3px;
 }
 .markdown-body-1 code:before,
 .markdown-body-1 code:after {

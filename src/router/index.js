@@ -9,6 +9,8 @@ import ArticlePublish from '@/pages/article/article-pubblish/ArticlePubblish'
 import BlogList from '@/pages/blog/blog-list/BlogList.vue'
 import HomePage from '@/pages/home/home-page/HomePage.vue'
 import HomeModify from '@/pages/home/home-modify/HomeModify.vue'
+import AboutMe from '@/pages/aboutMe/AboutMe.vue'
+
 import Helper from '@/pages/helper/Helper'
 import MessageBoard from '@/pages/messageBoard/MessageBoard'
 import PhotoAlbum from '@/pages/photoAlbum/PhotoAlbum'
@@ -54,8 +56,12 @@ const router = new Router({
       component: ArticlePublish
     }, {
       path: '/home-modify/:id(\\d+)',
-      name: '发布文章',
+      name: '修改个人主页',
       component: HomeModify
+    }, {
+      path: '/aboutMe',
+      name: '关于我',
+      component: AboutMe
     }
 
 

@@ -6,13 +6,15 @@
         <div class="row main">
           <div class="col-xs-12 col-md-9 side-left topics-show">
             <!-- view show -->
-            <div class="topic panel panel-default">
+            <div class="topic panel panel-default" ref="topic">
               <div class="infos panel-heading">
                 <div class="infos-flex">
                   <h1 class="panel-title topic-title">{{articleTitle}}</h1>
                   <div class="text-center padding-md">
-                    <a class="btn btn-default btn-sm" @click="saveFavorite()" data-id="1" rel="favor">
-                      <i :class="['icon','icon-like',{'icon-like-favorite': favoriteFlag}]"></i>喜欢 {{favoriteNum}}
+                    <a class="btn btn-default btn-sm" @click="saveFavorite()" data-id="1"
+                       rel="favor">
+                      <i :class="['icon','icon-like',{'icon-like-favorite': favoriteFlag}]"></i>喜欢
+                      {{favoriteNum}}
                     </a>
                   </div>
                 </div>
@@ -29,7 +31,7 @@
               </div>
               <div class="content-body entry-content panel-body ">
                 <div class="markdown-body">
-                  <p v-html="articleDesc"></p><br>
+                  <p v-html="articleDesc" v-highlight></p><br>
                   <div style="margin:20px auto; text-align:center; font-size:12px;font-weight: bolder;">
                     {{articleSign}}
                   </div>
@@ -52,7 +54,8 @@
                           src="https://qq52o.me/wp-content/themes/c7v5/img/tip_qrcode_alipay.jpg"
                           alt="alipay"><span>支付宝赞赏</span></div>
                         <div class="tip-wechatpay"><img
-                          src="https://qq52o.me/wp-content/themes/c7v5/img/tip_qrcode_wechatpay.jpg" alt="wechat"><span>微信赞赏</span>
+                          src="https://qq52o.me/wp-content/themes/c7v5/img/tip_qrcode_wechatpay.jpg"
+                          alt="wechat"><span>微信赞赏</span>
                         </div>
                       </div>
                     </div>
@@ -68,7 +71,7 @@
                 <h4>全部评论: <i id="chat_count">{{comments.length}}</i> 条</h4>
               </div>
               <ul id="chat_container" class="its">
-                <li v-for="comm in comments">
+                <li v-for="(comm, index) in comments">
                   <a class="avt fl" target="_blank" href="">
                     <img :src="comm.user.avatar">
                   </a>
@@ -79,13 +82,14 @@
                       </div>
                       <div class="fr reply_this">
                         <span style="padding-right:20px;">{{comm.createTime | timeFilter}}</span>
-                        <a href="javascript:void(0);" @click="goto(comm.commentId, comm.user.userCode)">[回复]</a>
+                        <a href="javascript:void(0);" @click="goto(index)">[回复]</a>
                       </div>
                     </h5>
                     <div class="chat_p">
-                      <div class="chat_pct">{{comm.commentContent}}</div>
-                      <div class="quote" v-if="comm.receiveCommentId"><a
-                        href="/users/2">@{{comm.receiveComment.user.userCode}}</a>: {{comm.receiveComment.commentContent}}
+                      <div class="chat_pct" v-html="comm.commentContent"></div>
+                      <div class="quote" v-if="comm.toCommentId"><a
+                        href="/users/2">@{{comm.toComment.user.userCode}}</a>:
+                        <span v-html="comm.toComment.commentContent"></span>
                       </div>
                     </div>
                   </div>
@@ -95,29 +99,37 @@
               </ul>
               <div class="text-center-1" style="text-align:center"></div>
               <div class="cbox-wrap">
-                <div class="cbox-title">我有话说: <span id="chat_reply" style="display:none;">@<i id="chat_to"></i></span>
+                <div class="cbox-title">我有话说: <span id="chat_reply" style="display:none;">@<i
+                  id="chat_to"></i></span>
                 </div>
                 <div class="cbox-post">
                   <div class="cbox-input">
                     <textarea id="chat_text" rows="3" placeholder="请输入评论内容" v-model="chatText"></textarea>
-                    <input type="hidden" value="0" name="chat_pid" id="chat_pid">
                   </div>
                   <div class="cbox-ats clearfix">
                     <div class="ats-func">
                       <ul class="func-list">
                         <li class="list-b">
-                          <a href="javascript:void(0);" class="join" id="c-btn" style="text-decoration: none"><i
-                            class="iconfont icon-emotion" style="font-size:20px"></i></a>
+                          <a href="javascript:void(0);" class="join" id="c-btn"
+                             style="text-decoration: none"><i
+                            class="iconfont icon-emotion"
+                            style="font-size:20px" @click="showEmoji = !showEmoji"></i></a>
                         </li>
                       </ul>
                     </div>
                     <div class="ats-issue">
-                      <button id="btn-chat" class="btn btn-success btn-sm bt" @click="submitComment()">发送</button>
+                      <button id="btn-chat" class="btn btn-success btn-sm bt"
+                              @click="submitComment()">发送
+                      </button>
                     </div>
                   </div>
                 </div>
                 <div class="phiz-box" id="c-phiz" style="display:none">
                   <div class="phiz-list" view="c-phizs"></div>
+                </div>
+                <div class="emoji-div-1">
+                  <Emoji v-if="showEmoji" class="emoji-div-2" @select="selectEmoji"
+                         @closeEmotion="closeEmotionBox"></Emoji>
                 </div>
               </div>
             </div>
@@ -130,15 +142,16 @@
               <li class="list-group-item user-card">
                 <div class="ava">
                   <a href="/users/2">
-                    <img class="img-circle" src="/dist/images/ava/default.png">
+                    <img class="img-circle" :src="avatar">
                   </a>
                 </div>
                 <div class="user-info">
                   <div class="nk mb10">{{userName}}</div>
                   <div class="mb6">
-                    <a class="btn btn-default btn-xs" @click="saveFollow()" data-id="2" rel="follow">
+                    <a class="btn btn-default btn-xs" @click="saveFollow()" data-id="2"
+                       rel="follow">
                       <i class="iconfont icon-gengduojiaru" style="font-size:12px;"
-                         v-if="!followFlag"></i>{{followFlag ?
+                         v-if="!followFlag"></i> {{followFlag ?
                       '已关注' : '关注'}}</a>
 
                   </div>
@@ -149,7 +162,7 @@
                 <div class="user-datas">
                   <ul>
                     <li><strong>{{publishNum}}</strong><span>发布</span></li>
-                    <li class="noborder"><strong>1</strong><span>评论</span></li>
+                    <li class="noborder"><strong>{{commentsNum}}</strong><span>评论</span></li>
                   </ul>
                 </div>
               </li>
@@ -199,8 +212,10 @@
               </div>
               <div class="panel-body remove-padding-horizontal">
                 <ul class="hotusers" id="hotuser">
-                  <li><a href="/users/2"><img src="/dist/images/ava/default.png" class="avatar avatar-small"></a></li>
-                  <li><a href="/users/1"><img src="/dist/images/ava/default.png" class="avatar avatar-small"></a></li>
+                  <li><a href="/users/2"><img src="/dist/images/ava/default.png"
+                                              class="avatar avatar-small"></a></li>
+                  <li><a href="/users/1"><img src="/dist/images/ava/default.png"
+                                              class="avatar avatar-small"></a></li>
                 </ul>
               </div>
             </div>
@@ -208,7 +223,7 @@
         </div>
       </div>
     </div>
-    <Footer></Footer>
+    <Footer :showTop="showTop"></Footer>
   </div>
 </template>
 
@@ -216,6 +231,7 @@
   import share from '../../../assets/share/js/social-share-minx';
   import Head from '../../../components/header/Head.vue';
   import Footer from '../../../components/foot/Footer.vue';
+  import Emoji from '../../../components/emoji/Emoji.vue';
   import auth from '../../../auth/index';
   import '../../../assets/styles/huimarkdown.css'
   import {getFormatDateByLong} from '../../../assets/js/date-format'
@@ -231,6 +247,7 @@
         articleTitle: '',
         articleDesc: '',
         publishNum: 0,
+        commentsNum: 0,
         favoriteNum: 0,
         hotList: [],
         newsList: [],
@@ -242,7 +259,11 @@
         authorId: '',
         comments: [],
         commentId: '',
-        chatText: ''
+        chatText: '',
+        showTop: false,
+        readyComment: {},
+        avatar: '',
+        showEmoji: false
       }
     },
     created() {
@@ -252,6 +273,9 @@
       share.alReady(function () {
         window.socialShare('.social-share, .share-component');
       });
+      window.addEventListener('scroll', () => {
+        this.showTop = window.scrollY > window.innerHeight * 0.5;
+      }, false);
 //      require('../../../assets/share/js/sohu-changyan');
 //      window.changyan.api.config({
 //        appid: 'cytzsetGI',
@@ -260,30 +284,46 @@
     },
     methods: {
       submitComment () {
-        this.comments.push({
-
-        });
         this.$http.api({
           url: '/comment/save-comment',
           params: {
-            commentId: this.commentId,
-            comment: {
-              articleId: this.articleId,
-              commentContent: this.chatText
-            }
+            articleId: this.articleId,
+            commentContent: this.chatText,
+            toCommentId: this.commentId
           },
-          successCallback: function () {
-            console.log(this)
+          emulateJSON: false,
+          successCallback: function (data) {
+            if (data === 'failed') {
+              return this.$store.commit('OPEN_ERROR_TIP', '保存失败！');
+            }
+            this.comments.unshift({
+              articleId: data.articleId,
+              commentContent: data.commentContent,
+              commentId: data.commentId,
+              toCommentId: data.toCommentId,
+              createTime: new Date().getTime(),
+              user: {
+                userCode: this.$store.state.home.userInfo.userCode,
+                avatar: this.$store.state.home.userInfo.userAvatar
+              },
+              toComment: this.readyComment
+            });
+            this.chatText = '';
           }.bind(this)
         });
       },
-      goto(commentId, user) {
+      goto(index) {
+        let commentId = this.comments[index].commentId;
+        console.log(commentId);
+        console.log(index);
+        let userCode = this.comments[index].user.userCode;
         document.getElementById('chat_text').scrollIntoView();
         $('#chat_text').focus();
         this.chatText = '';
-        $('#chat_to').text(user);
+        $('#chat_to').text(userCode);
         this.commentId = commentId;
         $('#chat_reply').show();
+        this.readyComment = this.comments[index];
       },
       logout() {
         auth.logout();
@@ -297,7 +337,7 @@
         }
         if (!this.favoriteFlag) {
           this.$http.api({
-            url: '/blog/save-favorite',
+            url: '/user/save-favorite',
             params: {articleId: this.articleId, userId: userId},
             successCallback: function () {
               this.favoriteNum++;
@@ -306,7 +346,7 @@
           });
         } else {
           this.$http.api({
-            url: '/blog/cancel-favorite',
+            url: '/user/cancel-favorite',
             params: {articleId: this.articleId, userId: userId},
             successCallback: function () {
               this.favoriteNum--;
@@ -319,6 +359,10 @@
         let staff_key = auth.getData(auth.STAFF_KEY);
         if (staff_key) {
           var userId = JSON.parse(staff_key).id;
+        }
+        if (this.authorId === userId.toString()) {
+          this.$store.commit('OPEN_ERROR_TIP', '您不能关注自己');
+          return
         }
         if (!this.followFlag) {
           this.$http.api({
@@ -344,12 +388,19 @@
       closePayInfo() {
         this.payShow = false
       },
+      closeEmotionBox () {
+        this.showEmoji = false;
+      },
       chooseRouter(type, index) {
         type ? type === 1 ? this.routerView(this.newsList[index]) : this.routerView(this.commentsMostList[index]) : this.routerView(this.hotList[index]);
       },
       routerView(article) {
         location.href = location.href.replace(/(#\/).*/g, '$1article-detail/' + article.articleId);
         this.queryArticleDetail(article.articleId);
+      },
+      selectEmoji (code) {
+        this.showEmoji = false
+        this.chatText += this.$emoji(code);
       },
       queryArticleDetail(articleId) {
         this.$http.api({
@@ -361,13 +412,15 @@
             this.publishTime = data.article.createTime;
             this.userName = data.article.user.userName;
             this.authorId = data.article.user.id;
+            this.avatar = data.article.user.avatar;
             this.articleTitle = data.article.articleTitle;
             this.articleDesc = data.article.articleDesc;
             this.publishNum = data.publishNum;
+            this.commentsNum = data.commentsNum;
             this.favoriteNum = data.article.favoriteNum;
             this.hotList = data.viewNumSortedList;
             this.newsList = data.createTimeSortedList;
-            this.commentsMostList = data.newCommentsSortedList;
+            this.commentsMostList = data.commentsSortedList;
             this.articleSign = data.article.articleSign;
             this.comments = data.commentList;
 //          this.articleList = data.articleDistList;
@@ -415,7 +468,8 @@
     },
     components: {
       Head,
-      Footer
+      Footer,
+      Emoji
     }
   }
 </script>
@@ -604,6 +658,17 @@
     margin-bottom: 15px;
     border: 1px solid #ebebeb;
     border-radius: 0;
+  }
+
+  .emoji-div-1 {
+    position: relative;
+    .emoji-div-2 {
+      position: absolute;
+      left: 0;
+      bottom: 36px;
+      box-shadow: 0 4px 20px 1px rgba(0, 0, 0, 0.2);
+      background: white;
+    }
   }
 
 </style>

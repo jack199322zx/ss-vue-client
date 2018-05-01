@@ -29,22 +29,22 @@
         <div class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
             <li>
-              <a @click="goBlogList()" nav="博客">博客</a>
+              <a @click="goBlogList()" nav="博客" >博客</a>
             </li>
             <li>
-              <a href="/channel/2" nav="小助手">小助手</a>
+              <a nav="小助手">小助手</a>
             </li>
             <li>
-              <a href="/channel/3" nav="相册">相册</a>
+              <a nav="留言板">留言板</a>
             </li>
             <li>
-              <a href="/channel/4" nav="留言板">留言板</a>
+              <a nav="发展历程">发展历程</a>
             </li>
             <li>
-              <a href="/channel/5" nav="随笔">随笔</a>
+              <a nav="留言板">友链</a>
             </li>
             <li>
-              <a href="/channel/6" nav="关于我">关于我</a>
+              <a @click="goAboutMe()" nav="关于我">关于我</a>
             </li>
           </ul>
           <ul class="navbar-button list-inline" id="header_user">
@@ -67,6 +67,9 @@
               </a>
               <ul v-show="mouseHover" class="dropdown-menu" role="menu" @mouseout="closeUserInfo()">
                 <li><a @click="goHomePage()"><i class="icon icon-home"></i> 个人主页</a></li>
+                <li><a @click="goMyLove()"><i class="icon icon-home"></i> 我喜爱的文章</a></li>
+                <li><a @click="goMyFollow()"><i class="icon icon-home"></i> 我关注的人</a></li>
+                <li><a @click="goNotify()"><i class="icon icon-home"></i> 通知</a></li>
                 <li><a @click="logout()"><i class="icon icon-logout"></i> 退出</a>
                 </li>
               </ul>
@@ -115,6 +118,9 @@
       goRegister() {
         this.$router.push('/register')
       },
+      goAboutMe () {
+        this.$router.push('/aboutMe')
+      },
       goArticlePublish() {
         location.href = location.href.replace(/(#\/).*/g, '$1article-publish');
       },
@@ -122,8 +128,18 @@
         location.href = location.href.replace(/(#\/).*/g, '$1blog-list');
       },
       goHomePage () {
-        location.href = location.href.replace(/(#\/).*/g, '$1home-page/' + this.userInfo.id);
+        location.href = location.href.replace(/(#\/).*/g, '$1home-page/' + this.userInfo.id + '?homeIndex=0');
+      },
+      goMyLove () {
+        location.href = location.href.replace(/(#\/).*/g, '$1home-page/' + this.userInfo.id + '?homeIndex=3');
+      },
+      goMyFollow () {
+        location.href = location.href.replace(/(#\/).*/g, '$1home-page/' + this.userInfo.id + '?homeIndex=4');
+      },
+      goNotify () {
+        location.href = location.href.replace(/(#\/).*/g, '$1home-page/' + this.userInfo.id + '?homeIndex=6');
       }
+
     },
     created() {
       this.$http.api({

@@ -123,6 +123,7 @@
         </div>
       </div>
     </div>
+    <Footer @showTop="showTop"></Footer>
   </div>
 
 </template>
@@ -131,6 +132,7 @@
   import '../../../assets/styles/style.css'
   import images from '../../../common/img/imgPath';
   import Head from '../../../components/header/Head.vue'
+  import Footer from '../../../components/foot/Footer.vue'
   import auth from '../../../auth';
 
   export default {
@@ -145,7 +147,8 @@
         newsList: [],
         images: images,
         activeFlag: [true, false, false],
-        dist: 0
+        dist: 0,
+        showTop: false
       }
     },
     created() {
@@ -153,7 +156,7 @@
         url: '/blog/blog-list',
         successCallback: function (data) {
           this.articleList = data.articleDistList;
-          this.commentsMostList = data.newCommentsSortedList;
+          this.commentsMostList = data.commentsSortedList;
           this.pageCount = data.pageCount;
           this.flagList = data.flagList;
           this.$store.commit('SAVE_FLAG_LIST', this.flagList);
@@ -262,7 +265,8 @@
       }
     },
     components: {
-      Head
+      Head,
+      Footer
     }
   }
 </script>

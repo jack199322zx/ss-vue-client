@@ -502,7 +502,7 @@
 .about-user {margin-bottom: 15px;}
 .about-user .user-card{ padding:0;}
 .about-user .ava { float:left; padding: 20px;}
-.about-user .ava img {width: 60px}
+.about-user .ava img {width: 60px; height: 60px;}
 .about-user .user-info { padding: 30px 15px 30px 0; overflow:hidden;}
 .about-user .nk { font-size:16px;}
 
@@ -848,7 +848,7 @@
 .chats .its { padding-left: 15px; padding-right: 15px; }
 .chats .its li { display: block; padding: 15px 0; border-bottom: 1px solid #e5e5e5; }
 .chats .its li .avt { float: left; display: block; width: 40px; }
-.chats .its li .avt img { width: 100%; border-radius: 25px;}
+.chats .its li .avt img { width: 40px; height:40px; border-radius: 50%;}
 .chats .chat_body { margin-left: 50px; font-size: 13px; line-height: 18px; }
 .chats .chat_body h5 { margin: 0; display: block; font-weight: 500; height: 25px; line-height: 20px; overflow: hidden; }
 .chats .chat_body a { color: #1f8902; font-size: 12px; }
@@ -903,6 +903,14 @@
     margin-top: 10px;
   }
 }
+
+@media only screen and (max-width: 960px) {
+  .selection {
+    margin: 0 auto;
+    width:760px
+  }
+}
+
 
 /* Mobile (Portrait & Landscape)
 ================================================== */
