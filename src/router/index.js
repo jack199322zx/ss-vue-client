@@ -55,6 +55,10 @@ const router = new Router({
       name: '发布文章',
       component: ArticlePublish
     }, {
+      path: '/article-publish/:id(\\d+)',
+      name: '编辑文章',
+      component: ArticlePublish
+    }, {
       path: '/home-modify/:id(\\d+)',
       name: '修改个人主页',
       component: HomeModify

@@ -38,9 +38,9 @@
                 <label class="col-sm-2 control-label no-padding-right">发布到</label>
                 <div class="col-sm-3">
                   <select class="form-control" name="channelId" v-model="channelId" @change="changeArticleType()">
-                    <option value="0">生活区</option>
-                    <option value="1">技术区</option>
-                    <option value="2">资源</option>
+                    <option value="0" :selected="channelId==0">生活区</option>
+                    <option value="1" :selected="channelId==1">技术区</option>
+                    <option value="2" :selected="channelId==2">资源</option>
                   </select>
                 </div>
               </div>
@@ -207,19 +207,25 @@
         let staff_key = auth.getData(auth.STAFF_KEY);
         if (staff_key) {
           var userId = JSON.parse(staff_key).id;
+        }else {
+          this.$store.commit('OPEN_ERROR_TIP', '登录信息已失效，请重新登录！')
+          return
         }
+        let id = this.$route.params.id;
+        let params = {
+          user: {id: userId},
+          articleImg: this.articleImg,
+          flagList: this.chooseFlagList,
+          markdown: this.mavonValue,
+          title: this.title,
+          sign: this.sign,
+          channelId: this.channelId
+        }
+        id ? params.articleId = id: params;
         this.$http.api({
           url: '/article/submit',
           emulateJSON: false,
-          params: {
-            user: {id: userId},
-            articleImg: this.articleImg,
-            flagList: this.chooseFlagList,
-            markdown: this.mavonValue,
-            title: this.title,
-            sign: this.sign,
-            channelId: this.channelId
-          },
+          params,
           successCallback: function (data) {
             console.log(data);
           }.bind(this)
@@ -227,6 +233,25 @@
       },
       alertTip (tip) {
         this.$store.commit('OPEN_ERROR_TIP', tip);
+      }
+    },
+    created () {
+      let id = this.$route.params.id
+      if (id) {
+        this.$http.api({
+          url: '/article/edit-article',
+          params: {
+            articleId: id
+          },
+          successCallback: function (data) {
+            this.title = data.articleTitle;
+            this.articleImg = data.articleImg;
+            this.channelId = data.articleType;
+            this.mavonValue = data.articleDesc;
+            this.sign = data.articleSign;
+            this.chooseFlagList = data.flagList;
+          }.bind(this)
+        })
       }
     },
     components: {

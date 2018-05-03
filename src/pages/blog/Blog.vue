@@ -94,8 +94,8 @@
         page: 0,
         imgPath: imgPath,
         busy: false,
-        pageIndex: '0',
-        loadingShow: false
+        loadingShow: false,
+        pageCount: 0
       }
     },
     filters: {
@@ -119,7 +119,7 @@
       },
       loadMore() {
         this.busy = true;
-//          this.page++;
+        this.page++;
         setTimeout(() => {
           this.queryMoreBlog();
         }, 500);

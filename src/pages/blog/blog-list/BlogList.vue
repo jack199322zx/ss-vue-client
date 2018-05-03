@@ -259,9 +259,9 @@
           return Math.trunc(time) + '秒';
         }else if(time < 3600) {
           return Math.trunc(time/60) + '分钟'
-        }else if(time < 3600 * 60){
+        }else if(time < 3600 * 24){
           return Math.trunc(time/(60*60)) + '小时';
-        }else return Math.trunc(time/(60*24*60)) + '天';
+        }else return Math.trunc(time/(60*60*24)) + '天';
       }
     },
     components: {

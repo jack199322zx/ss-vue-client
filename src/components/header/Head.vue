@@ -38,9 +38,6 @@
               <a nav="留言板">留言板</a>
             </li>
             <li>
-              <a nav="发展历程">发展历程</a>
-            </li>
-            <li>
               <a nav="留言板">友链</a>
             </li>
             <li>
@@ -66,11 +63,16 @@
                 <span>{{userInfo.userCode}}</span>
               </a>
               <ul v-show="mouseHover" class="dropdown-menu" role="menu" @mouseout="closeUserInfo()">
-                <li><a @click="goHomePage()"><i class="icon icon-home"></i> 个人主页</a></li>
-                <li><a @click="goMyLove()"><i class="icon icon-home"></i> 我喜爱的文章</a></li>
-                <li><a @click="goMyFollow()"><i class="icon icon-home"></i> 我关注的人</a></li>
-                <li><a @click="goNotify()"><i class="icon icon-home"></i> 通知</a></li>
-                <li><a @click="logout()"><i class="icon icon-logout"></i> 退出</a>
+                <li><a @click="goHomePage()"><i class="iconfont icon-zhuye"></i> 个人主页</a></li>
+                <li><a @click="goNotify()"><i class="iconfont icon-xiaoxidongtai"></i> 动态 </a>
+                  <div class="menu-dynamics-div" v-if="notifyAndDynamics.dynamicNum">{{notifyAndDynamics.dynamicNum}}</div>
+                </li>
+                <li><a @click="goMyLove()"><i class="iconfont icon-xinweixuanzhong"></i> 我喜爱的文章</a></li>
+                <li><a @click="goMyFollow()"><i class="iconfont icon-dingyue"></i> 我关注的人</a></li>
+                <li><a @click="goNotify()"><i class="iconfont icon-xinxi"></i> 通知 </a>
+                  <div class="menu-dynamics-div" v-if="notifyAndDynamics.unreadNum">{{notifyAndDynamics.unreadNum}}</div>
+                </li>
+                <li><a @click="logout()"><i class="iconfont icon-guanji"></i> 退出</a>
                 </li>
               </ul>
             </li>
@@ -98,7 +100,8 @@
           id: '',
           avatar: ''
         },
-        loginStatus: 0
+        loginStatus: 0,
+        notifyAndDynamics: {}
       }
     },
     methods: {
@@ -128,7 +131,7 @@
         location.href = location.href.replace(/(#\/).*/g, '$1blog-list');
       },
       goHomePage () {
-        location.href = location.href.replace(/(#\/).*/g, '$1home-page/' + this.userInfo.id + '?homeIndex=0');
+        location.href = location.href.replace(/(#\/).*/g, '$1home-page/' + this.userInfo.id + '?homeIndex=1');
       },
       goMyLove () {
         location.href = location.href.replace(/(#\/).*/g, '$1home-page/' + this.userInfo.id + '?homeIndex=3');
@@ -139,7 +142,6 @@
       goNotify () {
         location.href = location.href.replace(/(#\/).*/g, '$1home-page/' + this.userInfo.id + '?homeIndex=6');
       }
-
     },
     created() {
       this.$http.api({
@@ -152,10 +154,13 @@
             this.userInfo.userCode = data.userCode;
             this.userInfo.avatar = data.avatar;
             this.userInfo.id = data.id;
+            this.notifyAndDynamics = data.notifyAndDynamics;
             this.$store.commit('SAVE_USER_INFO', {
               userCode: data.userCode,
               userId: data.id,
-              userAvatar: data.avatar
+              userAvatar: data.avatar,
+              notifyNum: data.notifyAndDynamics.unreadNum,
+              dynamicNum: data.notifyAndDynamics.dynamicNum
             })
           }
         }.bind(this)
@@ -483,5 +488,32 @@
   .img-circle {
     display: inline-block;
   }
-
+  .dropdown-menu {
+    i {
+      color: #ea6f5a;
+      padding-right: 10px;
+    }
+    li {
+      position: relative;
+      a {
+        font-size:12px;
+        font-weight: 500;
+      }
+      .menu-dynamics-div {
+        position: absolute;
+        top:6px;
+        right:0;
+        margin-right:10px;
+        border-radius: 10px;
+        white-space: nowrap;
+        text-align: center;
+        color:white;
+        background-color:#ea6f5a;
+        font-size: 10px;
+        width: 20px;
+        height: 20px;
+        line-height:20px;
+      }
+    }
+  }
 </style>

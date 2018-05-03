@@ -68,7 +68,9 @@ const state = {
   userInfo: {
     userCode: '',
     userId: '',
-    userAvatar: ''
+    userAvatar: '',
+    notifyNum: '',
+    dynamicNum: ''
   }
 };
 
@@ -165,6 +167,8 @@ const mutations = {
     state.userInfo.userCode = userInfo.userCode;
     state.userInfo.userId = userInfo.userId;
     state.userInfo.userAvatar = userInfo.userAvatar;
+    state.userInfo.dynamicNum = userInfo.dynamicNum;
+    state.userInfo.notifyNum = userInfo.notifyNum;
   }
 
 };

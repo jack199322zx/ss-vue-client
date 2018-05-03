@@ -73,7 +73,7 @@
               <ul id="chat_container" class="its">
                 <li v-for="(comm, index) in comments">
                   <a class="avt fl" target="_blank" href="">
-                    <img :src="comm.user.avatar">
+                    <img :src="$util.imgPath(comm.user.avatar)">
                   </a>
                   <div class="chat_body">
                     <h5 style="display: flex;justify-content: space-between">
@@ -334,6 +334,9 @@
         let staff_key = auth.getData(auth.STAFF_KEY);
         if (staff_key) {
           var userId = JSON.parse(staff_key).id;
+        }else {
+          this.$store.commit('OPEN_ERROR_TIP', '登录信息已失效，请重新登录！')
+          return
         }
         if (!this.favoriteFlag) {
           this.$http.api({
@@ -359,7 +362,10 @@
         let staff_key = auth.getData(auth.STAFF_KEY);
         if (staff_key) {
           var userId = JSON.parse(staff_key).id;
-        }
+        }else {
+          this.$store.commit('OPEN_ERROR_TIP', '登录信息已失效，请重新登录！')
+          return
+        };
         if (this.authorId === userId.toString()) {
           this.$store.commit('OPEN_ERROR_TIP', '您不能关注自己');
           return
@@ -448,14 +454,14 @@
     },
     filters: {
       publishTimeFilter(val) {
-        let time = ((new Date()).getTime() - val) / 1000;
+        let time = ((new Date()).getTime() - val)/1000;
         if (time < 60) {
           return Math.trunc(time) + '秒';
-        } else if (time < 3600) {
-          return Math.trunc(time / 60) + '分钟'
-        } else if (time < 3600 * 60) {
-          return Math.trunc(time / (60 * 60)) + '小时';
-        } else return Math.trunc(time / (60 * 24 * 60)) + '天';
+        }else if(time < 3600) {
+          return Math.trunc(time/60) + '分钟'
+        }else if(time < 3600 * 24){
+          return Math.trunc(time/(60*60)) + '小时';
+        }else return Math.trunc(time/(60*60*24)) + '天';
       },
       timeFilter(time) {
         return getFormatDateByLong(time, 'yyyy-MM-dd');
