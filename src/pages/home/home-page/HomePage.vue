@@ -155,9 +155,9 @@
               </div>
               <div class="panel-footer">
                 <ul class="pagination">
-                  <li class="disabled"><span>上一页</span></li>
+                  <li :class="{'disabled': prevDisabledFlag}"><span>上一页</span></li>
                   <li class="active"><span>1</span></li>
-                  <li class="disabled"><span>下一页</span></li>
+                  <li :class="{'disabled': nextDisabledFlag}"><span>下一页</span></li>
                 </ul>
               </div>
             </div>
@@ -354,7 +354,8 @@
         myFavoritesList: [],
         myFollowList: [],
         myFansList: [],
-        notifyPageIndex: 0
+        pageIndex: 1,
+        pageCount: 1
       }
     },
     methods: {
@@ -463,7 +464,7 @@
           case 0:
             this.$http.api({
               url: '/home/query-dynamics',
-              params: {userId},
+              params: {userId, page: this.pageIndex},
               successCallback: function (data) {
                 this.dynamicList = data;
               }.bind(this)
@@ -472,16 +473,17 @@
           case 1:
             this.$http.api({
               url: '/home/query-my-articles',
-              params: {userId},
+              params: {userId, page: this.pageIndex},
               successCallback: function (data) {
-                this.myArticleList = data;
+                this.myArticleList = data.articleList;
+                this.pageCount = data.pageCount;
               }.bind(this)
             })
             return;
           case 2:
             this.$http.api({
               url: '/home/query-my-comments',
-              params: {userId},
+              params: {userId, page: this.pageIndex},
               successCallback: function (data) {
                 this.myCommentsList = data;
               }.bind(this)
@@ -490,7 +492,7 @@
           case 3:
             this.$http.api({
               url: '/home/query-my-favorites',
-              params: {userId},
+              params: {userId, page: this.pageIndex},
               successCallback: function (data) {
                 this.myFavoritesList = data;
               }.bind(this)
@@ -499,7 +501,7 @@
           case 4:
             this.$http.api({
               url: '/home/query-my-follow',
-              params: {userId},
+              params: {userId, page: this.pageIndex},
               successCallback: function (data) {
                 this.myFollowList = data;
               }.bind(this)
@@ -508,7 +510,7 @@
           case 5:
             this.$http.api({
               url: '/home/query-my-fans',
-              params: {userId},
+              params: {userId, page: this.pageIndex},
               successCallback: function (data) {
                 this.myFansList = data;
               }.bind(this)
@@ -517,7 +519,7 @@
           case 6:
             this.$http.api({
               url: '/home/query-my-notify',
-              params: {userId},
+              params: {userId, page: this.pageIndex},
               successCallback: function (data) {
                 this.notifyList = data;
               }.bind(this)
@@ -555,6 +557,12 @@
       },
       notifyNum() {
         return this.$store.state.home.userInfo.notifyNum;
+      },
+      nextDisabledFlag() {
+        return this.pageIndex === this.pageCount;
+      },
+      prevDisabledFlag() {
+        return this.pageIndex === 1
       }
     },
     beforeRouteEnter(to, from, next) {

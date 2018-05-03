@@ -52,20 +52,17 @@
             且就随缘去吧<br></p>
         </div>
       </div>
-      <div id="primary" v-infinite-scroll="loadMore" infinite-scroll-disabled="busy" infinite-scroll-distance="10">
+      <div id="primary">
         <div class="post" v-for="(blog, index) in blogList" :key="index">
           <a data-id="6429" href="http://isujin.com/6429" :title="blog.articleTitle">
             <img width="680" height="440"
-                 :src="imgPath.px123"
+                 :src="$util.imgPath(blog.articleImg)"
                  class="cover">
           </a>
           <div class="else">
             <p>{{blog.createTime | timeFilter}}</p>
             <h3><a data-id="6429" class="posttitle" href="http://isujin.com/6429">{{blog.articleTitle}}</a></h3>
-            <p class="blog-desc">萨达萨达撒打撒大所大撒多撒奥多撒奥奥奥奥奥奥奥奥奥奥奥奥奥奥奥奥奥奥奥奥奥奥奥奥奥奥奥奥奥奥奥奥奥奥奥奥奥奥奥
-              萨达萨达撒打撒大所大撒多撒奥多撒奥奥奥奥奥奥奥奥奥奥奥奥奥奥奥奥奥奥奥奥奥奥奥奥奥奥奥奥奥奥奥奥奥奥奥奥奥奥奥
-              萨达萨达撒打撒大所大撒多撒奥多撒奥奥奥奥奥奥奥奥奥奥奥奥奥奥奥奥奥奥奥奥奥奥奥奥奥奥奥奥奥奥奥奥奥奥奥奥奥奥奥
-              萨达萨达撒打撒大所大撒多撒奥多撒奥奥奥奥奥奥奥奥奥奥奥奥奥奥奥奥奥奥奥奥奥奥奥奥奥奥奥奥奥奥奥奥奥奥奥奥奥奥奥</p>
+            <p class="blog-desc">{{blog.articleDesc}}</p>
             <p class="here">
               <span class="icon-letter">{{blog.commentsNum}}</span>
               <span class="icon-view">{{blog.viewNum}}</span>
@@ -73,10 +70,11 @@
                 class="count">75</span></a></p>
           </div>
         </div>
+        <div id="pager" v-infinite-scroll="loadMore" infinite-scroll-disabled="busy" infinite-scroll-distance="10"><a
+          class="more">滚动加载更多</a></div>
       </div>
     </div>
-    <div id="pager"><a
-      class="more">滚动加载更多</a></div>
+
     <div id="preview" class="trans" style="min-height: 612px;"></div>
   </div>
 
@@ -118,11 +116,17 @@
         document.getElementsByTagName('html')[0].className = 'mu'
       },
       loadMore() {
-        this.busy = true;
-        this.page++;
-        setTimeout(() => {
-          this.queryMoreBlog();
-        }, 500);
+        this.$nextTick(function () {
+          if (this.page < this.pageCount - 1) {
+            this.busy = true;
+            this.page++;
+            setTimeout(() => {
+              this.queryMoreBlog();
+            }, 500);
+          } else {
+            document.getElementsByClassName('more')[0].innerHTML = '没有更多了...'
+          }
+        });
       },
       goNext(index) {
         switch (index) {
@@ -151,6 +155,7 @@
           params: {page: this.page, dist: 0},
           successCallback: function (data) {
             this.blogList = data.articleList;
+            this.pageCount = data.pageCount;
           }.bind(this)
         });
       },
