@@ -227,7 +227,12 @@
           emulateJSON: false,
           params,
           successCallback: function (data) {
-            console.log(data);
+            if (data === 1) {
+              layer.msg('发布成功！', {icon: 1})
+              location.href = location.href.replace(/(#\/).*/g, '$1blog-list');
+              return
+            }
+            layer.msg('发布失败！', {icon: 5})
           }.bind(this)
         });
       },
@@ -253,6 +258,9 @@
           }.bind(this)
         })
       }
+    },
+    mounted () {
+      require('../../../assets/layer/layer');
     },
     components: {
       ChooseBox,

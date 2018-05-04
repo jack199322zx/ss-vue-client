@@ -276,6 +276,7 @@
       window.addEventListener('scroll', () => {
         this.showTop = window.scrollY > window.innerHeight * 0.5;
       }, false);
+      require('../../../assets/layer/layer');
 //      require('../../../assets/share/js/sohu-changyan');
 //      window.changyan.api.config({
 //        appid: 'cytzsetGI',
@@ -283,7 +284,15 @@
 //      });
     },
     methods: {
-      submitComment () {
+      submitComment() {
+        if (this.chatText.length === 0) {
+          layer.msg('请输入内容再提交!', {icon: 2});
+          return;
+        }
+        if (this.chatText.length > 255){
+          layer.msg('内容过长，请输入140以内个字符', {icon: 2});
+          return
+        }
         this.$http.api({
           url: '/comment/save-comment',
           params: {
@@ -294,8 +303,9 @@
           emulateJSON: false,
           successCallback: function (data) {
             if (data === 'failed') {
-              return this.$store.commit('OPEN_ERROR_TIP', '保存失败！');
+              return layer.msg('保存失败', {icon: 5});
             }
+            layer.msg('保存成功', {icon: 1});
             this.comments.unshift({
               articleId: data.articleId,
               commentContent: data.commentContent,
@@ -334,7 +344,7 @@
         let staff_key = auth.getData(auth.STAFF_KEY);
         if (staff_key) {
           var userId = JSON.parse(staff_key).id;
-        }else {
+        } else {
           this.$store.commit('OPEN_ERROR_TIP', '登录信息已失效，请重新登录！')
           return
         }
@@ -362,10 +372,11 @@
         let staff_key = auth.getData(auth.STAFF_KEY);
         if (staff_key) {
           var userId = JSON.parse(staff_key).id;
-        }else {
+        } else {
           this.$store.commit('OPEN_ERROR_TIP', '登录信息已失效，请重新登录！')
           return
-        };
+        }
+        ;
         if (this.authorId === userId.toString()) {
           this.$store.commit('OPEN_ERROR_TIP', '您不能关注自己');
           return
@@ -394,7 +405,7 @@
       closePayInfo() {
         this.payShow = false
       },
-      closeEmotionBox () {
+      closeEmotionBox() {
         this.showEmoji = false;
       },
       chooseRouter(type, index) {
@@ -404,7 +415,7 @@
         location.href = location.href.replace(/(#\/).*/g, '$1article-detail/' + article.articleId);
         this.queryArticleDetail(article.articleId);
       },
-      selectEmoji (code) {
+      selectEmoji(code) {
         this.showEmoji = false
         this.chatText += this.$emoji(code);
       },
@@ -454,14 +465,14 @@
     },
     filters: {
       publishTimeFilter(val) {
-        let time = ((new Date()).getTime() - val)/1000;
+        let time = ((new Date()).getTime() - val) / 1000;
         if (time < 60) {
           return Math.trunc(time) + '秒';
-        }else if(time < 3600) {
-          return Math.trunc(time/60) + '分钟'
-        }else if(time < 3600 * 24){
-          return Math.trunc(time/(60*60)) + '小时';
-        }else return Math.trunc(time/(60*60*24)) + '天';
+        } else if (time < 3600) {
+          return Math.trunc(time / 60) + '分钟'
+        } else if (time < 3600 * 24) {
+          return Math.trunc(time / (60 * 60)) + '小时';
+        } else return Math.trunc(time / (60 * 60 * 24)) + '天';
       },
       timeFilter(time) {
         return getFormatDateByLong(time, 'yyyy-MM-dd');

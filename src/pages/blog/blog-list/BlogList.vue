@@ -80,7 +80,7 @@
               </div>
               <div class="panel-body">
                 <ul class="list" id="hots">
-                  <li v-for="(item, index) in hotList">{{index + 1}}. <a @click="goArticleDetailByHot(item)">{{item.articleTitle}}</a>
+                  <li v-for="(item, index) in hotList"> <a @click="goArticleDetailByHot(item)">{{item.articleTitle}}</a>
                   </li>
                 </ul>
               </div>
@@ -92,7 +92,7 @@
               </div>
               <div class="panel-body">
                 <ul class="list" id="latests">
-                  <li v-for="(item, index) in newsList">{{index + 1}}. <a @click="goArticleDetailByNew(item)">{{item.articleTitle}}</a></li>
+                  <li v-for="(item, index) in newsList"> <a @click="goArticleDetailByNew(item)">{{item.articleTitle}}</a></li>
                 </ul>
               </div>
             </div>
@@ -103,7 +103,7 @@
               </div>
               <div class="panel-body">
                 <ul class="list">
-                  <li v-for="(item, index) in commentsMostList">{{index + 1}}. <a @click="goArticleDetailByComments(item)">{{item.articleTitle}}</a></li>
+                  <li v-for="(item, index) in commentsMostList"><a @click="goArticleDetailByComments(item)">{{item.articleTitle}}</a></li>
                 </ul>
               </div>
             </div>
@@ -307,5 +307,8 @@
   }
   .topic-list .list-group-item {
     height: 77px;
+  }
+  .panel-body .list li{
+    background-color: #e5e5e5;
   }
 </style>

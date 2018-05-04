@@ -64,7 +64,7 @@
               </a>
               <ul v-show="mouseHover" class="dropdown-menu" role="menu" @mouseout="closeUserInfo()">
                 <li><a @click="goHomePage()"><i class="iconfont icon-zhuye"></i> 个人主页</a></li>
-                <li><a @click="goNotify()"><i class="iconfont icon-xiaoxidongtai"></i> 动态 </a>
+                <li><a @click="goDynamic()"><i class="iconfont icon-xiaoxidongtai"></i> 发现 </a>
                   <div class="menu-dynamics-div" v-if="notifyAndDynamics.dynamicNum">{{notifyAndDynamics.dynamicNum}}</div>
                 </li>
                 <li><a @click="goMyLove()"><i class="iconfont icon-xinweixuanzhong"></i> 我喜爱的文章</a></li>
@@ -141,6 +141,9 @@
       },
       goNotify () {
         location.href = location.href.replace(/(#\/).*/g, '$1home-page/' + this.userInfo.id + '?homeIndex=6');
+      },
+      goDynamic () {
+        location.href = location.href.replace(/(#\/).*/g, '$1home-page/' + this.userInfo.id + '?homeIndex=0');
       }
     },
     created() {

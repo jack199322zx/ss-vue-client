@@ -9,7 +9,7 @@
 
             <ul class="list-group about-user">
               <li class="list-group-item item-zhuye-1">
-                <i class="iconfont icon-zhuye" style="padding-right: 15px;"></i>我的主页
+                <i class="iconfont icon-zhuye" style="padding-right: 15px;"></i>{{selfFlag? '我':'他'}}的主页
               </li>
               <li class="list-group-item user-card">
                 <div class="ava">
@@ -19,7 +19,7 @@
                 </div>
                 <div class="user-info">
                   <div class="nk mb10">{{userCode}}</div>
-                  <div class="mb6">
+                  <div class="mb6" v-if="selfFlag">
                     <a class="btn btn-success btn-xs" @click="goModifyHome()">修改账户</a>
                   </div>
                 </div>
@@ -41,14 +41,14 @@
               </div>
               <div id="home-navbar" class="navbar-collapse in" style="height: auto;">
                 <ul class="list-group user-nav first">
-                  <li class="list-group-item">
-                    <a @click="chooseRouter(0)"><i class="iconfont icon-xiaoxidongtai"></i> 动态</a>
+                  <li class="list-group-item" v-if="selfFlag">
+                    <a @click="chooseRouter(0)"><i class="iconfont icon-xiaoxidongtai"></i> 发现</a>
                     <span class="label label-default" v-if="dynamicNum">{{dynamicNum}}</span>
                   </li>
                   <li class="list-group-item">
-                    <a @click="chooseRouter(1)"><i class="iconfont icon-caidan"></i> 我的文章</a>
+                    <a @click="chooseRouter(1)"><i class="iconfont icon-caidan"></i> {{selfFlag? '我':'他'}}的文章</a>
                   </li>
-                  <li class="list-group-item">
+                  <li class="list-group-item" v-if="selfFlag">
                     <a @click="chooseRouter(2)"><i class="iconfont icon-jiatingdongtai"></i> 我的评论</a>
                   </li>
                 </ul>
@@ -56,17 +56,17 @@
                 <ul class="list-group user-nav">
                   <li class="list-group-item">
                     <a @click="chooseRouter(3)"><i class="iconfont icon-xinweixuanzhong"></i>
-                      我的喜欢</a>
+                      {{selfFlag? '我':'他'}}的喜欢</a>
                   </li>
                   <li class="list-group-item">
-                    <a @click="chooseRouter(4)"><i class="iconfont icon-dingyue"></i> 我的关注</a>
+                    <a @click="chooseRouter(4)"><i class="iconfont icon-dingyue"></i> {{selfFlag? '我':'他'}}的关注</a>
                   </li>
                   <li class="list-group-item">
-                    <a @click="chooseRouter(5)"><i class="iconfont icon-wode"></i> 我的粉丝</a>
+                    <a @click="chooseRouter(5)"><i class="iconfont icon-wode"></i> {{selfFlag? '我':'他'}}的粉丝</a>
                   </li>
                 </ul>
 
-                <ul class="list-group user-nav">
+                <ul class="list-group user-nav" v-if="selfFlag">
                   <li class="list-group-item">
                     <a @click="chooseRouter(6)">
                       <i class="iconfont icon-xinxi"></i> 通知
@@ -78,9 +78,9 @@
             </nav>
           </div>
           <div class="col-xs-12 col-md-9 side-right">
-            <div class="panel panel-default" v-if="showIndex==0">
+            <div class="panel panel-default" v-if="showIndex==0 && selfFlag">
               <div class="panel-heading">
-                动态
+                发现
               </div>
               <div class="panel-body remove-padding-horizontal">
                 <ul class="list-group topic-list notify" v-if="dynamicList && dynamicList.length> 0">
@@ -111,15 +111,15 @@
               </div>
               <div class="panel-footer">
                 <ul class="pagination">
-                  <li class="disabled"><span>上一页</span></li>
+                  <li :class="{'disabled': prevDisabledFlag}" @click="goPrevPage(0)"><span>上一页</span></li>
                   <li class="active"><span>1</span></li>
-                  <li class="disabled"><span>下一页</span></li>
+                  <li :class="{'disabled': nextDisabledFlag}" @click="goNextPage(0)"><span>下一页</span></li>
                 </ul>
               </div>
             </div>
             <div class="panel panel-default" v-if="showIndex==1">
               <div class="panel-heading">
-                我的文章
+                {{selfFlag? '我':'他'}}的文章
               </div>
               <div class="panel-body">
                 <ul class="list-group" v-if="myArticleList && myArticleList.length> 0">
@@ -135,7 +135,7 @@
                       {{item.viewNum}} 浏览
                       <span class="timeago">{{item.createTime | timeFilter}}前</span>
                     </span>
-                    <div class="pull-right hidden-xs">
+                    <div class="pull-right hidden-xs" v-if="selfFlag">
                       <a class="act_edit" @click.stop.prevent="editArticle(item.articleId)" data-evt="edit" data-id="5"
                          data-toggle="tooltip"
                          title="" data-original-title="编辑文章">
@@ -155,25 +155,25 @@
               </div>
               <div class="panel-footer">
                 <ul class="pagination">
-                  <li :class="{'disabled': prevDisabledFlag}"><span>上一页</span></li>
+                  <li :class="{'disabled': prevDisabledFlag}" @click="goPrevPage(1)"><span>上一页</span></li>
                   <li class="active"><span>1</span></li>
-                  <li :class="{'disabled': nextDisabledFlag}"><span>下一页</span></li>
+                  <li :class="{'disabled': nextDisabledFlag}" @click="goNextPage(1)"><span>下一页</span></li>
                 </ul>
               </div>
             </div>
-            <div class="panel panel-default" v-if="showIndex==2">
+            <div class="panel panel-default" v-if="showIndex==2 && selfFlag">
               <div class="panel-heading">
                 我的评论
               </div>
               <div class="panel-body">
                 <ul class="list-group" v-if="myCommentsList && myCommentsList.length> 0">
-                  <li class="list-group-item" el="loop-1" v-for="(comm, index) in myCommentsList">
-                    <a href="/view/1" class="remove-padding-left">{{comm.article.articleTitle}}</a>
+                  <li class="list-group-item" el="loop-1" v-for="(comm, index) in myCommentsList" @click="goCommentDetail(comm.article)">
+                    <a  class="remove-padding-left">{{comm.article ? comm.article.articleTitle: '该文章已被删除'}}</a>
                     <span class="meta">
 								<span class="timeago">{{comm.comment.createTime | timeFilter}}前</span>
       						</span>
                     <div class="pull-right hidden-xs">
-                      <a class="act" @click="delComment(comm.comment)" data-evt="trash" data-id="1"
+                      <a class="act" @click.stop.prevent="delComment(comm.comment, index)" data-evt="trash" data-id="1"
                          data-toggle="tooltip"
                          title="" data-original-title="删除评论">
                         <i class="icon icon-close"></i>
@@ -190,20 +190,20 @@
               </div>
               <div class="panel-footer">
                 <ul class="pagination">
-                  <li class="disabled"><span>上一页</span></li>
+                  <li :class="{'disabled': prevDisabledFlag}" @click="goPrevPage(2)"><span>上一页</span></li>
                   <li class="active"><span>1</span></li>
-                  <li class="disabled"><span>下一页</span></li>
+                  <li :class="{'disabled': nextDisabledFlag}" @click="goNextPage(2)"><span>下一页</span></li>
                 </ul>
               </div>
             </div>
             <div class="panel panel-default" v-if="showIndex==3">
               <div class="panel-heading">
-                我的喜欢
+                {{selfFlag? '我':'他'}}的喜欢
               </div>
               <div class="panel-body">
                 <ul class="list-group" v-if="myFavoritesList && myFavoritesList.length> 0">
-                  <li class="list-group-item" el="loop-5" v-for="(item, index) in myFavoritesList">
-                    <a href="/view/5" class="remove-padding-left">{{item.articleTitle}}</a>
+                  <li class="list-group-item" el="loop-5" v-for="(item, index) in myFavoritesList" @click="goArticleDetail(item.articleId)">
+                    <a class="remove-padding-left">{{item.articleTitle}}</a>
                     <span class="meta">
                       	<span> ⋅ </span>
 								        {{item.favoriteNum}} 喜欢
@@ -214,13 +214,9 @@
 								<span class="timeago">{{item.createTime | timeFilter}}前</span>
       						</span>
 
-                    <div class="pull-right hidden-xs">
-                      <a class="act_edit" href="javascript:void(0);" data-evt="edit" data-id="5" data-toggle="tooltip"
-                         title="" data-original-title="编辑文章">
-                        <i class="icon icon-note"></i>
-                      </a>
-                      <a class="act_delete" href="javascript:void(0);" data-evt="trash" data-id="5"
-                         data-toggle="tooltip" title="" data-original-title="删除文章">
+                    <div class="pull-right hidden-xs" v-if="selfFlag">
+                      <a class="act_delete" @click.stop.prevent="cancelFavorite(item.articleId, index)" data-evt="trash" data-id="5"
+                         data-toggle="tooltip" title="" data-original-title="取消喜欢">
                         <i class="icon icon-close"></i>
                       </a>
                     </div>
@@ -232,22 +228,24 @@
               </div>
               <div class="panel-footer">
                 <ul class="pagination">
-                  <li class="disabled"><span>上一页</span></li>
+                  <li :class="{'disabled': prevDisabledFlag}" @click="goPrevPage(3)"><span>上一页</span></li>
                   <li class="active"><span>1</span></li>
-                  <li class="disabled"><span>下一页</span></li>
+                  <li :class="{'disabled': nextDisabledFlag}" @click="goNextPage(3)"><span>下一页</span></li>
                 </ul>
               </div>
             </div>
             <div class="panel panel-default" v-if="showIndex==4">
               <div class="panel-heading">
-                我的关注
+                {{selfFlag? '我':'他'}}的关注
               </div>
               <div class="panel-body remove-padding-horizontal">
                 <ul class="hotusers" v-if="myFollowList && myFollowList.length> 0">
-                  <li v-for="(item, index) in myFollowList">
-                    <a href="/users/2">
+                  <li v-for="(item, index) in myFollowList" @click="goUserPage(item.id)">
+                    <a>
                       <img :src="$util.imgPath(item.avatar)" class="avatar avatar-small">
                       <div class="user-avatar-span">{{item.userCode}}</div>
+                      <div v-if="selfFlag" class="mb6" style="margin: 0 auto;width: 60px;" @click.stop.prevent="cancelFollow(item.id, index)">
+                        <a  data-id="2" rel="follow" class="btn btn-default btn-xs">取消关注</a></div>
                     </a></li>
                 </ul>
                 <ul class="hotusers" v-else>
@@ -256,20 +254,20 @@
               </div>
               <div class="panel-footer">
                 <ul class="pagination">
-                  <li class="disabled"><span>上一页</span></li>
+                  <li :class="{'disabled': prevDisabledFlag}" @click="goPrevPage(4)"><span>上一页</span></li>
                   <li class="active"><span>1</span></li>
-                  <li class="disabled"><span>下一页</span></li>
+                  <li :class="{'disabled': nextDisabledFlag}" @click="goNextPage(4)"><span>下一页</span></li>
                 </ul>
               </div>
             </div>
             <div class="panel panel-default" v-if="showIndex==5">
               <div class="panel-heading">
-                我的粉丝
+                {{selfFlag? '我':'他'}}的粉丝
               </div>
               <div class="panel-body remove-padding-horizontal">
                 <ul class="hotusers" v-if="myFansList && myFansList.length> 0">
-                  <li v-for="(item, index) in myFansList">
-                    <a href="/users/2">
+                  <li v-for="(item, index) in myFansList" @click="goUserPage(item.id)">
+                    <a >
                       <img :src="$util.imgPath(item.avatar)" class="avatar avatar-small">
                       <div class="user-avatar-span">{{item.userCode}}</div>
                     </a></li>
@@ -280,13 +278,13 @@
               </div>
               <div class="panel-footer">
                 <ul class="pagination">
-                  <li class="disabled"><span>上一页</span></li>
+                  <li :class="{'disabled': prevDisabledFlag}" @click="goPrevPage(5)"><span>上一页</span></li>
                   <li class="active"><span>1</span></li>
-                  <li class="disabled"><span>下一页</span></li>
+                  <li :class="{'disabled': nextDisabledFlag}" @click="goNextPage(5)"><span>下一页</span></li>
                 </ul>
               </div>
             </div>
-            <div class="panel panel-default" v-if="showIndex==6">
+            <div class="panel panel-default" v-if="showIndex==6 && selfFlag">
               <div class="panel-heading">
                 通知
               </div>
@@ -322,9 +320,9 @@
               </div>
               <div class="panel-footer">
                 <ul class="pagination">
-                  <li class="disabled"><span>上一页</span></li>
+                  <li :class="{'disabled': prevDisabledFlag}" @click="goPrevPage(6)"><span>上一页</span></li>
                   <li class="active"><span>1</span></li>
-                  <li class="disabled"><span>下一页</span></li>
+                  <li :class="{'disabled': nextDisabledFlag}" @click="goNextPage(6)"><span>下一页</span></li>
                 </ul>
               </div>
             </div>
@@ -341,6 +339,7 @@
   import auth from '../../../auth/index';
   import Head from '../../../components/header/Head.vue';
   import Footer from '../../../components/foot/Footer.vue';
+  import '../../../assets/layer/skin/layer.css'
 
   export default {
     data() {
@@ -355,12 +354,57 @@
         myFollowList: [],
         myFansList: [],
         pageIndex: 1,
-        pageCount: 1
+        pageCount: 1,
+        userId: '',
+        avatar: '',
+        userCode: ''
       }
     },
     methods: {
+      goNextPage(index) {
+        if (this.nextDisabledFlag) return;
+        this.pageIndex++;
+        this.switchPage(index, this.userId);
+      },
+      goPrevPage(index) {
+        if (this.prevDisabledFlag) return;
+        this.pageIndex--;
+        this.switchPage(index, this.userId);
+      },
+      cancelFavorite (articleId, index) {
+        layer.confirm('确定要取消喜欢该文章吗', {
+          btn: ['确定','取消'], //按钮
+          shade: false //不显示遮罩
+        }, () => {
+          this.$http.api({
+            url: '/user/cancel-favorite',
+            params: {articleId, userId: this.userId},
+            successCallback: function (data) {
+              data === 1 ? layer.msg('取消成功', {icon: 1}) : layer.msg('操作失败', {icon: 5})
+              this.myFavoritesList.splice(index, 1)
+            }.bind(this)
+          });
+        }, () => {});
+      },
+      cancelFollow (id, index) {
+        let staff_key = auth.getData(auth.STAFF_KEY);
+        if (staff_key) {
+          var userId = JSON.parse(staff_key).id;
+        }
+        this.$http.api({
+          url: '/user/cancel-follow',
+          params: {authorId: id, followerId: userId},
+          successCallback: function (data) {
+            data === 1 ? layer.msg('取消成功', {icon: 1}) : layer.msg('操作失败', {icon: 5})
+            this.myFollowList.splice(index, 1)
+          }.bind(this)
+        })
+      },
       logout() {
         auth.logout();
+      },
+      goUserPage (id) {
+        location.href = location.href.replace(/(#\/).*/g, '$1home-page/' + id + '?homeIndex=1');
       },
       goModifyHome() {
         this.$router.push('/home-modify/' + this.$store.state.home.userInfo.userId);
@@ -368,44 +412,47 @@
       goArticleDetail(articleId) {
         this.$router.push('/article-detail/' + articleId);
       },
+      goCommentDetail (article) {
+        article ? this.$router.push('/article-detail/' + article.articleId): article;
+      },
       editArticle(articleId) {
         this.$router.push('/article-publish/' + articleId);
       },
-      delComment(comment) {
-        this.$store.commit('OPEN_OPERATE_DIALOG_BOX', {
-          'text': '确定要删除该评论吗',
-          sureCallback: () => {
-            this.$http.api({
-              url: '/article/delete-article',
-              emulateJSON: false,
-              params: {
-                commentId: comment.commentId,
-                articleId: comment.articleId,
-                userId: comment.userId,
-                toCommentId: comment.toCommentId
-              },
-              successCallback: function (data) {
-                data === 1 ? this.$store.commit('OPEN_ERROR_TIP', '删除成功！') : this.$store.commit('OPEN_ERROR_TIP', '操作失败！')
-                this.myCommentsList.splice(index, 1)
-              }.bind(this)
-            })
-          }
-        });
+      delComment(comment, index) {
+        layer.confirm('确定要删除该评论吗', {
+          btn: ['确定','取消'], //按钮
+          shade: false //不显示遮罩
+        }, () => {
+          this.$http.api({
+            url: '/comment/delete-comment',
+            emulateJSON: false,
+            params: {
+              commentId: comment.commentId,
+              articleId: comment.articleId,
+              userId: comment.userId,
+              toCommentId: comment.toCommentId
+            },
+            successCallback: function (data) {
+              data === 1 ? layer.msg('删除成功', {icon: 1}) : layer.msg('操作失败！', {icon: 5})
+              this.myCommentsList.splice(index, 1)
+            }.bind(this)
+          })
+        }, () => {});
       },
       delArticle(articleId, index) {
-        this.$store.commit('OPEN_OPERATE_DIALOG_BOX', {
-          'text': '确定要删除该文章吗',
-          sureCallback: () => {
-            this.$http.api({
-              url: '/article/delete-article',
-              params: {articleId},
-              successCallback: function (data) {
-                data === 1 ? this.$store.commit('OPEN_ERROR_TIP', '删除成功！') : this.$store.commit('OPEN_ERROR_TIP', '操作失败！')
-                this.myArticleList.splice(index, 1)
-              }.bind(this)
-            })
-          }
-        });
+        layer.confirm('确定要删除该文章吗', {
+          btn: ['确定','取消'], //按钮
+          shade: false //不显示遮罩
+        }, () => {
+          this.$http.api({
+            url: '/article/delete-article',
+            params: {articleId},
+            successCallback: function (data) {
+              data === 1 ? layer.msg('删除成功', {icon: 1}) : layer.msg('操作失败！', {icon: 5})
+              this.myArticleList.splice(index, 1)
+            }.bind(this)
+          })
+        }, () => {});
       },
       goArticleByNotify(notify) {
         this.$http.api({
@@ -421,6 +468,7 @@
           successCallback: function (data) {
             if (data === 1) {
               if (notify.eventType === 2) {
+                location.href = location.href.replace(/(#\/).*/g, '$1home-page/' + notify.fromId + '?homeIndex=1');
                 return
               }
               this.$router.push('/article-detail/' + notify.associationId)
@@ -449,81 +497,128 @@
         this.showIndex = index;
         this.queryHomePageInfo(index);
       },
+      queryDynamics (userId) {
+        this.$http.api({
+          url: '/home/query-dynamics',
+          params: {userId, page: this.pageIndex},
+          successCallback: function (data) {
+            this.dynamicList = data.dynamicList;
+            let pageCount = data.pageCount ===0? 1: data.pageCount;
+            this.pageCount = pageCount;
+          }.bind(this)
+        })
+      },
+      queryArticles (userId) {
+        let selfFlag = this.selfFlag;
+        this.$http.api({
+          url: selfFlag? '/home/query-my-articles': '/home/query-other-articles',
+          params: {userId, page: this.pageIndex},
+          successCallback: function (data) {
+            this.myArticleList = data.articleList;
+            let pageCount = data.pageCount ===0? 1: data.pageCount;
+            this.pageCount = pageCount;
+          }.bind(this)
+        })
+      },
+      queryComments (userId) {
+        this.$http.api({
+          url: '/home/query-my-comments',
+          params: {userId, page: this.pageIndex},
+          successCallback: function (data) {
+            console.log(data);
+            this.myCommentsList = data.myCommentsList;
+            let pageCount = data.pageCount ===0? 1: data.pageCount;
+            this.pageCount = pageCount;
+          }.bind(this)
+        })
+      },
+      queryFavorites (userId) {
+        let selfFlag = this.selfFlag;
+        this.$http.api({
+          url: selfFlag? '/home/query-my-favorites': '/home/query-other-favorites',
+          params: {userId, page: this.pageIndex},
+          successCallback: function (data) {
+            this.myFavoritesList = data.favoriteList;
+            let pageCount = data.pageCount ===0? 1: data.pageCount;
+            this.pageCount = pageCount;
+          }.bind(this)
+        })
+      },
+      queryFollows (userId) {
+        let selfFlag = this.selfFlag;
+        this.$http.api({
+          url: selfFlag? '/home/query-my-follow': '/home/query-other-follow',
+          params: {userId, page: this.pageIndex},
+          successCallback: function (data) {
+            this.myFollowList = data.followList;
+            let pageCount = data.pageCount ===0? 1: data.pageCount;
+            this.pageCount = pageCount;
+          }.bind(this)
+        })
+      },
+      queryFans (userId) {
+        let selfFlag = this.selfFlag;
+        this.$http.api({
+          url: selfFlag? '/home/query-my-fans': '/home/query-other-fans',
+          params: {userId, page: this.pageIndex},
+          successCallback: function (data) {
+            this.myFansList = data.fansList;
+            let pageCount = data.pageCount ===0? 1: data.pageCount;
+            this.pageCount = pageCount;
+          }.bind(this)
+        })
+      },
+      queryNotifies (userId) {
+        this.$http.api({
+          url: '/home/query-my-notify',
+          params: {userId, page: this.pageIndex},
+          successCallback: function (data) {
+            this.notifyList = data.myNotifyList;
+            let pageCount = data.pageCount ===0? 1: data.pageCount;
+            this.pageCount = pageCount;
+          }.bind(this)
+        })
+      },
       queryHomePageInfo(index) {
         if (typeof index === 'string') {
           index = parseInt(index);
         }
-        let staff_key = auth.getData(auth.STAFF_KEY);
-        if (staff_key) {
-          var userId = JSON.parse(staff_key).id;
-        } else {
-          this.$store.commit('OPEN_ERROR_TIP', '登录信息已失效，请重新登录！')
-          return
-        }
+        this.pageCount = this.pageIndex = 1;
+        this.switchPage(index, this.userId);
+      },
+      queryUserInfo (userId) {
+        this.$http.api({
+          url: '/user/query-user-info',
+          params: {userId},
+          successCallback: function (data) {
+            this.avatar = data.avatar;
+            this.userCode = data.userCode;
+            this.queryHomePageInfo(this.showIndex);
+          }.bind(this)
+        })
+      },
+      switchPage (index, userId) {
         switch (index) {
           case 0:
-            this.$http.api({
-              url: '/home/query-dynamics',
-              params: {userId, page: this.pageIndex},
-              successCallback: function (data) {
-                this.dynamicList = data;
-              }.bind(this)
-            })
+            this.queryDynamics(userId);
             return;
           case 1:
-            this.$http.api({
-              url: '/home/query-my-articles',
-              params: {userId, page: this.pageIndex},
-              successCallback: function (data) {
-                this.myArticleList = data.articleList;
-                this.pageCount = data.pageCount;
-              }.bind(this)
-            })
+            this.queryArticles(userId);
             return;
           case 2:
-            this.$http.api({
-              url: '/home/query-my-comments',
-              params: {userId, page: this.pageIndex},
-              successCallback: function (data) {
-                this.myCommentsList = data;
-              }.bind(this)
-            })
+            this.queryComments(userId);
             return;
           case 3:
-            this.$http.api({
-              url: '/home/query-my-favorites',
-              params: {userId, page: this.pageIndex},
-              successCallback: function (data) {
-                this.myFavoritesList = data;
-              }.bind(this)
-            })
+            this.queryFavorites(userId);
             return;
           case 4:
-            this.$http.api({
-              url: '/home/query-my-follow',
-              params: {userId, page: this.pageIndex},
-              successCallback: function (data) {
-                this.myFollowList = data;
-              }.bind(this)
-            })
+            this.queryFollows(userId);
             return;
           case 5:
-            this.$http.api({
-              url: '/home/query-my-fans',
-              params: {userId, page: this.pageIndex},
-              successCallback: function (data) {
-                this.myFansList = data;
-              }.bind(this)
-            })
+            this.queryFans(userId);
             return;
           case 6:
-            this.$http.api({
-              url: '/home/query-my-notify',
-              params: {userId, page: this.pageIndex},
-              successCallback: function (data) {
-                this.notifyList = data;
-              }.bind(this)
-            })
+            this.queryNotifies(userId);
             return;
           default:
             ;
@@ -543,12 +638,6 @@
       }
     },
     computed: {
-      avatar() {
-        return this.$store.state.home.userInfo.userAvatar;
-      },
-      userCode() {
-        return this.$store.state.home.userInfo.userCode;
-      },
       homeIndex() {
         return this.$route.query.homeIndex;
       },
@@ -563,18 +652,34 @@
       },
       prevDisabledFlag() {
         return this.pageIndex === 1
+      },
+      selfFlag() {
+        let staff_key = auth.getData(auth.STAFF_KEY);
+        if (staff_key) {
+          var userId = JSON.parse(staff_key).id;
+        }
+        return this.userId == userId;
       }
     },
     beforeRouteEnter(to, from, next) {
       next(vm => {
         vm.showIndex = to.query.homeIndex;
-        vm.queryHomePageInfo(vm.showIndex);
+        vm.userId = to.params.id;
+        vm.queryUserInfo(vm.userId);
       })
+    },
+    mounted () {
+      require('../../../assets/layer/layer');
     },
     watch: {
       homeIndex(val) {
         this.showIndex = val;
         this.queryHomePageInfo(val);
+      },
+      '$route' (to, from) {
+        this.showIndex = to.query.homeIndex;
+        this.userId = to.params.id;
+        this.queryUserInfo(this.userId);
       }
     },
     components: {
