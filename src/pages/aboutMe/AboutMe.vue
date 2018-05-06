@@ -93,8 +93,8 @@
   }
 
   .introli {
-    width: 100%;
-    margin-left: 300px;
+    width: 80%;
+    margin-left: 20%;
     display: flex;
     &.introli-2 {
       animation-delay: .5s;

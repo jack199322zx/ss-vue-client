@@ -29,7 +29,7 @@
         <div class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
             <li>
-              <a @click="goBlogList()" nav="博客" >博客</a>
+              <a @click="goBlogList()" nav="博客">博客</a>
             </li>
             <li>
               <a nav="小助手">小助手</a>
@@ -46,13 +46,9 @@
           </ul>
           <ul class="navbar-button list-inline" id="header_user">
             <li view="search" class="hidden-xs hidden-sm">
-              <form method="GET" action="/search" accept-charset="UTF-8" class="navbar-form navbar-left">
-                <div class="form-group search-div">
-                  <input class="form-control search-input mac-style" placeholder="搜索" name="kw" type="text" value="">
-                  <button class="search-btn" type="submit"><i class="iconfont icon-kandianbo-sousuo"
-                                                              style="font-size:14px"></i></button>
-                </div>
-              </form>
+              <div class="navbar-form navbar-left">
+                <auto-complete @getData="getSearchList" @submitSearch="submitSearch" :searchList="searchList"></auto-complete>
+              </div>
             </li>
             <li v-if="loginStatus"><a @click="goArticlePublish()" class="btn btn-sm"><i class="iconfont icon-bianji"
                                                                                         style="font-size:14px;"></i> 写文章</a>
@@ -65,12 +61,14 @@
               <ul v-show="mouseHover" class="dropdown-menu" role="menu" @mouseout="closeUserInfo()">
                 <li><a @click="goHomePage()"><i class="iconfont icon-zhuye"></i> 个人主页</a></li>
                 <li><a @click="goDynamic()"><i class="iconfont icon-xiaoxidongtai"></i> 发现 </a>
-                  <div class="menu-dynamics-div" v-if="notifyAndDynamics.dynamicNum">{{notifyAndDynamics.dynamicNum}}</div>
+                  <div class="menu-dynamics-div" v-if="notifyAndDynamics.dynamicNum">{{notifyAndDynamics.dynamicNum}}
+                  </div>
                 </li>
                 <li><a @click="goMyLove()"><i class="iconfont icon-xinweixuanzhong"></i> 我喜爱的文章</a></li>
                 <li><a @click="goMyFollow()"><i class="iconfont icon-dingyue"></i> 我关注的人</a></li>
                 <li><a @click="goNotify()"><i class="iconfont icon-xinxi"></i> 通知 </a>
-                  <div class="menu-dynamics-div" v-if="notifyAndDynamics.unreadNum">{{notifyAndDynamics.unreadNum}}</div>
+                  <div class="menu-dynamics-div" v-if="notifyAndDynamics.unreadNum">{{notifyAndDynamics.unreadNum}}
+                  </div>
                 </li>
                 <li><a @click="logout()"><i class="iconfont icon-guanji"></i> 退出</a>
                 </li>
@@ -90,6 +88,7 @@
 
 <script>
   import '../../assets/styles/bootstrap/css/bootstrap.min.css';
+  import AutoComplete from '../../components/autocomplete/AutoComplete.vue';
 
   export default {
     data() {
@@ -101,7 +100,8 @@
           avatar: ''
         },
         loginStatus: 0,
-        notifyAndDynamics: {}
+        notifyAndDynamics: {},
+        searchList: []
       }
     },
     methods: {
@@ -144,6 +144,32 @@
       },
       goDynamic () {
         location.href = location.href.replace(/(#\/).*/g, '$1home-page/' + this.userInfo.id + '?homeIndex=0');
+      },
+      getSearchList (val) {
+        if (val && val.length > 0) {
+          let _this = this;
+          setTimeout(function () {
+            _this.$http.api({
+              url: '/search/find-keywords',
+              params: {keywords: val.trim()},
+              successCallback: function (data) {
+                _this.searchList = data;
+              }.bind(_this)
+            })
+          },300)
+        }
+      },
+      submitSearch (val) {
+        let trimVal = val.trim();
+        if (trimVal && trimVal.length> 0) {
+          this.$http.api({
+            url: '/search/search-articles',
+            params: {search: trimVal},
+            successCallback: function (data) {
+              console.log(data);
+            }.bind(this)
+          })
+        }
       }
     },
     created() {
@@ -168,6 +194,9 @@
           }
         }.bind(this)
       });
+    },
+    components: {
+      AutoComplete
     }
   }
 </script>
@@ -373,47 +402,6 @@
     padding: 0px 20px;
   }
 
-  .site-header .navbar-form .form-control {
-    padding-left: 30px;
-    font-size: 14px;
-    line-height: 1em;
-    background-color: #fff;
-    border: none;
-    border-radius: 0;
-    color: inherit;
-  }
-
-  .site-header .navbar-form .mac-style {
-    width: 180px;
-    transition: width 1s ease-in-out;
-  }
-
-  .site-header .navbar-form .search-input {
-    border-radius: 3px;
-    box-shadow: none;
-    transition: all 0.15s ease-in 0s;
-  }
-
-  .site-header .navbar-form .search-btn {
-    position: absolute;
-    left: 28px;
-    top: 6px;
-    font-size: 14px;
-    color: #ccc;
-    background-color: transparent;
-    border: none;
-    outline: none;
-  }
-
-  .site-header .navbar-form .search-btn:hover {
-    color: #969696;
-  }
-
-  .site-header .navbar-form .mac-style:focus {
-    width: 200px;
-    background-color: #fafafa;
-  }
-
   .headroom {
     position: fixed;
     z-index: 99;
@@ -491,6 +479,7 @@
   .img-circle {
     display: inline-block;
   }
+
   .dropdown-menu {
     i {
       color: #ea6f5a;
@@ -499,23 +488,23 @@
     li {
       position: relative;
       a {
-        font-size:12px;
+        font-size: 12px;
         font-weight: 500;
       }
       .menu-dynamics-div {
         position: absolute;
-        top:6px;
-        right:0;
-        margin-right:10px;
+        top: 6px;
+        right: 0;
+        margin-right: 10px;
         border-radius: 10px;
         white-space: nowrap;
         text-align: center;
-        color:white;
-        background-color:#ea6f5a;
+        color: white;
+        background-color: #ea6f5a;
         font-size: 10px;
         width: 20px;
         height: 20px;
-        line-height:20px;
+        line-height: 20px;
       }
     }
   }
