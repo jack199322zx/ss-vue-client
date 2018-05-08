@@ -10,7 +10,7 @@ import BlogList from '@/pages/blog/blog-list/BlogList.vue'
 import HomePage from '@/pages/home/home-page/HomePage.vue'
 import HomeModify from '@/pages/home/home-modify/HomeModify.vue'
 import AboutMe from '@/pages/aboutMe/AboutMe.vue'
-
+import SearchArticle from '@/pages/search/SearchArticle.vue'
 import Helper from '@/pages/helper/Helper'
 import MessageBoard from '@/pages/messageBoard/MessageBoard'
 import PhotoAlbum from '@/pages/photoAlbum/PhotoAlbum'
@@ -66,6 +66,10 @@ const router = new Router({
       path: '/aboutMe',
       name: '关于我',
       component: AboutMe
+    }, {
+      path: '/search',
+      name: '搜索',
+      component: SearchArticle
     }
 
 

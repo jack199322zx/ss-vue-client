@@ -128,6 +128,7 @@
 <script>
 
   export default {
+    name: 'autoComplete',
     props: {
       searchList: {
         type: Array,

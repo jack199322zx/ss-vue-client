@@ -47,7 +47,7 @@
           <ul class="navbar-button list-inline" id="header_user">
             <li view="search" class="hidden-xs hidden-sm">
               <div class="navbar-form navbar-left">
-                <auto-complete @getData="getSearchList" @submitSearch="submitSearch" :searchList="searchList"></auto-complete>
+                <auto-complete ref="autoComplete" @getData="getSearchList" @submitSearch="submitSearch" :searchList="searchList"></auto-complete>
               </div>
             </li>
             <li v-if="loginStatus"><a @click="goArticlePublish()" class="btn btn-sm"><i class="iconfont icon-bianji"
@@ -91,6 +91,7 @@
   import AutoComplete from '../../components/autocomplete/AutoComplete.vue';
 
   export default {
+    props: ['model'],
     data() {
       return {
         mouseHover: false,
@@ -163,10 +164,10 @@
         let trimVal = val.trim();
         if (trimVal && trimVal.length> 0) {
           this.$http.api({
-            url: '/search/search-articles',
-            params: {search: trimVal},
+            url: '/search/save-keywords',
+            params: {keywords: trimVal},
             successCallback: function (data) {
-              console.log(data);
+              this.$router.push('/search?keywords=' + trimVal);
             }.bind(this)
           })
         }
@@ -194,6 +195,11 @@
           }
         }.bind(this)
       });
+
+    },
+    mounted () {
+      console.log(this.$refs.autoComplete);
+      this.$refs.autoComplete.$data.inputmodel = this.model;
     },
     components: {
       AutoComplete

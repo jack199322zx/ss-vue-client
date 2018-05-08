@@ -141,7 +141,7 @@
             <ul class="list-group about-user">
               <li class="list-group-item user-card">
                 <div class="ava">
-                  <a href="/users/2">
+                  <a @click="goUserPage(authorId)">
                     <img class="img-circle" :src="avatar">
                   </a>
                 </div>
@@ -173,7 +173,7 @@
               </div>
               <div class="panel-body">
                 <ul class="list" id="hots">
-                  <li v-for="(item, index) in hotList">{{index + 1}}. <a
+                  <li v-for="(item, index) in hotList"><a
                     @click="chooseRouter(0, index)">{{item.articleTitle}}</a>
                   </li>
                 </ul>
@@ -186,7 +186,7 @@
               </div>
               <div class="panel-body">
                 <ul class="list" id="latests">
-                  <li v-for="(item, index) in newsList">{{index + 1}}. <a
+                  <li v-for="(item, index) in newsList"><a
                     @click="chooseRouter(1, index)">{{item.articleTitle}}</a>
                   </li>
                 </ul>
@@ -199,7 +199,7 @@
               </div>
               <div class="panel-body">
                 <ul class="list">
-                  <li v-for="(item, index) in commentsMostList">{{index + 1}}. <a
+                  <li v-for="(item, index) in commentsMostList"><a
                     @click="chooseRouter(2, index)">{{item.articleTitle}}</a>
                   </li>
                 </ul>
@@ -211,11 +211,9 @@
                 <h3 class="panel-title"><i class="fa fa-users "></i> 热门用户</h3>
               </div>
               <div class="panel-body remove-padding-horizontal">
-                <ul class="hotusers" id="hotuser">
-                  <li><a href="/users/2"><img src="/dist/images/ava/default.png"
-                                              class="avatar avatar-small"></a></li>
-                  <li><a href="/users/1"><img src="/dist/images/ava/default.png"
-                                              class="avatar avatar-small"></a></li>
+                <ul class="hotusers">
+                  <li v-for="(item, index) in hotUserList" @click="goUserPage(item.id)">
+                    <a ><img :src="$util.imgPath(item.avatar)" class="avatar avatar-small"></a></li>
                 </ul>
               </div>
             </div>
@@ -233,7 +231,6 @@
   import Footer from '../../../components/foot/Footer.vue';
   import Emoji from '../../../components/emoji/Emoji.vue';
   import auth from '../../../auth/index';
-  import '../../../assets/styles/huimarkdown.css'
   import {getFormatDateByLong} from '../../../assets/js/date-format'
 
   export default {
@@ -263,7 +260,8 @@
         showTop: false,
         readyComment: {},
         avatar: '',
-        showEmoji: false
+        showEmoji: false,
+        hotUserList: []
       }
     },
     created() {
@@ -419,6 +417,9 @@
         this.showEmoji = false
         this.chatText += this.$emoji(code);
       },
+      goUserPage (id) {
+        location.href = location.href.replace(/(#\/).*/g, '$1home-page/' + id + '?homeIndex=1');
+      },
       queryArticleDetail(articleId) {
         this.$http.api({
           url: '/blog/blog-detail',
@@ -440,6 +441,7 @@
             this.commentsMostList = data.commentsSortedList;
             this.articleSign = data.article.articleSign;
             this.comments = data.commentList;
+            this.hotUserList = data.hotUserList;
 //          this.articleList = data.articleDistList;
 //          this.hotArticleList = data.newCommentsSortedList;
 //          this.pageCount = data.pageCount;
@@ -492,6 +494,7 @@
 </script>
 
 <style scoped lang="less" rel="stylesheet/less">
+  @import '../../../assets/styles/huimarkdown.css';
   .wrap {
     position: relative;
     background-color: #f1f1f1;
@@ -687,5 +690,10 @@
       background: white;
     }
   }
-
+  .remove-padding-horizontal {
+    padding-top:0;
+  }
+  .panel-body .list li{
+    background-color: #e5e5e5;
+  }
 </style>

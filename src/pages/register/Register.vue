@@ -2,7 +2,7 @@
   <div class="login v2">
     <div class="wrapper">
       <div class="dialog dialog-shadow" style="display: block; margin-top: -362px;">
-        <div class="registered">
+        <div class="registered" v-if="registerStatus ===0">
           <h4 v-if="!registerCheckedFlag">注册账号</h4>
           <h4 v-else>设置密码</h4>
           <div class="content-1" style="margin-top: 20px;">
@@ -10,8 +10,9 @@
               <li class="username border-1p">
                 <div style="margin-top: 40px;" class="input">
                   <input v-if="!registerCheckedFlag&&!emailFlag" v-model="postPhone" type="text" placeholder="手机号" maxlength="11"
+                         @blur="checkExist(0, postPhone)"
                          @keyup="postPhone=postPhone.replace(/[^\d]/g,'')">
-                  <input v-if="emailFlag" v-model="email" type="text" placeholder="邮箱">
+                  <input v-if="emailFlag" v-model="email" type="text" placeholder="邮箱"  @blur="checkExist(1, email)">
                   <input v-if="registerCheckedFlag" type="password"
                          v-model="password"
                          maxlength="15"
@@ -23,7 +24,8 @@
                   <input type="password"
                          v-model="emailPassword"
                          maxlength="15"
-                         placeholder="密码">
+                         placeholder="密码"
+                  >
                 </div>
               </li>
               <li v-if="!emailFlag">
@@ -62,16 +64,37 @@
               >
               </y-button>
             </div>
-            <div class="border" style="margin-bottom: 10px;" v-if="!registerCheckedFlag&&!emailFlag"></div>
-            <ul class="common-form pr" v-if="!registerCheckedFlag&&!emailFlag">
-              <!-- <li class="pa" style="left: 0;top: 0;margin: 0;color: #d44d44">{{registered.errMsg}}</li> -->
+            <div class="border" style="margin-bottom: 10px;" v-if="!registerCheckedFlag"></div>
+            <ul class="common-form pr" v-if="!registerCheckedFlag">
+              <li class="pa" style="left: 0;top: 0;margin: 0;color: #d44d44">{{errorTip}}</li>
               <li style="text-align: center;line-height: 48px;margin-bottom: 0;font-size: 12px;color: #999;">
-                <span>没有收到验证码？您可以选择使用</span>
-                <a href="javascript:;"
-                   style="margin: 0 5px"
-                   @click="changeEmail()">邮箱注册</a>
+                <span v-if="!emailFlag">没有收到验证码？您可以选择使用
+                  <a href="javascript:;" style="margin: 0 5px" @click="changeEmail()">邮箱注册</a></span>
+                <span v-else>使用
+                   <a href="javascript:;" style="margin: 0 5px" @click="changeEmail()">手机注册</a></span>
               </li>
             </ul>
+          </div>
+        </div>
+        <div class="registered" v-else>
+          <h4>设置昵称</h4>
+          <div class="content-1" style="margin-top: 20px;">
+            <ul class="common-form">
+              <li class="username border-1p">
+                <div style="margin-top: 40px;" class="input">
+                  <input v-model="userName" type="text" placeholder="昵称">
+                </div>
+              </li>
+            </ul>
+            <div style="margin-bottom: 30px;">
+              <y-button
+                :classStyle="userName? 'main-btn':'disabled-btn'"
+                text="保存"
+                style="margin: 0;width: 100%;height: 48px;font-size: 18px;line-height: 48px"
+                @btnClick="saveUserName()"
+              >
+              </y-button>
+            </div>
           </div>
         </div>
       </div>
@@ -100,13 +123,55 @@
         callbackPhone: '',
         registerCheckedFlag: false,
         email: '',
-        emailPassword: ''
+        emailPassword: '',
+        errorTip: '',
+        errorCache: '',
+        registerStatus: 0,
+        userName: '',
+        userId: ''
       }
     },
     methods: {
       changeEmail() {
-        this.emailFlag = true;
-        this.captchaCheckedFlag = true
+        this.errorTip = ''
+        this.email = ''
+        this.emailPassword = ''
+        if (!this.clickFlag) {
+          this.postPhone = ''
+        }
+        this.captchaCheckedFlag = this.emailFlag = !this.emailFlag;
+      },
+      saveUserName () {
+        if (this.userName && this.userName.length > 20) {
+          return this.$store.commit('OPEN_ERROR_TIP', '昵称不能超过10个字符！')
+        }
+        this.$http.api({
+          url: '/register/saveUserName',
+          params: {userName: this.userName, userId: userId},
+          successCallback: function (data) {
+            if (data===1) {
+              this.$store.commit('OPEN_ERROR_TIP', '保存成功！')
+              let _this = this;
+              setTimeout(function () {
+                _this.$router.push('/')
+              }, 1000)
+            }
+          }.bind(this)
+        })
+      },
+      checkExist(type, val) {
+        let trimVal = val.trim();
+        if (trimVal && trimVal.length> 0) {
+          this.$http.api({
+            url: '/register/checkUserCode',
+            params: {userCode: val},
+            successCallback: function (data) {
+              if (data===1) {
+                this.errorTip = type===0? '该手机号已存在': '该邮箱已存在';
+              } else this.errorTip = '';
+            }.bind(this)
+          })
+        }
       },
       goSave (type = 0) {
         let params;
@@ -121,15 +186,19 @@
           }
           params = {'postPhone': postPhone, "password": this.password}
         }
-        this.saveRegisterInfo(params)
+        this.saveRegisterInfo(type, params)
       },
-      saveRegisterInfo (params) {
+      saveRegisterInfo (type, params) {
         this.$http.api({
           url: '/register/saveUserInfo',
           params,
           emulateJSON: false,
           successCallback: function (data) {
-            this.$store.commit('OPEN_ERROR_TIP', '注册成功，请前往邮箱激活账号')
+            if (type === 1) {
+              this.$store.commit('OPEN_ERROR_TIP', '注册成功，请前往邮箱激活账号')
+            }
+            this.registerStatus = 1;
+            this.userId = data;
           }.bind(this),
           errorCallback: function (error) {
             this.$store.commit('OPEN_ERROR_TIP', error.data.message);
@@ -164,6 +233,9 @@
       },
       checkPhoneNum() {
         let postPhone = this.postPhone;
+        if (this.errorTip) {
+          return
+        }
         if (!checkPhone(postPhone)) {
           this.$store.commit('OPEN_ERROR_TIP', '请输入正确格式的手机号')
           return
@@ -183,7 +255,7 @@
       },
       checkRegister() {
         if (this.emailFlag) {
-          return checkEmail(this.email) && this.emailPassword;
+          return checkEmail(this.email) && !this.errorTip && this.emailPassword;
         }
         if (this.postPhone != this.callbackPhone || this.callbackCaptcha != this.captcha) {
           return false;

@@ -55,6 +55,7 @@
                     <div class="infos">
                       <div class="media-heading">
                         <a>{{item.articleTitle}}</a>
+                        <div class="item-article-desc" v-html="item.articleDesc" ref="articleDesc"></div>
                         <div>
                           <span class="hidden-xs label label-default" v-for="flag in item.flagList" style="margin-right:10px">{{flag.flagInfo}}</span>
                         </div>
@@ -113,9 +114,8 @@
                 <h3 class="panel-title"><i class="fa fa-users "></i> 热门用户</h3>
               </div>
               <div class="panel-body remove-padding-horizontal">
-                <ul class="hotusers" id="hotuser">
-                  <li><a href="/users/2"><img src="/store/ava/000/00/00/02_100.jpg" class="avatar avatar-small"></a></li>
-                  <li><a href="/users/1"><img src="/dist/images/ava/default.png" class="avatar avatar-small"></a></li>
+                <ul class="hotusers">
+                  <li v-for="(item, index) in hotUserList" @click="goUserPage(item.id)"><a ><img :src="$util.imgPath(item.avatar)" class="avatar avatar-small"></a></li>
                 </ul>
               </div>
             </div>
@@ -148,7 +148,8 @@
         images: images,
         activeFlag: [true, false, false],
         dist: 0,
-        showTop: false
+        showTop: false,
+        hotUserList: []
       }
     },
     created() {
@@ -162,12 +163,16 @@
           this.$store.commit('SAVE_FLAG_LIST', this.flagList);
           this.hotList = data.viewNumSortedList;
           this.newsList = data.createTimeSortedList;
+          this.hotUserList = data.hotUserList;
         }.bind(this)
       });
     },
     methods: {
       logout () {
         auth.logout();
+      },
+      goUserPage (id) {
+        location.href = location.href.replace(/(#\/).*/g, '$1home-page/' + id + '?homeIndex=1');
       },
       chooseDist(type) {
         this.activeFlag.fill(false);
@@ -289,11 +294,16 @@
     padding-top: 40px;
   }
 
-  .media-heading {
+  .streams .topic-list .media-heading {
     display: -webkit-box;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 1;
     white-space: normal;
+    padding-top:0;
+    a {
+      font-size:15px;
+      font-weight: 700;
+    }
   }
 
   .cloud-box {
@@ -306,7 +316,20 @@
     }
   }
   .topic-list .list-group-item {
-    height: 77px;
+    height: 110px;
+    padding-top: 15px;
+    .item-article-desc {
+      width:100%;
+      height:40px;
+      overflow: hidden;
+      font-size: 13px;
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 2
+    }
+  }
+  .remove-padding-horizontal {
+    padding-top:0;
   }
   .panel-body .list li{
     background-color: #e5e5e5;
