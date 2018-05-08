@@ -78,7 +78,7 @@
                   <div class="chat_body">
                     <h5 style="display: flex;justify-content: space-between">
                       <div class="fl"><a class="chat_name"
-                                         href="/users/2">{{comm.user.userCode}}</a>
+                                         href="/users/2">{{comm.user.userName}}</a>
                       </div>
                       <div class="fr reply_this">
                         <span style="padding-right:20px;">{{comm.createTime | timeFilter}}</span>
@@ -88,7 +88,7 @@
                     <div class="chat_p">
                       <div class="chat_pct" v-html="comm.commentContent"></div>
                       <div class="quote" v-if="comm.toCommentId"><a
-                        href="/users/2">@{{comm.toComment.user.userCode}}</a>:
+                        href="/users/2">@{{comm.toComment.user.userName}}</a>:
                         <span v-html="comm.toComment.commentContent"></span>
                       </div>
                     </div>
@@ -311,7 +311,7 @@
               toCommentId: data.toCommentId,
               createTime: new Date().getTime(),
               user: {
-                userCode: this.$store.state.home.userInfo.userCode,
+                userName: this.$store.state.home.userInfo.userName,
                 avatar: this.$store.state.home.userInfo.userAvatar
               },
               toComment: this.readyComment
@@ -324,11 +324,11 @@
         let commentId = this.comments[index].commentId;
         console.log(commentId);
         console.log(index);
-        let userCode = this.comments[index].user.userCode;
+        let userName = this.comments[index].user.userName;
         document.getElementById('chat_text').scrollIntoView();
         $('#chat_text').focus();
         this.chatText = '';
-        $('#chat_to').text(userCode);
+        $('#chat_to').text(userName);
         this.commentId = commentId;
         $('#chat_reply').show();
         this.readyComment = this.comments[index];

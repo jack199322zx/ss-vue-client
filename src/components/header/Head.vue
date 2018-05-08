@@ -56,7 +56,7 @@
             <li v-if="loginStatus" class="dropdown" @mouseover="showUserInfo()" @mouseout="closeUserInfo()">
               <a href="#" class="user dropdown-toggle" data-toggle="dropdown">
                 <img class="img-circle" :src="$util.imgPath(userInfo.avatar)">
-                <span>{{userInfo.userCode}}</span>
+                <span>{{userInfo.userName}}</span>
               </a>
               <ul v-show="mouseHover" class="dropdown-menu" role="menu" @mouseout="closeUserInfo()">
                 <li><a @click="goHomePage()"><i class="iconfont icon-zhuye"></i> 个人主页</a></li>
@@ -96,7 +96,7 @@
       return {
         mouseHover: false,
         userInfo: {
-          userCode: '',
+          userName: '',
           id: '',
           avatar: ''
         },
@@ -181,12 +181,12 @@
             this.loginStatus = 0;
           } else {
             this.loginStatus = 1;
-            this.userInfo.userCode = data.userCode;
+            this.userInfo.userName = data.userName;
             this.userInfo.avatar = data.avatar;
             this.userInfo.id = data.id;
             this.notifyAndDynamics = data.notifyAndDynamics;
             this.$store.commit('SAVE_USER_INFO', {
-              userCode: data.userCode,
+              userName: data.userName,
               userId: data.id,
               userAvatar: data.avatar,
               notifyNum: data.notifyAndDynamics.unreadNum,

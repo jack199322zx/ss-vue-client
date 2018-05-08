@@ -18,7 +18,7 @@
                   </a>
                 </div>
                 <div class="user-info">
-                  <div class="nk mb10">{{userCode}}</div>
+                  <div class="nk mb10">{{userName}}</div>
                   <div class="mb6" v-if="selfFlag">
                     <a class="btn btn-success btn-xs" @click="goModifyHome()">修改账户</a>
                   </div>
@@ -243,7 +243,7 @@
                   <li v-for="(item, index) in myFollowList" @click="goUserPage(item.id)">
                     <a>
                       <img :src="$util.imgPath(item.avatar)" class="avatar avatar-small">
-                      <div class="user-avatar-span">{{item.userCode}}</div>
+                      <div class="user-avatar-span">{{item.userName}}</div>
                       <div v-if="selfFlag" class="mb6" style="margin: 0 auto;width: 60px;" @click.stop.prevent="cancelFollow(item.id, index)">
                         <a  data-id="2" rel="follow" class="btn btn-default btn-xs">取消关注</a></div>
                     </a></li>
@@ -269,7 +269,7 @@
                   <li v-for="(item, index) in myFansList" @click="goUserPage(item.id)">
                     <a >
                       <img :src="$util.imgPath(item.avatar)" class="avatar avatar-small">
-                      <div class="user-avatar-span">{{item.userCode}}</div>
+                      <div class="user-avatar-span">{{item.userName}}</div>
                     </a></li>
                 </ul>
                 <ul class="hotusers" v-else>
@@ -357,7 +357,7 @@
         pageCount: 1,
         userId: '',
         avatar: '',
-        userCode: ''
+        userName: ''
       }
     },
     methods: {
@@ -592,7 +592,7 @@
           params: {userId},
           successCallback: function (data) {
             this.avatar = data.avatar;
-            this.userCode = data.userCode;
+            this.userName = data.userName;
             this.queryHomePageInfo(this.showIndex);
           }.bind(this)
         })

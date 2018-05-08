@@ -35,7 +35,7 @@
                          maxlength="6"
                          @keyup="captcha=captcha.replace(/[^\d]/g,'')"
                          placeholder="验证码" id="captcha">
-                  <div class="captcha-boxed" @click="checkPhoneNum()" v-if="!clickFlag">发送验证码</div>
+                  <div class="captcha-boxed captcha-boxed-clicked" @click="checkPhoneNum()" v-if="!clickFlag">发送验证码</div>
                   <div class="captcha-boxed" v-else>重新发送({{timeCount}})</div>
                 </div>
                 <div class="input" v-else>
@@ -496,5 +496,8 @@
     border-radius: 5px;
     background-color: #808080;
     color: #fff;
+    &.captcha-boxed-clicked {
+      background-color: #4769c2;
+    }
   }
 </style>

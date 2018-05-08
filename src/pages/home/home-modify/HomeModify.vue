@@ -14,36 +14,40 @@
           </div>
           <div class="panel-body" v-if="chooseRouter===0">
             <div class="tab-pane active" id="profile">
-              <form id="pf" action="profile" method="post" class="form-horizontal">
+              <div class="form-horizontal">
                 <div class="form-group">
                   <label class="control-label col-lg-3">昵称</label>
                   <div class="col-lg-4">
-                    <input type="text" class="form-control" name="name" value="sweeettttt" maxlength="7"
-                           data-required="">
+                    <input type="text" class="form-control" v-model="nickName" maxlength="20">
                   </div>
                 </div>
-                <div class="form-group">
-                  <label class="control-label col-lg-3">邮箱地址</label>
+                <div class="form-group" v-if="telephone">
+                  <label class="control-label col-lg-3">手机号</label>
                   <div class="col-lg-4">
-                    <span class="form-control">461333622@qq.com</span>
+                    <span class="form-control">{{telephone}}</span>
+                  </div>
+                </div>
+                <div class="form-group" v-if="emailAddress">
+                  <label class="control-label col-lg-3">邮箱</label>
+                  <div class="col-lg-4">
+                    <span class="form-control">{{emailAddress}}</span>
                   </div>
                   <div class="col-lg-3" style="padding-top: 6px;">
-                    <span class="label label-warning">未验证</span>
-                    <a href="/user/email">修改邮箱</a>
+                    <span :class="['label','label-warning',{'label-active':userState==='1'}]">{{userState==='1'? '已激活':'未验证'}}</span>
                   </div>
                 </div>
                 <div class="form-group">
-                  <label class="control-label col-lg-3">个性签名</label>
+                  <label class="control-label col-lg-3">地址</label>
                   <div class="col-lg-6">
-                    <textarea name="signature" class="form-control" rows="3" maxlength="128"></textarea>
+                    <textarea class="form-control" rows="3" maxlength="128" v-model="userAddress"></textarea>
                   </div>
                 </div>
                 <div class="form-group">
                   <div class="text-center">
-                    <button type="submit" class="btn btn-primary">提交</button>
+                    <button type="submit" class="btn btn-primary" @click="submitUserInfo()">提交</button>
                   </div>
                 </div><!-- /form-actions -->
-              </form>
+              </div>
             </div>
           </div><!-- /panel-content -->
           <div class="panel-body" v-if="chooseRouter===1">
@@ -74,35 +78,34 @@
           </div>
           <div class="panel-body" v-if="chooseRouter===2">
             <div class="tab-pane active" id="passwd">
-              <form id="pw" action="password" method="post" class="form-horizontal">
+              <div class="form-horizontal">
                 <div class="form-group">
                   <label class="control-label col-lg-3" for="password">当前密码</label>
                   <div class="col-lg-4">
-                    <input type="password" class="form-control" name="oldPassword" maxlength="18" placeholder="请输入当前密码"
-                           data-required="">
+                    <input type="password" class="form-control" v-model="oldPassword" maxlength="18" placeholder="请输入当前密码">
                   </div>
                 </div>
                 <div class="form-group">
                   <label class="control-label col-lg-3" for="password">新密码</label>
                   <div class="col-lg-4">
-                    <input type="password" class="form-control" id="password" name="password" placeholder="请输入新密码"
-                           maxlength="18" data-required="">
+                    <input type="password" class="form-control" id="password" v-model="newPassword" placeholder="请输入新密码"
+                           maxlength="18">
                   </div>
                 </div>
                 <div class="form-group">
                   <label class="control-label col-lg-3">确认密码</label>
                   <div class="col-lg-4">
-                    <input type="password" class="form-control" name="password2" data-required=""
-                           placeholder="请再输入一遍新密码" maxlength="18" data-conditional="confirm" data-describedby="message"
+                    <input type="password" class="form-control"
+                           placeholder="请再输入一遍新密码" v-model="checkPassword" maxlength="18" data-conditional="confirm" data-describedby="message"
                            data-description="passwd">
                   </div>
                 </div>
                 <div class="form-group">
                   <div class="text-center">
-                    <button type="submit" class="btn btn-primary">提交</button>
+                    <button type="submit" class="btn btn-primary" @click="goSubmitPassword()">提交</button>
                   </div>
                 </div><!-- /form-actions -->
-              </form>
+              </div>
             </div>
           </div>
         </div><!-- /panel -->
@@ -125,12 +128,54 @@
         chooseRouter: 0,
         activeList: [true, false, false],
         defaultImg: '',
-        showTop: false
+        showTop: false,
+        emailAddress: '',
+        userAddress: '',
+        telephone: '',
+        nickName: '',
+        userState: '',
+        oldPassword: '',
+        newPassword: '',
+        checkPassword: ''
       }
     },
     methods: {
       logout () {
         auth.logout();
+      },
+      goSubmitPassword () {
+        if (this.newPassword !== this.checkPassword)
+          return layer.msg('两次输入密码不一致', {icon: 5});
+        this.$http.api({
+          url: '/user/save-user-pwd',
+          params: {
+            oldPassword: this.oldPassword,
+            newPassword: this.newPassword
+          },
+          successCallback: function (data) {
+            if (data ===1) {
+              layer.msg('保存成功', {icon: 1})
+            } else {
+              layer.msg('保存失败', {icon: 5})
+            }
+          }.bind(this)
+        });
+      },
+      submitUserInfo () {
+        this.$http.api({
+          url: '/user/save-user-info',
+          params: {
+            userAddress: this.userAddress,
+            nickName: this.nickName
+          },
+          successCallback: function (data) {
+            if (data ===1) {
+              layer.msg('保存成功', {icon: 1})
+            } else {
+              layer.msg('保存失败', {icon: 5})
+            }
+          }.bind(this)
+        });
       },
       goBaseInfo () {
         this.activeList.fill(false);
@@ -179,6 +224,29 @@
         }
       }
     },
+    created () {
+      let staff_key = auth.getData(auth.STAFF_KEY);
+      if (staff_key) {
+        var userId = JSON.parse(staff_key).id;
+      } else {
+        this.$store.commit('OPEN_ERROR_TIP', '登录信息已失效，请重新登录！')
+        return
+      }
+      this.$http.api({
+        url: '/user/query-user-info',
+        params: {userId},
+        successCallback: function (data) {
+          this.nickName = data.userName;
+          this.emailAddress = data.email;
+          this.userAddress = data.address;
+          this.telephone = data.telephone;
+          this.userState = data.state;
+        }.bind(this)
+      });
+    },
+    mounted () {
+      require('../../../assets/layer/layer');
+    },
     components: {
       Head,
       Footer
@@ -187,6 +255,7 @@
 </script>
 
 <style scoped lang="less" rel="stylesheet/less">
+  @import '../../../assets/less/base';
   .wrap {
     position: relative;
     background-color: #f1f1f1;
@@ -210,6 +279,11 @@
     img {
       vertical-align: middle;
       display: inline;
+    }
+  }
+  .label {
+    &.label-active {
+      background-color: @base-color;
     }
   }
 </style>

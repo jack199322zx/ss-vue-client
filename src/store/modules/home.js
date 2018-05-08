@@ -66,7 +66,7 @@ const state = {
   articleCacheList: [],
   flagCacheList: [],
   userInfo: {
-    userCode: '',
+    userName: '',
     userId: '',
     userAvatar: '',
     notifyNum: '',
@@ -164,7 +164,7 @@ const mutations = {
     state.articleCacheList.splice(index, 1, articleCache);
   },
   [types.SAVE_USER_INFO] (state, userInfo) {
-    state.userInfo.userCode = userInfo.userCode;
+    state.userInfo.userName = userInfo.userName;
     state.userInfo.userId = userInfo.userId;
     state.userInfo.userAvatar = userInfo.userAvatar;
     state.userInfo.dynamicNum = userInfo.dynamicNum;
