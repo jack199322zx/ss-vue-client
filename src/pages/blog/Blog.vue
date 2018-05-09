@@ -62,7 +62,7 @@
           <div class="else">
             <p>{{blog.createTime | timeFilter}}</p>
             <h3><a data-id="6429" class="posttitle" href="http://isujin.com/6429">{{blog.articleTitle}}</a></h3>
-            <p class="blog-desc">{{blog.articleDesc}}</p>
+            <p class="blog-desc" v-html="blog.articleDesc"></p>
             <p class="here">
               <span class="icon-letter">{{blog.commentsNum}}</span>
               <span class="icon-view">{{blog.viewNum}}</span>

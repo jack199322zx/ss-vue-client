@@ -12,7 +12,7 @@
           <div class="introli animated fadeInRight introli-2">
             <div class="left_icon"><img class="bio-text bio-icon-2" src="./bio-icon-2.png" data-stellar-ratio="0.7"
                                         style="display: inline; left: 603px; top: 274.5px;"></div>
-            <div class="right_content">专注于分享实用的软件、有趣的文章、html5、java 开发等一切好玩的东东！</div>
+            <div class="right_content">专注于分享软件、文章、html5、java技术等一切好玩的东东！</div>
           </div>
           <div class="introli animated fadeInRight introli-3">
             <div class="left_icon"><img class="bio-text bio-icon-3" src="./bio-icon-3.png" data-stellar-ratio="0.7"

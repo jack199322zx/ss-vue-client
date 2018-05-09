@@ -286,4 +286,7 @@
       background-color: @base-color;
     }
   }
+  .tab-pane {
+    padding: 0 20%;
+  }
 </style>

@@ -73,16 +73,6 @@ const logout = () => {
   });
 };
 
-const forgetPwdLogout = () => {
-  if (staff.info.staffCode != null) {
-    logout();
-    return;
-  }
-  staff.authenticated = false;
-  clear();
-  // router.replace(PATH_LOGIN);
-  return;
-};
 
 const checkAuth = () => {
   let token = getData(TOKEN_KEY);
@@ -143,11 +133,11 @@ const staff = {
 export default {
   staff,
   logout,
-  forgetPwdLogout,
   checkAuth,
   getAuthHeader,
   save,
   getData,
   STAFF_KEY,
+  MENUS_KEY,
   clear
 };

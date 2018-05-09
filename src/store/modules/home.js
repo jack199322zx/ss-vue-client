@@ -92,9 +92,6 @@ const mutations = {
     state.tipInfo.isShow = true;
     state.tipInfo.title = '错误提示';
     state.tipInfo.text = text;
-    state.tipInfo.closeCallback = function () {
-      router.push('/login');
-    };
     state.tipInfo.type = false;
     state.tipInfo.confirmHint = '关闭';
     state.tipInfo.showIcon = true;

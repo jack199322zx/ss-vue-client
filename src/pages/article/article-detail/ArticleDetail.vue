@@ -88,7 +88,7 @@
                     <div class="chat_p">
                       <div class="chat_pct" v-html="comm.commentContent"></div>
                       <div class="quote" v-if="comm.toCommentId"><a
-                        href="/users/2">@{{comm.toComment.user.userName}}</a>:
+                        href>@{{comm.toComment.user.userName}}</a>:
                         <span v-html="comm.toComment.commentContent"></span>
                       </div>
                     </div>

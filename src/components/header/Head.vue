@@ -88,6 +88,7 @@
 
 <script>
   import '../../assets/styles/bootstrap/css/bootstrap.min.css';
+  import auth from '../../auth'
   import AutoComplete from '../../components/autocomplete/AutoComplete.vue';
 
   export default {
@@ -126,6 +127,24 @@
         this.$router.push('/aboutMe')
       },
       goArticlePublish() {
+        let menus_key = auth.getData(auth.MENUS_KEY);
+        let menuFlag = false;
+        if (menus_key) {
+          var menusList = JSON.parse(menus_key);
+          menusList.forEach(menu => {
+            if ('MENU:ARTICLE' === menu.name) {
+              console.log(menu.name);
+              menuFlag = true;
+            }
+          })
+          if (!menuFlag) {
+            this.$store.commit('OPEN_ERROR_TIP', '激活邮箱后才可以发布文章哦~')
+            return
+          }
+        } else {
+          this.$store.commit('OPEN_ERROR_TIP', '登录信息已失效，请重新登录！')
+          return
+        }
         location.href = location.href.replace(/(#\/).*/g, '$1article-publish');
       },
       goBlogList() {
