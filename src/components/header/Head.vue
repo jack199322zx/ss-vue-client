@@ -19,14 +19,14 @@
     <div class="container">
       <nav class="navbar" role="navigation">
         <div class="navbar-header">
-          <button class="navbar-toggle" type="button" data-toggle="collapse" data-target=".navbar-collapse">
+          <button class="navbar-toggle" type="button" data-toggle="collapse" @click="changeSlideBox()" >
             <span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>
           </button>
           <a class="navbar-brand" href="/">
             <img src="../../assets/images/blog-logo.jpg">
           </a>
         </div>
-        <div class="collapse navbar-collapse">
+        <div :class="[showSlideBox ? 'in': 'collapse', 'navbar-collapse', 'animated fadeIn']">
           <ul class="nav navbar-nav">
             <li>
               <a @click="goBlogList()" nav="博客">博客</a>
@@ -35,19 +35,20 @@
               <a nav="小助手">小助手</a>
             </li>
             <li>
-              <a @click="goMessageBoard()">留言板</a>
+              <a >建站笔录</a>
             </li>
             <li>
-              <a nav="留言板">友链</a>
+              <a @click="goMessageBoard()">留言板</a>
             </li>
             <li>
               <a @click="goAboutMe()" nav="关于我">关于我</a>
             </li>
           </ul>
           <ul class="navbar-button list-inline" id="header_user">
-            <li view="search" class="hidden-xs hidden-sm">
+            <li view="search" class="dropdown">
               <div class="navbar-form navbar-left">
-                <auto-complete ref="autoComplete" @getData="getSearchList" @submitSearch="submitSearch" :searchList="searchList"></auto-complete>
+                <auto-complete ref="autoComplete" @getData="getSearchList" @submitSearch="submitSearch"
+                               :searchList="searchList"></auto-complete>
               </div>
             </li>
             <li v-if="loginStatus"><a @click="goArticlePublish()" class="btn btn-sm"><i class="iconfont icon-bianji"
@@ -103,7 +104,8 @@
         },
         loginStatus: 0,
         notifyAndDynamics: {},
-        searchList: []
+        searchList: [],
+        showSlideBox: false
       }
     },
     methods: {
@@ -112,6 +114,9 @@
       },
       closeUserInfo() {
         this.mouseHover = false
+      },
+      changeSlideBox () {
+        this.showSlideBox = !this.showSlideBox;
       },
       logout() {
         this.loginStatus = 0;
@@ -180,12 +185,12 @@
                 _this.searchList = data;
               }.bind(_this)
             })
-          },1000)
+          }, 500)
         }
       },
       submitSearch (val) {
         let trimVal = val.trim();
-        if (trimVal && trimVal.length> 0) {
+        if (trimVal && trimVal.length > 0) {
           this.$http.api({
             url: '/search/save-keywords',
             params: {keywords: trimVal},
@@ -221,7 +226,6 @@
 
     },
     mounted () {
-      console.log(this.$refs.autoComplete);
       this.$refs.autoComplete.$data.inputmodel = this.model;
     },
     components: {

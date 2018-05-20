@@ -51,15 +51,15 @@
                       赞赏
                       <div class="tip-popover" v-show="payShow">
                         <div class="tip-alipay"><img
-                          src="https://qq52o.me/wp-content/themes/c7v5/img/tip_qrcode_alipay.jpg"
-                          alt="alipay"><span>支付宝赞赏</span></div>
+                          src="../../../../src/assets/images/alipay.jpg"
+                          alt="alipay"><span class="alipay-span">支付宝赞赏</span></div>
                         <div class="tip-wechatpay"><img
-                          src="https://qq52o.me/wp-content/themes/c7v5/img/tip_qrcode_wechatpay.jpg"
+                          src="../../../../src/assets/images/weixin.png"
                           alt="wechat"><span>微信赞赏</span>
                         </div>
                       </div>
                     </div>
-                    <p class="tip-desc">如果文章对您有帮助，欢迎给作者打赏</p>
+                    <p class="tip-desc">如果站长的文章对您有帮助，欢迎给站长打赏（暂不支持个人）</p>
                   </div>
                   <div class="social-share" data-sites="weibo,wechat,qq,qzone,tencent,douban">
                   </div>
@@ -509,7 +509,7 @@
   }
 
   .wp {
-    width: 700px;
+    width: 100%;
     margin-right: auto;
     margin-left: auto;
     clear: both;
@@ -538,8 +538,8 @@
   .tip-popover {
     position: absolute;
     bottom: 100%;
-    left: -115px;
-    width: 300px;
+    left: -250px;
+    width: 600px;
     padding: 10px;
     margin-bottom: 20px;
     font-size: 14px;
@@ -556,13 +556,21 @@
     -webkit-transform-origin: 50% 100%;
     -ms-transform-origin: 50% 100%;
     transform-origin: 50% 100%;
-    border: 1px solid #eee;
-    z-index: 9;
     -webkit-box-shadow: 0 2px 10px #aaa;
-    box-shadow: 0 2px 10px #aaa;
-    -webkit-transition: all 200ms;
-    transition: all 200ms;
-    -moz-transition: all 350ms;
+    box-shadow:0 10px 50px rgba(0,0,0,.5);
+    -webkit-transition: .3s;
+    transition: .3s;
+  }
+  .tip-popover:after {
+    position: absolute;
+    bottom: -20px;
+    left: 50%;
+    width: 0;
+    height: 0;
+    margin-left: -10px;
+    content: "";
+    border: 10px solid transparent;
+    border-top-color: #fff;
   }
 
   .tip-popover div {
@@ -571,17 +579,18 @@
   }
 
   .tip-popover img {
-    width: 130px;
-    margin: 10px;
-    max-width: 100%;
-    height: auto;
-    vertical-align: middle;
-    border-style: none;
+    width: 100%;
   }
 
   .tip-popover span {
     display: block;
+    font-size: 25px;
+    font-weight: bolder;
     margin-bottom: 10px;
+    &.alipay-span {
+      margin-top: 10px;
+    }
+
   }
 
   .tip-desc {

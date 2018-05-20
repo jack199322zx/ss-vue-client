@@ -49,8 +49,12 @@
       </blockquote>
       <p class="about-blog-author">友情提示</p>
       <blockquote class="block-quote">
-        <p>请尽量在谷歌浏览器下访问本网站，更多请联系我。</p>
+        <p>请尽量在谷歌浏览器下访问本网站，更多咨询请联系QQ：<a @click="linkMe()">461333622</a>。</p>
       </blockquote>
+      <p class="about-blog-author">联系站长</p>
+      <p class="about-blog-author">
+        <img src="../../../src/assets/images/lianxiwexin.jpg" class="link-author">
+      </p>
     </div>
     <Footer :showTop="showTop"></Footer>
   </div>
@@ -73,6 +77,11 @@
     methods: {
       logout () {
         auth.logout();
+      },
+      linkMe () {
+        this.$http.api({
+          url: '/oath/link-me'
+        });
       }
     },
     components: {
@@ -147,6 +156,11 @@
       padding-bottom: 10px;
       &:nth-child(3) {
         padding-top: 20px;
+      }
+      .link-author {
+        width: 400px;
+        height:450px;
+        margin: 0 auto;
       }
     }
     pre {

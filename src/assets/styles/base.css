@@ -48,7 +48,6 @@ a#topnav_current { color: #000 }
 #tab li a { float: left; height: 32px; cursor: pointer; line-height: 32px; list-style-type: none; padding: 0 15px; }
 #tab li.cur a { color: #fff; background: #f77825; }
 .bd { display: none; height: 260px; }
-.bd-news ul { padding: 10px 0 0 10px; background: url(../images/ph2.png) no-repeat 10px 29px; }
 .bd-news ul li { border-bottom: solid 1px #EAEAEA; line-height: 30px; height: 30px; overflow: hidden; font-size: 14px; padding: 10px 0 0 30px; }
 .bd-news ul li a { display: block; }
 .bd-news ul li a:hover { color: #000; }

@@ -3,19 +3,21 @@
     <div class="container">
       <div class="footer-col footer-col-copy">
         <ul class="footer-nav hidden-xs">
-          <li class="menu-item"><a href="/about">关于我</a></li>
-          <li class="menu-item"><a href="/joinus">联系我</a></li>
-          <li class="menu-item"><a href="/faqs">常见问题</a></li>
+          <li class="menu-item"><a >关于我</a></li>
+          <li class="menu-item"><a @click="linkMe()">联系我</a></li>
+          <li class="menu-item"><a >友情链接</a></li>
+          <li class="menu-item"><a >常见问题</a></li>
           <li class="insert-hm">
           </li>
         </ul>
         <div class="copyright">
           <span>Copyright © Nino. </span>
+          <span style="padding-left: 10px;">苏ICP备18026056号-1</span>
         </div>
       </div>
       <div class="footer-col footer-col-sns hidden-xs hidden-sm">
         <div class="footer-sns">
-          <span>Powered By <a href="http://mtons.com/?copyright" target="_blank">Nino</a></span>
+          <span>Powered By <a>Nino</a></span>
         </div>
       </div>
     </div>
@@ -39,6 +41,11 @@
     methods: {
       smoothToTop () {
         $( 'html, body' ).animate({scrollTop:0}, 400);
+      },
+      linkMe () {
+        this.$http.api({
+          url: '/oath/link-me'
+        });
       }
     }
   }

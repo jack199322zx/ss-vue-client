@@ -183,8 +183,11 @@
             this.focusIndex--;
             break;
           case 13: //确认
-            this.selectList(this.searchList[this.focusIndex]);
-            this.showList = false;
+            let data = this.searchList[this.focusIndex];
+            if (data) {
+              this.selectList(data);
+            }
+            this.$emit('submitSearch', this.inputmodel);
             break;
           case 27: //退出
             this.showList = false;

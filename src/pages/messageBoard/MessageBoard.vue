@@ -2,7 +2,9 @@
   <div>
     <Head @logout="logout"></Head>
     <div class="wrap">
-      <div id="SOHUCS" sid=""></div>
+      <div class="wrap-sohu">
+        <div id="SOHUCS" sid=""></div>
+      </div>
     </div>
     <Footer :showTop="showTop"></Footer>
   </div>
@@ -45,6 +47,12 @@
     margin-top: 51px;
     margin-bottom: 0;
     padding-bottom: 30px;
+    padding-left: 30px;
+    padding-right: 30px;
     min-height: 600px;
+    .wrap-sohu {
+      padding: 20px;
+      background-color: white;
+    }
   }
 </style>
