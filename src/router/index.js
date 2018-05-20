@@ -70,7 +70,12 @@ const router = new Router({
       path: '/search',
       name: '搜索',
       component: SearchArticle
+    }, {
+      path: '/messageBoard',
+      name: '留言板',
+      component: MessageBoard
     }
+
 
 
     // }, {

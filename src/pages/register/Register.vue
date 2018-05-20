@@ -147,7 +147,7 @@
         }
         this.$http.api({
           url: '/register/saveUserName',
-          params: {userName: this.userName, userId: userId},
+          params: {userName: this.userName},
           successCallback: function (data) {
             if (data===1) {
               this.$store.commit('OPEN_ERROR_TIP', '保存成功！')

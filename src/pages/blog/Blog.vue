@@ -9,12 +9,12 @@
           class="pviewa">小助手</a></li>
         <li id="menu-item-4910" class="pview menu-item menu-item-type-post_type menu-item-object-page menu-item-4910"><a
           class="pviewa">相册</a></li>
-        <li id="menu-item-3507" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-3507"><a
-          target="_blank" href="http://isujin.com/rain/">留言板</a></li>
-        <li id="menu-item-3682" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-3682"><a
-          target="_blank" href="http://isujin.com/japonism/">随笔</a></li>
-        <li id="menu-item-6509" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-6509"><a
-          href="https://www.zhihu.com/question/41625223/answer/103428945">关于我</a></li>
+        <li id="menu-item-3507" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-3507">
+          <a class="pviewa">留言板</a></li>
+        <li id="menu-item-3682" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-3682">
+          <a class="pviewa">随笔</a></li>
+        <li id="menu-item-6509" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-6509">
+          <a class="pviewa" @click="goNext(5)">关于我</a></li>
       </ul>
       <p>© 2018 素锦. Powered by WordPress</p>
     </div>
@@ -39,13 +39,13 @@
 
         <div id="header">
           <div>
-            <a class="icon-logo" href="/"></a>
+            <a class="icon-logo"></a>
             <div class="icon-menu switchmenu" style="color: rgb(192, 9, 81);" @click="switchMenu()"></div>
           </div>
         </div>
         <div id="post0">
           <p>四月 13, 2018</p>
-          <h2><a data-id="6478" class="posttitle" href="http://isujin.com/6478">浮生若梦，为欢几何</a></h2>
+          <h2><a data-id="6478" class="posttitle">浮生若梦，为欢几何</a></h2>
           <p style="line-height:30px;font-size:12px;">我曾将青春翻涌成她<br>
             也曾指尖弹出盛夏<br>
             心之所动<br>
@@ -53,21 +53,21 @@
         </div>
       </div>
       <div id="primary">
-        <div class="post" v-for="(blog, index) in blogList" :key="index">
-          <a data-id="6429" href="http://isujin.com/6429" :title="blog.articleTitle">
+        <div class="post" v-for="(blog, index) in blogList" :key="index" @click="goArticleDetail(blog.articleId)">
+          <a data-id="6429" :title="blog.articleTitle">
             <img width="680" height="440"
                  :src="$util.imgPath(blog.articleImg)"
                  class="cover">
           </a>
           <div class="else">
             <p>{{blog.createTime | timeFilter}}</p>
-            <h3><a data-id="6429" class="posttitle" href="http://isujin.com/6429">{{blog.articleTitle}}</a></h3>
+            <h3><a data-id="6429" class="posttitle">{{blog.articleTitle}}</a></h3>
             <p class="blog-desc" v-html="blog.articleDesc"></p>
             <p class="here">
               <span class="icon-letter">{{blog.commentsNum}}</span>
               <span class="icon-view">{{blog.viewNum}}</span>
-              <a href="javascript:;" class="likeThis" id="like-6429"><span class="icon-like"></span><span
-                class="count">75</span></a></p>
+              <a class="likeThis" id="like-6429"><span class="icon-like"></span><span
+                class="count">{{blog.favoriteNum}}</span></a></p>
           </div>
         </div>
         <div id="pager" v-infinite-scroll="loadMore" infinite-scroll-disabled="busy" infinite-scroll-distance="10"><a
@@ -115,6 +115,9 @@
         document.body.className = 'mu'
         document.getElementsByTagName('html')[0].className = 'mu'
       },
+      goArticleDetail(articleId) {
+        this.$router.push('/article-detail/' + articleId);
+      },
       loadMore() {
         this.$nextTick(function () {
           if (this.page < this.pageCount - 1) {
@@ -146,6 +149,7 @@
             ;
             return;
           default:
+            location.href = location.href.replace(/(#\/).*/g, '$1aboutMe');
             ;
         }
       },
@@ -196,7 +200,7 @@
   }
 
   .blog-desc {
-    height: 75px;
+    height: 100px;
     overflow: hidden;
     display: -webkit-box;
     -webkit-box-orient: vertical;

@@ -133,9 +133,6 @@
                 </div>
               </div>
             </div>
-            <!--<div id="SOHUCS" sid="请将此处替换为配置SourceID的语句"></div>-->
-
-            <!-- /view show -->
           </div>
           <div class="col-xs-12 col-md-3 side-right hidden-xs hidden-sm">
             <ul class="list-group about-user">
@@ -275,11 +272,6 @@
         this.showTop = window.scrollY > window.innerHeight * 0.5;
       }, false);
       require('../../../assets/layer/layer');
-//      require('../../../assets/share/js/sohu-changyan');
-//      window.changyan.api.config({
-//        appid: 'cytzsetGI',
-//        conf: 'prod_4bd8a388450c3ad88f1d969a10e9872a'
-//      });
     },
     methods: {
       submitComment() {

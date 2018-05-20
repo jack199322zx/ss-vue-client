@@ -35,7 +35,7 @@
               <a nav="小助手">小助手</a>
             </li>
             <li>
-              <a nav="留言板">留言板</a>
+              <a @click="goMessageBoard()">留言板</a>
             </li>
             <li>
               <a nav="留言板">友链</a>
@@ -126,6 +126,9 @@
       goAboutMe () {
         this.$router.push('/aboutMe')
       },
+      goMessageBoard () {
+        this.$router.push('/messageBoard')
+      },
       goArticlePublish() {
         let menus_key = auth.getData(auth.MENUS_KEY);
         let menuFlag = false;
@@ -171,12 +174,13 @@
           setTimeout(function () {
             _this.$http.api({
               url: '/search/find-keywords',
+              useLoadLayer: false,
               params: {keywords: val.trim()},
               successCallback: function (data) {
                 _this.searchList = data;
               }.bind(_this)
             })
-          },300)
+          },1000)
         }
       },
       submitSearch (val) {
