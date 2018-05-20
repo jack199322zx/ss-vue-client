@@ -4,10 +4,10 @@
     <div class="af-col-12 login-input-wrapper">
       <div id="login-input" class="animated flipInY">
         <div>
-          <input id="staff-account" type="text" placeholder="用户名" v-model="userName">
+          <input id="staff-account" type="text" placeholder="用户名" v-model="userName" autocomplete="off">
         </div>
         <div style="color:#fff">
-          <input id="staff-password" type="password" placeholder="密码" v-model="password"/>
+          <input id="staff-password" type="password" placeholder="密码" v-model="password" autocomplete="off"/>
         </div>
         <div style="margin-top:12px">
           <div id="captcha1" style="width:260px;">
@@ -31,11 +31,11 @@
             <span data-platform-id="3" class="login-logo login-logo-qq" title="QQ登录"></span>
           </li>
         </ul>
-        <div>
-          <span id="login-error">
-          <router-link tag="label" to="/login/forget-pwd" style="cursor: pointer;">忘记密码?</router-link>
-          </span>
-        </div>
+        <!--<div>-->
+          <!--<span id="login-error">-->
+          <!--<router-link tag="label" to="/login/forget-pwd" style="cursor: pointer;">忘记密码?</router-link>-->
+          <!--</span>-->
+        <!--</div>-->
       </div>
     </div>
   </div>
