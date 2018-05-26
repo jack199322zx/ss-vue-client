@@ -5,19 +5,16 @@
       <div class="selection">
         <div class="about-content clearfix section-content" style="padding-top: 120px;">
           <div class="introli animated fadeInRight">
-            <div class="left_icon"><img class="bio-text bio-icon-1" src="./bio-icon-1.png" data-stellar-ratio="0.7"
-                                        style="left: 603px; top: 174.5px; display: inline;"></div>
-            <div class="right_content">本博客创建于 2018 年 5 月 1 日</div>
+            <div class="left_icon"><img class="bio-text bio-icon-1" src="./bio-icon-1.png" style="width:100px;height:100px;"></div>
+            <div class="right_content">站长是一名小小的编程爱好者</div>
           </div>
           <div class="introli animated fadeInRight introli-2">
-            <div class="left_icon"><img class="bio-text bio-icon-2" src="./bio-icon-2.png" data-stellar-ratio="0.7"
-                                        style="display: inline; left: 603px; top: 274.5px;"></div>
-            <div class="right_content">专注于分享软件、文章、html5、java技术等一切好玩的东东！</div>
+            <div class="left_icon"><img class="bio-text bio-icon-2" src="./bio-icon-2.png" style="width:100px;height:100px;"></div>
+            <div class="right_content">建站初衷是为了记录生活的点点滴滴</div>
           </div>
           <div class="introli animated fadeInRight introli-3">
-            <div class="left_icon"><img class="bio-text bio-icon-3" src="./bio-icon-3.png" data-stellar-ratio="0.7"
-                                        style="display: inline; left: 603px; top: 358.5px;"></div>
-            <div class="right_content">技术栈采用vue全家桶，后端springboot开发</div>
+            <div class="left_icon"><img class="bio-text bio-icon-3" src="./bio-icon-3.png" style="width:100px;height:100px;"></div>
+            <div class="right_content">致力于分享软件、文章、html5、java技术等一切好玩的东东！</div>
           </div>
         </div>
       </div>
@@ -63,7 +60,6 @@
 <script>
   import Head from '../../components/header/Head.vue';
   import auth from '../../auth/index';
-  import '../../assets/styles/style.css';
   import Footer from '../../components/foot/Footer.vue';
   export default{
     data () {
@@ -161,6 +157,7 @@
         width: 400px;
         height:450px;
         margin: 0 auto;
+        display: block;
       }
     }
     pre {

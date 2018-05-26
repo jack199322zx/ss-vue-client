@@ -766,7 +766,7 @@
 /*热门用户样式 */
 .hotusers { overflow: hidden; float: left; padding: 2px; width: 100%;}
 .hotusers > li { float: left; display: inline-block; margin: 3px;}
-.hotusers .avatar-small {width: 50px; height: 50px;}
+.hotusers .avatar-small {width: 50px; height: 50px; cursor: pointer;}
 
 /* User
 -------------------------------------------------- */
@@ -907,7 +907,6 @@
 @media only screen and (max-width: 960px) {
   .selection {
     margin: 0 auto;
-    width:760px
   }
 }
 

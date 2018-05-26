@@ -1,23 +1,33 @@
-import Vue from 'vue'
-import Router from 'vue-router'
-import Login from '@/pages/login'
-import Blog from '@/pages/blog/Blog'
-import Register from '@/pages/register/Register'
-import Active from '@/pages/active/Active'
-import ArticleDetail from '@/pages/article/article-detail/ArticleDetail'
-import ArticlePublish from '@/pages/article/article-pubblish/ArticlePubblish'
-import BlogList from '@/pages/blog/blog-list/BlogList.vue'
-import HomePage from '@/pages/home/home-page/HomePage.vue'
-import HomeModify from '@/pages/home/home-modify/HomeModify.vue'
-import AboutMe from '@/pages/aboutMe/AboutMe.vue'
-import SearchArticle from '@/pages/search/SearchArticle.vue'
-import Helper from '@/pages/helper/Helper'
-import MessageBoard from '@/pages/messageBoard/MessageBoard'
-import PhotoAlbum from '@/pages/photoAlbum/PhotoAlbum'
+// import Blog from '@/pages/blog/Blog'
+// import Register from '@/pages/register/Register'
+// import Active from '@/pages/active/Active'
+// import ArticleDetail from '@/pages/article/article-detail/ArticleDetail'
+// import ArticlePublish from '@/pages/article/article-pubblish/ArticlePubblish'
+// import BlogList from '@/pages/blog/blog-list/BlogList.vue'
+// import HomePage from '@/pages/home/home-page/HomePage.vue'
+// import HomeModify from '@/pages/home/home-modify/HomeModify.vue'
+// import AboutMe from '@/pages/aboutMe/AboutMe.vue'
+// import SearchArticle from '@/pages/search/SearchArticle.vue'
+// import WebsiteHistory from '@/pages/websiteHistory/WebsiteHistory.vue'
+// import MessageBoard from '@/pages/messageBoard/MessageBoard.vue'
+// import Friendship from '@/pages/friendship/Friendship.vue'
+const Login = resolve => require(['@/pages/login'], resolve)
+const Blog = resolve => require(['@/pages/blog/Blog'], resolve)
+const Register = resolve => require(['@/pages/register/Register'], resolve)
+const Active = resolve => require(['@/pages/active/Active'], resolve)
+const ArticleDetail = resolve => require(['@/pages/article/article-detail/ArticleDetail'], resolve)
+const ArticlePublish = resolve => require(['@/pages/article/article-pubblish/ArticlePubblish'], resolve)
+const BlogList = resolve => require(['@/pages/blog/blog-list/BlogList.vue'], resolve)
+const HomePage = resolve => require(['@/pages/home/home-page/HomePage.vue'], resolve)
+const HomeModify = resolve => require(['@/pages/home/home-modify/HomeModify.vue'], resolve)
+const AboutMe = resolve => require(['@/pages/aboutMe/AboutMe.vue'], resolve)
+const SearchArticle = resolve => require(['@/pages/search/SearchArticle.vue'], resolve)
+const WebsiteHistory = resolve => require(['@/pages/websiteHistory/WebsiteHistory.vue'], resolve)
+const MessageBoard = resolve => require(['@/pages/messageBoard/MessageBoard.vue'], resolve)
+const Friendship = resolve => require(['@/pages/friendship/Friendship.vue'], resolve)
 
-Vue.use(Router)
-
-const router = new Router({
+// Vue.use(VueRouter)
+const router = new VueRouter({
   routes: [
     {
       path: '/',
@@ -74,35 +84,15 @@ const router = new Router({
       path: '/messageBoard',
       name: '留言板',
       component: MessageBoard
+    }, {
+      path: '/linkFriendship',
+      name: '友链',
+      component: Friendship
+    }, {
+      path: '/websiteHistory',
+      name: '建站笔录',
+      component: WebsiteHistory
     }
-
-
-
-    // }, {
-    //   path: '/aboutMe',
-    //   name: '关于我',
-    //   component: AboutMe
-    // }, {
-    //   path: '/blogList',
-    //   name: '博客列表',
-    //   component: BlogList
-    // }, {
-    //   path: '/helper',
-    //   name: '小助手',
-    //   component: Helper
-    // }, {
-    //   path: '/messageBoard',
-    //   name: '留言板',
-    //   component: MessageBoard
-    // }, {
-    //   path: '/photoAlbum',
-    //   name: '相册',
-    //   component: PhotoAlbum
-    // }, {
-    //   path: '/blogDetail/:id(\\d+)',
-    //   name: '博客详情',
-    //   component: PhotoAlbum
-    // }
   ]
 })
 

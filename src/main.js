@@ -1,4 +1,3 @@
-import Vue from 'vue';
 import { sync } from 'vuex-router-sync';
 
 import App from './App.vue';
@@ -9,13 +8,10 @@ import auth from './auth';
 
 import { wrapped } from './filter/formatter';
 import 'babel-polyfill';
-import MintUI from 'mint-ui'
-import 'mint-ui/lib/style.css'
-import mavonEditor from 'mavon-editor'
-import 'mavon-editor/dist/css/index.css'
+// import mavonEditor from 'mavon-editor'
+// import 'mavon-editor/dist/css/index.css'
 import { emoji } from './assets/js/emoji.js'
-import 'highlight.js/styles/hybrid.css'
-import hljs from 'highlight.js';
+// import 'highlight.js/styles/hybrid.css'
 
 Vue.directive('highlight',function (el) {
   let blocks = el.querySelectorAll('pre code');
@@ -23,10 +19,9 @@ Vue.directive('highlight',function (el) {
     hljs.highlightBlock(block)
   })
 })
-Vue.use(mavonEditor)
-Vue.use(MintUI)
-var infiniteScroll =  require('vue-infinite-scroll');
-Vue.use(infiniteScroll)
+// Vue.use(mavonEditor)
+// var infiniteScroll =  require('vue-infinite-scroll');
+// Vue.use(infiniteScroll)
 
 http.config(Vue);
 Vue.prototype.$http = http;

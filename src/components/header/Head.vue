@@ -29,19 +29,19 @@
         <div :class="[showSlideBox ? 'in': 'collapse', 'navbar-collapse', 'animated fadeIn']">
           <ul class="nav navbar-nav">
             <li>
-              <a @click="goBlogList()" nav="博客">博客</a>
+              <a @click="goBlogList()">博客</a>
             </li>
             <li>
-              <a nav="小助手">小助手</a>
+              <a >小助手</a>
             </li>
             <li>
-              <a >建站笔录</a>
+              <a @click="goWebsiteHistory()">建站笔录</a>
             </li>
             <li>
               <a @click="goMessageBoard()">留言板</a>
             </li>
             <li>
-              <a @click="goAboutMe()" nav="关于我">关于我</a>
+              <a @click="goAboutMe()">关于我</a>
             </li>
           </ul>
           <ul class="navbar-button list-inline" id="header_user">
@@ -130,6 +130,9 @@
       },
       goAboutMe () {
         this.$router.push('/aboutMe')
+      },
+      goWebsiteHistory () {
+        this.$router.push('/websiteHistory')
       },
       goMessageBoard () {
         this.$router.push('/messageBoard')
@@ -513,6 +516,11 @@
     display: inline-block;
   }
 
+  .navbar-nav {
+    a {
+      cursor: pointer;
+    }
+  }
   .dropdown-menu {
     i {
       color: #ea6f5a;

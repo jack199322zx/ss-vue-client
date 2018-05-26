@@ -28,8 +28,9 @@ export default {
 <style>
   @import "assets/icon/iconfont.css";
   @import "assets/styles/base.css";
-  @import "assets/styles/index.css";
+  @import "assets/styles/style.css";
   @import "assets/share/css/share.min.css";
+  @import "assets/styles/animate.css";
 
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;

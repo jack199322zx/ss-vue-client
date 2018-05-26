@@ -5,7 +5,7 @@
         <ul class="footer-nav hidden-xs">
           <li class="menu-item"><a >关于我</a></li>
           <li class="menu-item"><a @click="linkMe()">联系我</a></li>
-          <li class="menu-item"><a >友情链接</a></li>
+          <li class="menu-item"><a @click="linkFriendship()">友情链接</a></li>
           <li class="menu-item"><a >常见问题</a></li>
           <li class="insert-hm">
           </li>
@@ -46,6 +46,9 @@
         this.$http.api({
           url: '/oath/link-me'
         });
+      },
+      linkFriendship () {
+        this.$router.push('/linkFriendship');
       }
     }
   }

@@ -123,13 +123,12 @@
         </div>
       </div>
     </div>
-    <Footer @showTop="showTop"></Footer>
+    <Footer :showTop="showTop"></Footer>
   </div>
 
 </template>
 
 <script>
-  import '../../../assets/styles/style.css'
   import images from '../../../common/img/imgPath';
   import Head from '../../../components/header/Head.vue'
   import Footer from '../../../components/foot/Footer.vue'
@@ -303,6 +302,9 @@
     a {
       font-size:15px;
       font-weight: 700;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden
     }
   }
 

@@ -1,7 +1,6 @@
 /**
  * TODO: 暂未考虑 "业务级失败 且 需要重新登录" 的场景
  */
-import axios from 'axios';
 import 'es6-promise/auto';
 import URLSearchParams from 'url-search-params';
 

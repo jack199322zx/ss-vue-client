@@ -42,7 +42,6 @@
 </template>
 
 <script>
-  import '@/assets/styles/animate.css'
   import auth from '../../auth/index'
   import {OPEN_OPERATE_DIALOG_BOX} from '../../store/mutation-types.js'
 

@@ -1,10 +1,8 @@
-import Vue from 'vue'
-import Vuex from 'vuex';
 import createLogger from 'vuex/dist/logger';
 import home from './modules/home'
 
 // import app from './modules/app';
-Vue.use(Vuex);
+// Vue.use(Vuex);
 const debug = process.env.NODE_ENV === 'dev';
 
 const logger = createLogger({

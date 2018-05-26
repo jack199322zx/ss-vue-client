@@ -86,7 +86,7 @@
         </div>
       </div>
     </div>
-    <Footer @showTop="showTop"></Footer>
+    <Footer :showTop="showTop"></Footer>
   </div>
 </template>
 
