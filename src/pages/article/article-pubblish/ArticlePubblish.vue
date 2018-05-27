@@ -110,7 +110,8 @@
         imgList: [],
         chooseArticleType: false,
         articleImg: '',
-        showTop: false
+        showTop: false,
+        editFlag: false
       }
     },
     methods: {
@@ -223,11 +224,11 @@
         }
         id ? params.articleId = id: params;
         this.$http.api({
-          url: '/article/submit',
+          url: '/article/submit/' + (this.editFlag ? 1 : 0),
           emulateJSON: false,
           params,
           successCallback: function (data) {
-            if (data === 1) {
+            if (data > 0) {
               layer.msg('发布成功！', {icon: 1})
               location.href = location.href.replace(/(#\/).*/g, '$1blog-list');
               return
@@ -257,6 +258,7 @@
             this.chooseFlagList = data.flagList;
           }.bind(this)
         })
+        this.editFlag = true;
       }
     },
     mounted () {

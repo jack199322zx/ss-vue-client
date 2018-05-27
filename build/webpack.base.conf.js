@@ -19,9 +19,7 @@ module.exports = {
     'vue': 'Vue',
     'vuex': 'Vuex',
     'vue-router': 'VueRouter',
-    'axios': 'axios',
-    'mavon-editor': 'mavonEditor',
-    'vue-infinite-scroll': 'infiniteScroll'
+    'axios': 'axios'
   },
   output: {
     path: config.build.assetsRoot,

@@ -309,7 +309,7 @@
   }
 
   .cloud-box {
-    padding: 10px 80px;
+    padding: 10px 5%;
   }
 
   .list-inline {
@@ -323,11 +323,12 @@
     .item-article-desc {
       width:100%;
       height:40px;
+      line-height: 20px;
       overflow: hidden;
       font-size: 13px;
       display: -webkit-box;
       -webkit-box-orient: vertical;
-      -webkit-line-clamp: 2
+      -webkit-line-clamp: 2;
     }
   }
   .remove-padding-horizontal {

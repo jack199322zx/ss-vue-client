@@ -4,7 +4,8 @@
       <div class="footer-col footer-col-copy">
         <ul class="footer-nav hidden-xs">
           <li class="menu-item"><a >关于我</a></li>
-          <li class="menu-item"><a @click="linkMe()">联系我</a></li>
+          <li class="menu-item"><a target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=461333622&site=qq&menu=yes">
+            <img border="0" src="http://wpa.qq.com/pa?p=2:461333622:52" alt="点击这里给我发消息" title="点击这里给我发消息"/>联系我</a></li>
           <li class="menu-item"><a @click="linkFriendship()">友情链接</a></li>
           <li class="menu-item"><a >常见问题</a></li>
           <li class="insert-hm">

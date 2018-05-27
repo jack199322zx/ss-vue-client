@@ -31,14 +31,14 @@ const router = new VueRouter({
   routes: [
     {
       path: '/',
-      redirect: '/blog'
+      redirect: '/blog-list'
     }, {
       path: '/login',
       name: '登录',
       component: Login
     }, {
       path: '/blog',
-      name: '个人博客',
+      name: '生活逸事',
       component: Blog
     }, {
       path: '/register',
@@ -54,7 +54,7 @@ const router = new VueRouter({
        component: BlogList
      }, {
       path: '/article-detail/:id(\\d+)',
-      name: '博客列表',
+      name: '文章详情',
       component: ArticleDetail
     }, {
       path: '/home-page/:id(\\d+)',

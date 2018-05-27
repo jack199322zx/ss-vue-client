@@ -6,15 +6,13 @@
         <li id="menu-item-2561" class="pview menu-item menu-item-type-post_type menu-item-object-page menu-item-2561"><a
           class="pviewa" @click="goNext(0)">博文</a></li>
         <li id="menu-item-4084" class="pview menu-item menu-item-type-post_type menu-item-object-page menu-item-4084"><a
-          class="pviewa">小助手</a></li>
+          class="pviewa" @click="goNext(1)">生活驿站</a></li>
         <li id="menu-item-4910" class="pview menu-item menu-item-type-post_type menu-item-object-page menu-item-4910"><a
-          class="pviewa">相册</a></li>
+          class="pviewa" @click="goNext(2)">建站笔录</a></li>
         <li id="menu-item-3507" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-3507">
-          <a class="pviewa">留言板</a></li>
-        <li id="menu-item-3682" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-3682">
-          <a class="pviewa">随笔</a></li>
+          <a class="pviewa" @click="goNext(3)">留言板</a></li>
         <li id="menu-item-6509" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-6509">
-          <a class="pviewa" @click="goNext(5)">关于我</a></li>
+          <a class="pviewa" @click="goNext(4)">关于我</a></li>
       </ul>
       <p>© 2018 素锦. Powered by WordPress</p>
     </div>
@@ -60,7 +58,7 @@
                  class="cover">
           </a>
           <div class="else">
-            <p>{{blog.createTime | timeFilter}}</p>
+            <p class="create-time-p">{{blog.createTime | timeFilter}}</p>
             <h3><a data-id="6429" class="posttitle">{{blog.articleTitle}}</a></h3>
             <p class="blog-desc" v-html="blog.articleDesc"></p>
             <p class="here">
@@ -137,19 +135,18 @@
             location.href = location.href.replace(/(#\/).*/g, '$1blog-list');
             return;
           case 1:
-            ;
+            location.href = location.href.replace(/(#\/).*/g, '$1blog');
             return;
           case 2:
-            ;
+            location.href = location.href.replace(/(#\/).*/g, '$1websiteHistory');
             return;
           case 3:
-            ;
+            location.href = location.href.replace(/(#\/).*/g, '$1messageBoard');
             return;
           case 4:
-            ;
+            location.href = location.href.replace(/(#\/).*/g, '$1aboutMe');
             return;
           default:
-            location.href = location.href.replace(/(#\/).*/g, '$1aboutMe');
             ;
         }
       },
@@ -201,6 +198,7 @@
 
   .blog-desc {
     height: 100px;
+    line-height: 25px;
     overflow: hidden;
     display: -webkit-box;
     -webkit-box-orient: vertical;

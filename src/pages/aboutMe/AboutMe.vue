@@ -3,17 +3,17 @@
     <Head @logout="logout"></Head>
     <div class="about-me-content" ref="aboutMe">
       <div class="selection">
-        <div class="about-content clearfix section-content" style="padding-top: 120px;">
+        <div class="about-content clearfix section-content" style="padding-top: 70px;">
           <div class="introli animated fadeInRight">
-            <div class="left_icon"><img class="bio-text bio-icon-1" src="./bio-icon-1.png" style="width:100px;height:100px;"></div>
+            <div class="left_icon"><img class="bio-text bio-icon-1" src="./bio-icon-1.png" style="width:100%;"></div>
             <div class="right_content">站长是一名小小的编程爱好者</div>
           </div>
           <div class="introli animated fadeInRight introli-2">
-            <div class="left_icon"><img class="bio-text bio-icon-2" src="./bio-icon-2.png" style="width:100px;height:100px;"></div>
+            <div class="left_icon"><img class="bio-text bio-icon-2" src="./bio-icon-2.png" style="width:100%;"></div>
             <div class="right_content">建站初衷是为了记录生活的点点滴滴</div>
           </div>
           <div class="introli animated fadeInRight introli-3">
-            <div class="left_icon"><img class="bio-text bio-icon-3" src="./bio-icon-3.png" style="width:100px;height:100px;"></div>
+            <div class="left_icon"><img class="bio-text bio-icon-3" src="./bio-icon-3.png" style="width:100%;"></div>
             <div class="right_content">致力于分享软件、文章、html5、java技术等一切好玩的东东！</div>
           </div>
         </div>
@@ -46,7 +46,8 @@
       </blockquote>
       <p class="about-blog-author">友情提示</p>
       <blockquote class="block-quote">
-        <p>请尽量在谷歌浏览器下访问本网站，更多咨询请联系QQ：<a @click="linkMe()">461333622</a>。</p>
+        <p>请尽量在谷歌浏览器下访问本网站，更多咨询请联系QQ：<a target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=461333622&site=qq&menu=yes">
+          <img border="0" src="http://wpa.qq.com/pa?p=2:461333622:52" alt="点击这里给我发消息" title="点击这里给我发消息"/>461333622</a>。</p>
       </blockquote>
       <p class="about-blog-author">联系站长</p>
       <p class="about-blog-author">
@@ -73,11 +74,6 @@
     methods: {
       logout () {
         auth.logout();
-      },
-      linkMe () {
-        this.$http.api({
-          url: '/oath/link-me'
-        });
       }
     },
     components: {
@@ -98,14 +94,18 @@
   }
 
   .introli {
-    width: 80%;
-    margin-left: 20%;
+    width: 70%;
+    margin: 20px 15%;
     display: flex;
+    align-items: center;
     &.introli-2 {
       animation-delay: .5s;
     }
     &.introli-3 {
       animation-delay: 1s;
+    }
+    .left_icon {
+      width: 13%;
     }
   }
 
@@ -114,7 +114,7 @@
     width: 60px;
     height: 60px;
     position: absolute;
-    bottom: 40px;
+    bottom: 70px;
     left: 50%;
     margin-left: -30px;
     border-radius: 50%;
@@ -129,14 +129,13 @@
 
   .right_content {
     font-size: 24px;
-    line-height: 100px;
-    height: 100px;
-    padding-left: 80px;
+    padding-left: 10%;
+    width: 87%;
   }
 
   .hight-body-1 {
     margin: 0 auto;
-    width: 700px;
+    width: 60%;
     .block-quote {
       margin-left: 0;
       margin-right: 0;
@@ -154,8 +153,7 @@
         padding-top: 20px;
       }
       .link-author {
-        width: 400px;
-        height:450px;
+        width: 60%;
         margin: 0 auto;
         display: block;
       }

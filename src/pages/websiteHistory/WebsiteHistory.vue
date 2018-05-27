@@ -5,7 +5,7 @@
       <div class="cloud">
         <div class="cloud-box">
           <h3>建站笔录</h3>
-          <div class="markdown-body-1 " style="font-size: 20px;">
+          <div class="markdown-body-1 " style="font-size: 20px;margin: 0 auto;">
 <pre><code class="hljs lua"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">websiteDesc</span><span class="hljs-params">()</span></span> {
   console.<span class="hljs-built_in">log</span>(<span class="hljs-string">'你所敲过的代码都必将化为利刃'</span>)；
   console.<span class="hljs-built_in">log</span>(<span class="hljs-string">'为你劈开一条通往圣殿之路'</span>);
@@ -65,6 +65,6 @@
     min-height: 600px;
   }
   .cloud-box {
-    padding: 10px 80px;
+    padding: 10px 5%;
   }
 </style>

@@ -182,6 +182,7 @@
     .item-article-desc {
       width:100%;
       height:40px;
+      line-height:20px;
       overflow: hidden;
       font-size: 13px;
       display: -webkit-box;

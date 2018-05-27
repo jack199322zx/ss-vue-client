@@ -4,7 +4,9 @@
 body { font: 12px/1.5 'Microsoft Yahei', 'Simsun'; color: #666666; background: #fff }
 ul { list-style: none; }
 h1, h2, h3, h4, h5, h6 { font-size: 100%; font-weight: normal; }
-a { outline: none; }
+.item-article-desc .markdown-body-1 h1,div,span,p,ul,ol {font-size: 100%;font-weight: normal;padding: 0;margin: 0;}
+.blog-desc .markdown-body-1 h1,div,span,p,ul,ol {font-size: 100%;font-weight: normal;padding: 0;margin: 0;}
+a { outline: none; text-decoration: none; }
 a:hover { text-decoration: none; }
 /*±Í«©‘∆*/
 .cloud { width: 100%; clear: both; overflow: hidden }

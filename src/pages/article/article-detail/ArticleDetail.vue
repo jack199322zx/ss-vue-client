@@ -635,8 +635,14 @@
     width: 65px;
   }
 
-  .icon-like-favorite {
-    color: #EF6D57;
+  .icon-like {
+    color: #666;
+    &:hover {
+      color: #EF6D57;
+    }
+    &.icon-like-favorite {
+      color: #EF6D57;
+    }
   }
 
   .chats {

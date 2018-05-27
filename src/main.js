@@ -8,8 +8,8 @@ import auth from './auth';
 
 import { wrapped } from './filter/formatter';
 import 'babel-polyfill';
-// import mavonEditor from 'mavon-editor'
-// import 'mavon-editor/dist/css/index.css'
+import mavonEditor from 'mavon-editor'
+import 'mavon-editor/dist/css/index.css'
 import { emoji } from './assets/js/emoji.js'
 // import 'highlight.js/styles/hybrid.css'
 
@@ -19,7 +19,7 @@ Vue.directive('highlight',function (el) {
     hljs.highlightBlock(block)
   })
 })
-// Vue.use(mavonEditor)
+Vue.use(mavonEditor)
 // var infiniteScroll =  require('vue-infinite-scroll');
 // Vue.use(infiniteScroll)
 

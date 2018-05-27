@@ -22,7 +22,7 @@
           <button class="navbar-toggle" type="button" data-toggle="collapse" @click="changeSlideBox()" >
             <span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="/">
+          <a class="navbar-brand">
             <img src="../../assets/images/blog-logo.jpg">
           </a>
         </div>
@@ -32,7 +32,7 @@
               <a @click="goBlogList()">博客</a>
             </li>
             <li>
-              <a >小助手</a>
+              <a @click="goBlog()">生活驿站</a>
             </li>
             <li>
               <a @click="goWebsiteHistory()">建站笔录</a>
@@ -121,6 +121,9 @@
       logout() {
         this.loginStatus = 0;
         this.$emit('logout');
+      },
+      goBlog () {
+        this.$router.push('/blog');
       },
       goLogin() {
         this.$router.push('/login');

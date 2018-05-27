@@ -60,6 +60,6 @@ export default {
     min-height: 600px;
   }
   .cloud-box {
-    padding: 10px 80px;
+    padding: 10px 5%;
   }
 </style>
