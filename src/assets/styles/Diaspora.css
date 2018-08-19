@@ -60,12 +60,9 @@ body {
     font-size: 14px;
 }
 a, a:hover {
-    text-decoration: none;
+    text-decoration: none!important;
 }
-img {
-    display: block;
-    max-width: 100%;
-}
+
 audio {
     display: none;
     visibility: hidden;

@@ -95,9 +95,6 @@ const mutations = {
     state.tipInfo.type = false;
     state.tipInfo.confirmHint = '关闭';
     state.tipInfo.showIcon = true;
-    state.tipInfo.closeCallback = function () {
-      location.href = location.href.replace(/(#\/).*/g, '$1login');
-    }
   },
   [types.CLOSE_PROMPTD_DIALOG_BOX] (state) {
     state.tipInfo.isShow = false;

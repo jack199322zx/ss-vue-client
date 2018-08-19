@@ -147,7 +147,7 @@
         }
         this.$http.api({
           url: '/register/saveUserName',
-          params: {userName: this.userName},
+          params: {userName: this.userName, userId: this.userId},
           successCallback: function (data) {
             if (data===1) {
               this.$store.commit('OPEN_ERROR_TIP', '保存成功！')
@@ -165,6 +165,7 @@
           this.$http.api({
             url: '/register/checkUserCode',
             params: {userCode: val},
+            useLoadLayer: false,
             successCallback: function (data) {
               if (data===1) {
                 this.errorTip = type===0? '该手机号已存在': '该邮箱已存在';
